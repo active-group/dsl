@@ -190,3 +190,6 @@
   (check-equal? (list-sum (list 1 2 3 4 5))
                 15)
   )
+
+; lexikalische Bindung
+; vom Vorkommen eines Namens aus nach außen suchen ... erste Bindung
