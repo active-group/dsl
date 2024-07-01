@@ -8,3 +8,5 @@
 (define y (* x 3))
 
 (define circle1 (circle 50 "solid" "gold"))
+(define square1 (square 100 "solid" "blue"))
+(define star1 (star 50 "solid" "red"))
