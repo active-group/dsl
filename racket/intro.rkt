@@ -122,3 +122,5 @@
 ; Seife ... ph-Wert -ODER-
 ; Shampoo ... Haartyp -ODER-
 ; Duschgel aus gleichen Teilen Seife und Shampoo
+
+; ... gibt es naheliegende Verallgemeinerungen?
