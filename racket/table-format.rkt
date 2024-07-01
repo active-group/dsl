@@ -19,3 +19,14 @@
 
 (struct error
   (description))
+
+(define int-cell
+  (cell (lambda (text)
+          (define number (string->number text))
+          (cond
+            ((not number) (error "not a number"))
+            ((not (integer? number))
+             (error "not an integer"))
+            (else
+             number)))))
+            
