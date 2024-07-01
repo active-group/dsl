@@ -195,3 +195,15 @@
 ; vom Vorkommen eines Namens aus im Programm nach außen suchen ... erste Bindung
 ; wenn das nichts bringt: define
 ; wenn das nichts bringt: importiert mit require
+
+; Beispieltabelle:
+
+; Liste von ...
+(struct row
+  (segment
+   country
+   units-sold
+   manufacturing-price
+   sale-price
+   sales
+   profit))
