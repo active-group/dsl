@@ -153,3 +153,15 @@
 (struct mixture
   (product1 product2)
   #:transparent)
+
+(define mixture1 (mixture soap1 shampoo1))
+(define mixture2 (mixture mixture1 soap2))
+
+(define (soap-proportion product)
+  (match product
+    ((soap _) 1)
+    ((shampoo _) 0)
+    ((mixture product1 product2)
+     (/ (+ (soap-proportion product1)
+           (soap-proportion product2))
+        2))))
