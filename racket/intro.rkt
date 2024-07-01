@@ -126,16 +126,20 @@
   (pH)
   #:transparent)
 
+(define soap1 (soap 5.0))
+(define soap2 (soap 6.0))
+
 (struct shampoo
   (hairtype)
   #:transparent)
+
+(define shampoo1 (shampoo 'dandruff))
+(define shampoo2 (shampoo 'dry))
 
 (struct showergel
   (soap shampoo)
   #:transparent)
 
-
-
-
+(define gel1 (showergel soap1 shampoo1))
 
 ; ... gibt es naheliegende Verallgemeinerungen?
