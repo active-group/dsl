@@ -38,6 +38,20 @@
 
 ; zusammengesetzte Daten
 
-; Gürteltier:
-; - lebendig oder tot
+; Gürteltier hat folgende Eigenschaften:
+; - lebendig oder tot -UND-
 ; - Gewicht
+
+; Lebendig -ODER- tot:
+; - 'alive -ODER-
+; - 'dead
+
+; "Record"
+(struct dillo ; Konstruktor
+  (liveness
+   weight))
+
+; lebendiges Gürteltier, 10kg
+(define dillo1 (dillo 'alive 10))
+; totes Gürteltier, 8kg
+(define dillo2 (dillo 'dead 8))
