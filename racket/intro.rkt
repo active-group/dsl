@@ -118,3 +118,7 @@
     ((dillo 'dead weight) a)
     ((snake length thickness)
      (snake length (+ thickness amount)))))
+
+; Seife ... ph-Wert -ODER-
+; Shampoo ... Haartyp -ODER-
+; Duschgel aus gleichen Teilen Seife und Shampoo
