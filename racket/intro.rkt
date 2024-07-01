@@ -1,2 +1,4 @@
 #lang racket
-(define x (+ 12 (* 3 5)))
+(define x
+  (+ 12
+     (* 3 5)))
