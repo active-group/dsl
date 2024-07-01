@@ -45,7 +45,12 @@
             (else
              number)))))
 
-
+(define number-cell
+  (cell (lambda (text)
+          (define number (string->number text))
+          (cond
+            ((not number) (error "not a number"))
+            (else number)))))
 
 (define (enum-cell texts)
   (cell (lambda (text)
@@ -57,6 +62,19 @@
 (define (apply-cell cell text)
   ((cell-validator-function cell) text))
 
+(module+ test
+  (require rackunit)
+  (check-equal? (apply-cell int-cell "123") 123)
+  (check-equal? (apply-cell int-cell "Mike") (error "not a number"))
+  (check-equal? (apply-cell int-cell "123.5") (error "not an integer"))
+
+  (check-equal? (apply-cell (enum-cell "Government" "Midmarket")
+                            "Mike")
+                (error "not a member"))
+  (check-equal? (apply-cell (enum-cell "Government" "Midmarket")
+                            "Govemment")
+                "Government"))
+  
 
 ; Record
 
