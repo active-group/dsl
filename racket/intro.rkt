@@ -103,7 +103,7 @@
     ((snake length thickness)
      (snake length 0))))
 
-(define (feed-animal a amount)
+#;(define (feed-animal a amount)
   (match a
     ((dillo liveness weight)
      (match liveness
@@ -111,4 +111,10 @@
        ('dead a)))
     ((snake length thickness)
      (snake length (+ thickness amount)))))
-    
+
+(define (feed-animal a amount)
+  (match a
+    ((dillo 'alive weight) (dillo 'alive (+ weight amount)))
+    ((dillo 'dead weight) a)
+    ((snake length thickness)
+     (snake length (+ thickness amount)))))
