@@ -45,6 +45,8 @@
             (else
              number)))))
 
+
+
 (define (enum-cell texts)
   (cell (lambda (text)
           (define search (member text texts))
