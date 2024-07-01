@@ -48,8 +48,8 @@
 
 ; "Record"
 (struct dillo ; Konstruktor
-  (liveness
-   weight)
+  (liveness ; dillo-liveness - Selektor
+   weight) ; dillo-weight
   #:transparent)
 
 ; Selektoren: dillo-liveness, dillo-weight
