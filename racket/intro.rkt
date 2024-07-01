@@ -200,10 +200,10 @@
 
 ; Liste von ...
 (struct row
-  (segment
-   country
-   units-sold
-   manufacturing-price
-   sale-price
-   sales
-   profit))
+  (segment ; string 
+   country ; string
+   units-sold ; natural
+   manufacturing-price ; double
+   sale-price ; double
+   sales ; natural
+   profit)) ; double
