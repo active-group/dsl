@@ -83,3 +83,14 @@
   #:transparent) ; Liste von Formaten
 
 
+(define segment-performance-format
+  (record
+   segment-performance
+   (list (enum-cell (list "Government" "Midmarket"))
+         (enum-cell (list "Canada" "Germany" "France" "Mexico"))
+         int-cell
+         number-cell
+         number-cell
+         number-cell
+         number-cell)))
+
