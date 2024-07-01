@@ -35,3 +35,9 @@
   (above
    (beside image1 image2)
    (beside image2 image1)))
+
+; zusammengesetzte Daten
+
+; Gürteltier:
+; - lebendig oder tot
+; - Gewicht
