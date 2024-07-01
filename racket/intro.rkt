@@ -5,5 +5,6 @@
   (+ 12
      (* 3 5)))
 
-(define y (* x 2))
+(define y (* x 3))
 
+(define circle1 (circle 50 "solid" "gold"))
