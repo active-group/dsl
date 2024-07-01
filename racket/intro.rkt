@@ -49,7 +49,10 @@
 ; "Record"
 (struct dillo ; Konstruktor
   (liveness
-   weight))
+   weight)
+  #:transparent)
+
+; Selektoren: dillo-liveness, dillo-weight
 
 ; lebendiges Gürteltier, 10kg
 (define dillo1 (dillo 'alive 10))
