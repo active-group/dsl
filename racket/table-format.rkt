@@ -1,4 +1,6 @@
 #lang racket
+(provide int-cell)
+
 ; Ein Tabellenformat (hat einen Typ) ist ...
 ; - Cell -ODER-
 ; - Record -ODER-
@@ -20,6 +22,8 @@
 (struct error
   (description))
 
+(define number 'number)
+
 (define int-cell
   (cell (lambda (text)
           (define number (string->number text))
@@ -29,4 +33,10 @@
              (error "not an integer"))
             (else
              number)))))
-            
+
+; Record
+
+(struct record
+  (constructor field-formats)) ; Liste von Formaten
+
+
