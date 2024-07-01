@@ -58,6 +58,7 @@
 ; Record
 
 (struct record
-  (constructor field-formats)) ; Liste von Formaten
+  (constructor field-formats)
+  #:transparent) ; Liste von Formaten
 
 
