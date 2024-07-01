@@ -26,7 +26,7 @@
 
 ; Liste von ...
 (struct segment-performance
-  (segment ; string 
+  (segment ; 'government oder 'midmarket
    country ; string
    units-sold ; natural
    manufacturing-price ; double
@@ -44,6 +44,12 @@
             (else
              number)))))
 
+(define (enum-cell texts)
+  (cell (lambda (text)
+          (define search (member text texts))
+          (cond
+            ((not search) (error "not a member"))
+            (else (car search))))))
 
 
 ; Record
