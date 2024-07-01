@@ -69,3 +69,10 @@
    (match (dillo-liveness d)
      ('alive (+ (dillo-weight d) amount))
      ('dead (dillo-weight d)))))
+
+; Klapperschlangen haben folgende Eigenschaften:
+; - Länge -UND-
+; - Dicke
+(struct snake
+  (length
+   thickness))
