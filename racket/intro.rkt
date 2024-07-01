@@ -30,6 +30,7 @@
      (beside image1 image2)
      (beside image2 image1))))
 
+; syntaktischer Zucker
 (define (tile image1 image2)
   (above
    (beside image1 image2)
