@@ -49,7 +49,7 @@
           (define search (member text texts))
           (cond
             ((not search) (error "not a member"))
-            (else (car search))))))
+            (else (first search))))))
 
 
 ; Record
