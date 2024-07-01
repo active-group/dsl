@@ -15,3 +15,7 @@
 (define image1 (beside overlay1 square1))
 
 ; Zeilenkommentar
+
+(above
+ (beside star1 circle1)
+ (beside circle1 star1))
