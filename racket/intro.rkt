@@ -78,6 +78,8 @@
    thickness)
   #:transparent)
 
+; Prädikat: snake?
+
 (define snake1 (snake 1.50 0.05))
 (define snake2 (snake 2.50 0.02))
 
@@ -87,3 +89,7 @@
 ; Ein Tier (auf dem texanischen Highway) ist eins der folgenden:
 ; - Gürteltier -ODER-
 ; - Klapperschlange
+
+; Tier überfahren
+; (define (run-over-animal a)
+  
