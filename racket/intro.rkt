@@ -58,3 +58,7 @@
 (define dillo1 (dillo 'alive 10))
 ; totes Gürteltier, 8kg
 (define dillo2 (dillo 'dead 8))
+
+; Gürteltier überfahren
+(define (run-over-dillo d)
+  (dillo 'dead (dillo-weight d)))
