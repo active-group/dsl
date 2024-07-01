@@ -185,5 +185,8 @@
      (+ first
         (list-sum rest)))))
       
-
-
+(module+ test
+  (require rackunit)
+  (check-equal? (list-sum (list 1 2 3 4 5))
+                15)
+  )
