@@ -62,3 +62,10 @@
 ; Gürteltier überfahren
 (define (run-over-dillo d)
   (dillo 'dead (dillo-weight d)))
+
+(define (feed-dillo d amount)
+  (dillo
+   (dillo-liveness d)
+   (match (dillo-liveness d)
+     ('alive (+ (dillo-weight d) amount))
+     ('dead (dillo-weight d)))))
