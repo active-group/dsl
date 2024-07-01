@@ -98,8 +98,17 @@
 
 (define (run-over-animal a)
   (match a
-    ((dillo liveness weight)
-     (dillo 'dead weight))
+    ((dillo liveness w)
+     (dillo 'dead w))
     ((snake length thickness)
      (snake length 0))))
-      
+
+(define (feed-animal a amount)
+  (match a
+    ((dillo liveness weight)
+     (match liveness
+       ('alive (dillo 'alive (+ weight amount)))
+       ('dead a)))
+    ((snake length thickness)
+     (snake length (+ thickness amount)))))
+    
