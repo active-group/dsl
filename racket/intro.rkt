@@ -75,4 +75,8 @@
 ; - Dicke
 (struct snake
   (length
-   thickness))
+   thickness)
+  #:transparent)
+
+(define snake1 (snake 1.50 0.05))
+(define snake2 (snake 2.50 0.02))
