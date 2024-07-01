@@ -93,6 +93,6 @@
 ; Tier überfahren
 (define (run-over-animal a)
   (cond ; Verzweigung
-    ((dillo? a) ...)  ; Zweig: (<Bedingung> <Ergebnis>)
-    ((snake? a) ...)))
+    ((dillo? a) (run-over-dillo a))  ; Zweig: (<Bedingung> <Ergebnis>)
+    ((snake? a) (run-over-snake a))))
   
