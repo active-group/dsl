@@ -143,3 +143,12 @@
 (define gel1 (showergel soap1 shampoo1))
 
 ; ... gibt es naheliegende Verallgemeinerungen?
+
+; Ein Duschprodukt ist eins der folgenden:
+; - Seife -ODER-
+; - Shampoo -ODER-
+; - Mixtur aus zwei Duschprodukten
+
+(struct mixture
+  (product1 product2)
+  #:transparent)
