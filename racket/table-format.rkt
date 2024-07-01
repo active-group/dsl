@@ -68,11 +68,11 @@
   (check-equal? (apply-cell int-cell "Mike") (error "not a number"))
   (check-equal? (apply-cell int-cell "123.5") (error "not an integer"))
 
-  (check-equal? (apply-cell (enum-cell "Government" "Midmarket")
+  (check-equal? (apply-cell (enum-cell (list "Government" "Midmarket"))
                             "Mike")
                 (error "not a member"))
-  (check-equal? (apply-cell (enum-cell "Government" "Midmarket")
-                            "Govemment")
+  (check-equal? (apply-cell (enum-cell (list "Government" "Midmarket"))
+                            "Government")
                 "Government"))
   
 
