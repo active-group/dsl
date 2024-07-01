@@ -191,5 +191,7 @@
                 15)
   )
 
-; lexikalische Bindung
-; vom Vorkommen eines Namens aus nach außen suchen ... erste Bindung
+; lexikalische Bindung / statische Bindung
+; vom Vorkommen eines Namens aus im Programm nach außen suchen ... erste Bindung
+; wenn das nichts bringt: define
+; wenn das nichts bringt: importiert mit require
