@@ -17,10 +17,12 @@
 
 ; Funktion: String -> Value -ODER- error
 (struct cell
-  (validator-function))
+  (validator-function)
+  #:transparent)
 
 (struct error
-  (description))
+  (description)
+  #:transparent)
 
 (define number 'number)
 
