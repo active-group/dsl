@@ -16,6 +16,7 @@
 ; Value: "Typ des Formats"
 
 ; Funktion: String -> Value -ODER- error
+; nimmt den Inhalt des Feldes und liefert entweder einen Wert oder einen error
 (struct cell
   (validator-function)
   #:transparent)
