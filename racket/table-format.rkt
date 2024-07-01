@@ -9,6 +9,7 @@
 ; - eine Double-Cell -ODER-
 ; - eine Datum-Cell -ODER-
 ; - eine Aufzählungs-Cell -ODER- ...
+; ...
 
 ; Value: "Typ des Formats"
 
