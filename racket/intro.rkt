@@ -25,7 +25,7 @@
  (beside square1 circle1))
 
 #;(define tile
-  (lambda (image1 image2)
+  (lambda (image1 image2) ; Abstraktion
     (above
      (beside image1 image2)
      (beside image2 image1))))
