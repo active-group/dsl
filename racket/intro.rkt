@@ -84,6 +84,6 @@
 (define (run-over-snake s)
   (snake (snake-length s) 0))
 
-; Ein Tier (auf dem texanischen Highway):
+; Ein Tier (auf dem texanischen Highway) ist eins der folgenden:
 ; - Gürteltier -ODER-
 ; - Klapperschlange
