@@ -119,6 +119,10 @@
     ((snake length thickness)
      (snake length (+ thickness amount)))))
 
+(module+ test
+  (require rackunit)
+  (check-equal? 1 2))
+
 ; Seife ... ph-Wert -ODER-
 ; Shampoo ... Haartyp -ODER-
 ; Duschgel aus gleichen Teilen Seife und Shampoo
