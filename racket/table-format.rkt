@@ -51,6 +51,9 @@
             ((not search) (error "not a member"))
             (else (first search))))))
 
+(define (apply-cell cell text)
+  ((cell-validator-function cell) text))
+
 
 ; Record
 
