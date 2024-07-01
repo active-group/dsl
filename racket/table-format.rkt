@@ -24,6 +24,16 @@
 
 (define number 'number)
 
+; Liste von ...
+(struct segment-performance
+  (segment ; string 
+   country ; string
+   units-sold ; natural
+   manufacturing-price ; double
+   sale-price ; double
+   sales ; natural
+   profit)) ; double
+
 (define int-cell
   (cell (lambda (text)
           (define number (string->number text))
@@ -33,6 +43,8 @@
              (error "not an integer"))
             (else
              number)))))
+
+
 
 ; Record
 
