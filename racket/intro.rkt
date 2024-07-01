@@ -148,6 +148,7 @@
 ; - Seife -ODER-
 ; - Shampoo -ODER-
 ; - Mixtur aus zwei Duschprodukten
+;                   ^^^^^^^^^^^^^^
 
 (struct mixture
   (product1 product2)
