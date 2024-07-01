@@ -24,8 +24,6 @@
   (description)
   #:transparent)
 
-(define number 'number)
-
 ; Liste von ...
 (struct segment-performance
   (segment ; 'government oder 'midmarket
