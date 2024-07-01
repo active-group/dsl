@@ -165,3 +165,25 @@
      (/ (+ (soap-proportion product1)
            (soap-proportion product2))
         2))))
+
+; Liste ist eins der folgenden:
+; - leere Liste '() -ODER-
+; - eine Cons-Liste aus erstem Element und Rest-Liste
+;                                               ^^^^^ Selbstbezug
+;    (cons first rest)
+
+(define list1 (cons 'mike '()))
+(define list2 (cons 'timo (cons 'mike '())))
+(define list3 (cons 'niels list2))
+
+(define list3* (list 'niels 'timo 'mike))
+
+(define (list-sum list)
+  (match list
+    ('() 0)
+    ((cons first rest)
+     (+ first
+        (list-sum rest)))))
+      
+
+
