@@ -79,13 +79,17 @@
 ; Record
 
 (struct record
-  (constructor field-formats)
+  (constructor
+   direction ; 'right oder 'down
+   field-formats)
   #:transparent) ; Liste von Formaten
 
+; Eine Zeile aus der Beispieltabelle
 
 (define segment-performance-format
   (record
    segment-performance
+   'right
    (list (enum-cell (list "Government" "Midmarket"))
          (enum-cell (list "Canada" "Germany" "France" "Mexico"))
          int-cell
