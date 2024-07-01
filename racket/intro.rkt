@@ -126,5 +126,20 @@
 ; Seife ... ph-Wert -ODER-
 ; Shampoo ... Haartyp -ODER-
 ; Duschgel aus gleichen Teilen Seife und Shampoo
+(struct soap
+  (pH)
+  #:transparent)
+
+(struct shampoo
+  (hairtype)
+  #:transparent)
+
+(struct showergel
+  (soap shampoo)
+  #:transparent)
+
+
+
+
 
 ; ... gibt es naheliegende Verallgemeinerungen?
