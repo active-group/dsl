@@ -91,5 +91,8 @@
 ; - Klapperschlange
 
 ; Tier überfahren
-; (define (run-over-animal a)
+(define (run-over-animal a)
+  (cond ; Verzweigung
+    ((dillo? a) ...)  ; Zweig: (<Bedingung> <Ergebnis>)
+    ((snake? a) ...)))
   
