@@ -81,8 +81,8 @@
 (struct record
   (constructor
    direction ; 'right oder 'down
-   field-formats)
-  #:transparent) ; Liste von Formaten
+   field-formats) ; Liste von Formaten
+  #:transparent) 
 
 ; Eine Zeile aus der Beispieltabelle
 
