@@ -118,9 +118,15 @@
             'pupu)
           ignore
    'right
-   (map (lambda (heading)
-          (enum-cell (list heading)))
-        constant-cell
+   #;(list (enum-cell (list "Segment"))
+         (enum-cell (list "Country"))
+         (enum-cell (list "Units Sold"))
+         (enum-cell (list "Manuf. Price"))
+         ...)
+   (list (constant-cell "Segment")
+         (constant-cell "Country")
+         ...)
+   (map constant-cell
         (list "Segment"
               "Country"
               "Units Sold"
