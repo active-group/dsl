@@ -155,4 +155,31 @@
 ; 3. Abstraktion über den beiden Tabellen-Beispielen
 ; 4. die auch benutzen
 
+(define (safe-add o1 o2) ; o1, o2 können Zahlen sein oder error
+  (cond
+    ((error? o1) o1)
+    (else
+     (cond
+       ((error? o2) o2)
+       (else (+ o1 o2))))))
 
+
+; class Optional<T> {
+;   <U> Optional<U> flatMap(Function<T, Optional<U>> mapper)
+; }
+
+; optional von T: T oder error
+
+
+(define (flatmap optional next)
+  (cond
+    ((error? optional) optional)
+    (else
+     (next optional))))
+
+(define (safe-add* o1 o2)
+  (flatmap o1
+           (lambda (n1)
+             (flatmap o2
+                      (lambda (n2)
+                        (+ n1 n2))))))
