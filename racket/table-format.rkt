@@ -261,12 +261,12 @@
 (define (llist->table llist)
   (lambda (x y)
     (cond
-      ((>= y (list-length llist))
+      ((>= y (length llist))
        (error "not enough rows"))
       (else
        (let ((row (list-ref llist y)))
          (cond
-           ((>= x (list-length row))
+           ((>= x (length row))
             (error "not enough columns"))
            (else
             (list-ref row x))))))))
