@@ -33,7 +33,8 @@
    manufacturing-price ; double
    sale-price ; double
    sales ; natural
-   profit)) ; double
+   profit) ; double
+  #:transparent)
 
 (define int-cell
   (cell (lambda (text)
