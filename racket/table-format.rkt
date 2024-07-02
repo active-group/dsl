@@ -253,7 +253,7 @@
             (apply f args)))
 
 
-; gegeben Format und Tabelle -> Wert oder error
+; gegeben Format und Tabelle und Position -> Wert oder error
 
 ; Tabelle repräsentiert durch Funktion (x y -> string oder error)
 
