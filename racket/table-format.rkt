@@ -108,8 +108,9 @@
   (sequence 'down segment-performance-format))
 
 (define title-format
-  (record (lambda (h1 h2 h3 h4 h5 h6 h7)
+  (record #;(lambda (h1 h2 h3 h4 h5 h6 h7)
             'pupu)
+          (lambda ignore 'pupu)
    'right
    (list (map (lambda (heading)
                 (enum-cell (list heading)))
