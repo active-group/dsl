@@ -135,27 +135,7 @@
               "Sales"
               "Profit"))))
 
-(define (heading ...)
-  (record #;(lambda (h1 h2 h3 h4 h5 h6 h7)
-            'pupu)
-          ignore
-   'right
-   #;(list (enum-cell (list "Segment"))
-         (enum-cell (list "Country"))
-         (enum-cell (list "Units Sold"))
-         (enum-cell (list "Manuf. Price"))
-         ...)
-   #;(list (constant-cell "Segment")
-         (constant-cell "Country")
-         ...)
-   (map constant-cell
-        (list "Segment"
-              "Country"
-              "Units Sold"
-              "Manuf. Price"
-              "Sale Price"
-              "Sales"
-              "Profit"))))
+
 
 (define table-format
   (record (lambda (headings segment-performances)
