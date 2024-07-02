@@ -105,5 +105,25 @@
   #:transparent)
 
 (define segment-performances-format
-  (sequence 'down segment-performat-format))
+  (sequence 'down segment-performance-format))
 
+(define title-format
+  (record (lambda (h1 h2 h3 h4 h5 h6 h7)
+            'pupu)
+   'right
+   (list (map (lambda (heading)
+                (enum-cell (list heading)))
+              (list "Segment"
+                    "Country"
+                    "Units Sold"
+                    "Manuf. Price"
+                    "Sale Price"
+                    "Sales"
+                    "Profit")))))
+
+(define table-format
+  (record (lambda (headings segment-performances)
+            segment-performances)
+   'down
+   (list title-format
+         segment-performances-format)))
