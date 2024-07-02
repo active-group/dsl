@@ -258,15 +258,15 @@
 ; Tabelle repräsentiert durch Funktion (x y -> string oder error)
 
 (struct extent
-  (right down)
+  (width height)
   #:transparent)
 
 (define unit-extent (extent 1 1))
 
 (define (extent-selector direction)
   (match direction
-    ('right extent-right)
-    ('down extent-down)))
+    ('right extent-width)
+    ('down extent-right)))
 
 (define (mapm f list)
   (match list
@@ -280,10 +280,20 @@
   (match format
     ((cell _) unit-extent)
     ((record constructor direction field-formats)
-     (maplet+ ((direction-size (mapm (extent-selector direction) list)
+     (maplet+ ((extents (mapm format-extent format)))
+              (maplet+ ((widths (mapm extent-width extents))
+                        (heights (map extent-heights extents)))
+                       (match direction
+                         ('right (extent (apply + widths)
+                                         (apply max heights)))
+                         ('down (extent (apply max widths)
+                                        (apply + heights)))))))
+              
     ((sequence direction element-format)
-     ...)))
-     
+     (maplet+ ((element-extent (format-extent element-format)))
+              (match direction
+                ('right (extent +inf.0 (extent-height element-extent)))
+                ('down (extent (extent-width element-extent +inf.0))))))))
 
 ; Liste von Zeilen
 (define (llist->table llist)
