@@ -135,11 +135,15 @@
               "Sales"
               "Profit"))))
 
+(define (heading direction heading-texts)
+  (record ignore
+          direction
+          (map constant-cell heading-texts)))
 
 
 (define table-format
   (record (lambda (headings segment-performances)
             segment-performances)
    'down
-   (list title-format
+   (list (heading 'right (list "Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit"))
          segment-performances-format)))
