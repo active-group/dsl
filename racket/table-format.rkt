@@ -123,7 +123,7 @@
          (enum-cell (list "Units Sold"))
          (enum-cell (list "Manuf. Price"))
          ...)
-   (list (constant-cell "Segment")
+   #;(list (constant-cell "Segment")
          (constant-cell "Country")
          ...)
    (map constant-cell
