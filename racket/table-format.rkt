@@ -275,7 +275,7 @@
   (llist->table
    '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
      ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
-| Government | Germany |       1321 | $3,00        | $20,00     | $26.420,00 | $13.210,00 |
-| Midmarket  | France  |       2178 | $3,00        | $15,00     | $32.670,00 | $10.890,00 |
-| Midmarket  | Germany |        888 | $3,00        | $15,00     | $13.320,00 | $4.440,00  |
-| Midmarket  | Mexico  |       2470 | $3,00        | $15,00     | $37.050,00 | $12.350,00 |
+     ("Government" "Germany" "1321" "3.00" "20.00" "26420.00" "13210.00")
+     ("Midmarket"  "France" "2178" "3.00"  "15.00" "32670.00" "10890.00")
+     ("Midmarket"  "Germany" "888"  "3.00" "15.00" "13320.00" "4440.00")
+     ("Midmarket" "Mexico" "2470" "3.00" "15.00" "37050.00" "12350.00"))))
