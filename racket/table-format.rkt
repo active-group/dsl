@@ -136,17 +136,18 @@
               "Sales"
               "Profit"))))
 
-(define (heading direction heading-texts)
+(define (heading direction . heading-texts)
   (record ignore
           direction
           (map constant-cell heading-texts)))
 
+(define right 'right)
 
 (define table-format
   (record (lambda (headings segment-performances)
             segment-performances)
           'down
-          (list (heading 'right (list "Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit"))
+          (list (heading right "Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
                 segment-performances-format)))
 
 
@@ -207,11 +208,46 @@
                     o2
                     (+ n1 n2))))
 
+#;(define-syntax-rule
+  (flatlet+ ((name optional) ...) body)
+  ...)
+
+; Plan: (flatlet+ ((name1 optional1) (name-rest optional-rest) ...) body)
+;      -> (flatlet name1 optional1 (flatlet+ ((name-rest optional-rest) ...) body)
+;       (flatlet+ () body)
+;      -> body
+
+(define-syntax flatlet+
+  (syntax-rules ()
+    ; ähnlich wie match
+    ; (<Pattern> <Ersatz>)
+    ((flatlet+ ((name1 optional1) (name-rest optional-rest) ...) body)
+     (flatlet name1 optional1 (flatlet+ ((name-rest optional-rest) ...) body)))
+    ((flatlet+ () body)
+     body)))
+    
 (define (safe-add*** o1 o2)
   (flatlet+ ((n1 o1)
              (n2 o2))
             (+ n1 n2)))
 
-  
+(define (safe-add**** . os)
+  (match os
+    ('() 0)
+    ((cons first rest)
+     (flatlet+ ((n first)
+                (n-rest (apply safe-add**** rest)))
+               (+ n n-rest)))))
+               
+(define (optionals->list optionals)
+  (match optionals
+    ('() '())
+    ((cons first rest)
+     (flatlet+ ((val first)
+                (vals (optionals->list rest)))
+               (cons val vals)))))
+               
 
+#;(define (optional-map f . os)
+  ...)
   
