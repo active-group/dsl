@@ -118,16 +118,16 @@
             'pupu)
           ignore
    'right
-   (list (map (lambda (heading)
-                (enum-cell (list heading)))
-              constant-cell
-              (list "Segment"
-                    "Country"
-                    "Units Sold"
-                    "Manuf. Price"
-                    "Sale Price"
-                    "Sales"
-                    "Profit")))))
+   (map (lambda (heading)
+          (enum-cell (list heading)))
+        constant-cell
+        (list "Segment"
+              "Country"
+              "Units Sold"
+              "Manuf. Price"
+              "Sale Price"
+              "Sales"
+              "Profit"))))
 
 (define table-format
   (record (lambda (headings segment-performances)
