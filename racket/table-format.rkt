@@ -206,6 +206,12 @@
            (flatlet n2
                     o2
                     (+ n1 n2))))
+
+(define (safe-add*** o1 o2)
+  (flatlet+ ((n1 o1)
+             (n2 o2))
+            (+ n1 n2)))
+
   
 
   
