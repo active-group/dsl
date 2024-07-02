@@ -263,37 +263,32 @@
 
 (define unit-extent (extent 1 1))
 
-(define (extent-selector direction)
-  (match direction
-    ('right extent-width)
-    ('down extent-right)))
-
 (define (mapm f list)
   (match list
     ('() '())
     ((cons first rest)
-     (maplet+ ((result (f first))
-               (rest-results (mapm f rest)))
-              (cons result rest-results)))))
+     (flatlet+ ((result (f first))
+                (rest-results (mapm f rest)))
+               (cons result rest-results)))))
 
 (define (format-extent format)
   (match format
     ((cell _) unit-extent)
     ((record constructor direction field-formats)
-     (maplet+ ((extents (mapm format-extent format)))
-              (maplet+ ((widths (mapm extent-width extents))
-                        (heights (map extent-heights extents)))
-                       (match direction
-                         ('right (extent (apply + widths)
-                                         (apply max heights)))
-                         ('down (extent (apply max widths)
-                                        (apply + heights)))))))
-              
+     (flatlet+ ((extents (mapm format-extent format)))
+              (flatlet+ ((widths (mapm extent-width extents))
+                         (heights (map extent-heights extents)))
+                        (match direction
+                          ('right (extent (apply + widths)
+                                          (apply max heights)))
+                          ('down (extent (apply max widths)
+                                         (apply + heights)))))))
+    
     ((sequence direction element-format)
-     (maplet+ ((element-extent (format-extent element-format)))
-              (match direction
-                ('right (extent +inf.0 (extent-height element-extent)))
-                ('down (extent (extent-width element-extent +inf.0))))))))
+     (flatlet+ ((element-extent (format-extent element-format)))
+               (match direction
+                 ('right (extent +inf.0 (extent-height element-extent)))
+                 ('down (extent (extent-width element-extent +inf.0))))))))
 
 ; Liste von Zeilen
 (define (llist->table llist)
