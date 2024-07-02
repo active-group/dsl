@@ -207,3 +207,10 @@
    sale-price ; double
    sales ; natural
    profit)) ; double
+
+
+(define (list-sum* . list)
+  (list-sum list))
+
+(define (list-sum** list)
+  (apply list-sum* list))
