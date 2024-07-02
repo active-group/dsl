@@ -110,10 +110,13 @@
 (define (constant-cell text)
   (enum-cell (list text)))
 
+(define (ignore . args)
+  'pupu)
+
 (define title-format
   (record #;(lambda (h1 h2 h3 h4 h5 h6 h7)
             'pupu)
-          (lambda ignore 'pupu)
+          ignore
    'right
    (list (map constant-cell
               (list "Segment"
