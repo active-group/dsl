@@ -170,7 +170,6 @@
 
 ; optional von T: T oder error
 
-
 (define (flatmap optional next)
   (cond
     ((error? optional) optional)
@@ -183,3 +182,30 @@
              (flatmap o2
                       (lambda (n2)
                         (+ n1 n2))))))
+
+(define (safe-multiply* o1 o2)
+  (flatmap o1
+           (lambda (n1)
+             (flatmap o2
+                      (lambda (n2)
+                        (* n1 n2))))))
+
+; Pattern: (flatmap o (lambda (x) ...))
+
+; über Syntax abstrahieren
+
+(define-syntax-rule
+  (flatlet name optional body)
+  (flatmap optional
+           (lambda (name)
+             body)))
+
+(define (safe-add** o1 o2)
+  (flatlet n1
+           o1
+           (flatlet n2
+                    o2
+                    (+ n1 n2))))
+  
+
+  
