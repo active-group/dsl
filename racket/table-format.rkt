@@ -118,7 +118,9 @@
             'pupu)
           ignore
    'right
-   (list (map constant-cell
+   (list (map (lambda (heading)
+                (enum-cell (list heading)))
+              constant-cell
               (list "Segment"
                     "Country"
                     "Units Sold"
