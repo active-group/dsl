@@ -275,21 +275,77 @@
   (match format
     ((cell _) unit-extent)
     ((record constructor direction field-formats)
-     (flatlet+ ((extents (mapm format-extent format)))
-              (flatlet+ ((widths (mapm extent-width extents))
-                         (heights (map extent-heights extents)))
-                        (match direction
-                          ('right (extent (apply + widths)
-                                          (apply max heights)))
-                          ('down (extent (apply max widths)
-                                         (apply + heights)))))))
+     (define extents (map format-extent field-formats))
+     (define widths (map extent-width extents))
+     (define heights (map extent-height extents))
+     (match direction
+       ('right (extent (apply + widths)
+                       (apply max heights)))
+       ('down (extent (apply max widths)
+                      (apply + heights)))))
     
     ((sequence direction element-format)
-     (flatlet+ ((element-extent (format-extent element-format)))
-               (match direction
-                 ('right (extent +inf.0 (extent-height element-extent)))
-                 ('down (extent (extent-width element-extent +inf.0))))))))
+     (define element-extent (format-extent element-format))
+     (match direction
+       ('right (extent +inf.0 (extent-height element-extent)))
+       ('down (extent (extent-width element-extent) +inf.0))))))
 
+(module+ test
+  (check-equal? (format-extent int-cell)
+                (extent 1 1))
+  (check-equal? (format-extent table-format)
+                (extent 7 +inf.0)))
+
+(define (parse-field-tables direction field-formats table x y)
+  (match field-formats
+    ('() '())
+    ((cons first rest)
+     (define first-extent (format-extent first))
+     (flatlet+ ((first-content (parse-table first table x y))
+                (rest-contents
+                 (match direction
+                   ('right                 
+                    (parse-field-tables direction
+                                        rest
+                                        table
+                                        (+ x (extent-width first-extent))
+                                        y))
+                   ('down
+                    (parse-field-tables direction
+                                        rest
+                                        table
+                                        x
+                                        (+ y (extent-height first-extent)))))))
+               (cons first-content rest-contents)))))
+
+(define (parse-sequence-tables direction element-format table x y)
+  (match (table x y)
+    ((error _) '())
+    (content
+     (define element-extent (format-extent element-format))
+     (cons content
+           (match direction
+             ('right
+              (parse-table element-format table
+                           (+ x (extent-width format-extent))
+                           y))
+             ('down
+              (parse-table element-format table
+                           x
+                           (+ y (extent-height format-extent)))))))))
+      
+(define (parse-table format table x y)
+  (match format
+    ((cell validator-function)
+     (validator-function (table x y)))
+    ((record constructor direction field-formats)
+     (flatlet+ ((field-contents
+                 (parse-field-tables direction field-formats table x y)))
+               (apply constructor field-contents)))
+    ((sequence direction field-format)
+     'todo)))
+
+  
 ; Liste von Zeilen
 (define (llist->table llist)
   (lambda (x y)
