@@ -144,12 +144,14 @@
 (define table-format
   (record (lambda (headings segment-performances)
             segment-performances)
-   'down
-   (list (heading 'right (list "Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit"))
-         segment-performances-format)))
+          'down
+          (list (heading 'right (list "Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit"))
+                segment-performances-format)))
 
 
 ; 1. Noch so'n Tabellen-Beispiel
 ; 2. Format für das Tabellen-Beispiel
 ; 3. Abstraktion über den beiden Tabellen-Beispielen
 ; 4. die auch benutzen
+
+
