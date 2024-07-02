@@ -250,5 +250,32 @@
 
 (define (optional-map f . os)
   (flatlet+ ((args (optionals->list os)))
-            (apply f args))) 
-  
+            (apply f args)))
+
+
+; gegeben Format und Tabelle -> Wert oder error
+
+; Tabelle repräsentiert durch Funktion (x y -> string oder error)
+
+; Liste von Zeilen
+(define (llist->table llist)
+  (lambda (x y)
+    (cond
+      ((>= y (list-length llist))
+       (error "not enough rows"))
+      (else
+       (let ((row (list-ref llist y)))
+         (cond
+           ((>= x (list-length row))
+            (error "not enough columns"))
+           (else
+            (list-ref row x))))))))
+
+(define performance-table
+  (llist->table
+   '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
+     ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
+| Government | Germany |       1321 | $3,00        | $20,00     | $26.420,00 | $13.210,00 |
+| Midmarket  | France  |       2178 | $3,00        | $15,00     | $32.670,00 | $10.890,00 |
+| Midmarket  | Germany |        888 | $3,00        | $15,00     | $13.320,00 | $4.440,00  |
+| Midmarket  | Mexico  |       2470 | $3,00        | $15,00     | $37.050,00 | $12.350,00 |
