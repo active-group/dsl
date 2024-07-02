@@ -248,6 +248,7 @@
                (cons val vals)))))
                
 
-#;(define (optional-map f . os)
-  ...)
+(define (optional-map f . os)
+  (flatlet+ ((args (optionals->list os)))
+            (apply f args))) 
   
