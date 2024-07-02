@@ -209,8 +209,12 @@
    profit)) ; double
 
 
-(define (list-sum* . list)
+#;(define (list-sum* . list)
   (list-sum list))
+
+(define list-sum*
+  (lambda list
+    (list-sum list)))
 
 (define (list-sum** list)
   (apply list-sum* list))
