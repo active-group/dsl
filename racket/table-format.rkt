@@ -98,3 +98,12 @@
          number-cell
          number-cell)))
 
+; Liste
+(struct sequence
+  (direction
+   element-format)
+  #:transparent)
+
+(define segment-performances-format
+  (sequence 'down segment-performat-format))
+
