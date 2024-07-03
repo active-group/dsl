@@ -28,7 +28,8 @@
      (failm (lambda (result)
               (bind (continuation result) next))))
     ((handlem computation handler-computation continuation)
-     (handlem (lambda (result)
+     (handlem computation handler-computation
+              (lambda (result)
                 (bind (continuation result) next))))))
 
 (define (command name arg)
@@ -56,7 +57,8 @@
     ((while ?var (from ?exp1 ?exp2 ...) ?body)
      (begin_
        (let_ ((?var ?exp1))
-             ?body)
+             ?body
+             (handle (begin_)))
        (while ?var (from ?exp2 ...) ?body)))))
   
 (define p1
