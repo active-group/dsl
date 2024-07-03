@@ -72,3 +72,26 @@
                                      (command "bar" 1))))))
         (handle
          (command "baz" 2))))
+
+(struct retval (result command-log) #:transparent)
+(struct command-log-entry (name arg) #:transparent)
+
+(define (run comp command-log handler-computation)
+  (match comp
+    ((unit result)
+     (retval result command-log))
+    ((commandm name arg continuation)
+     ; start rockets here
+     (run (continuation 'command-done)
+          (cons (command-log-entry name arg) command-log)
+          handler-computation))
+    ((failm continuation)
+     (run handler-computation
+          command-log
+          handler-computation)) ; !/"&!/&"/ handler vom handler ist der Handler
+    ((handlem computation handler-computation continuation)
+     (run
+      (bind computation continuation)
+      command-log
+      (bind handler-computation continuation)))))
+  
