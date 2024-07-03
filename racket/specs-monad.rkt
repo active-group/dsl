@@ -63,7 +63,7 @@
   
 (define p1
   (let_ ((a (+ 1 2)))
-        (while x (from 1 (+ 1 1) 3)
+        (while x (from 1 (+ 1 1) a)
                (begin_ (command "baz" x)
                        (while y (from 4 5 6)
                               (let_ ()
