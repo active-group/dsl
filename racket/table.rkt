@@ -11,7 +11,7 @@
 
 ; fehlt: räumliche Anordnung
 
-; Eine Tabellenformat) ist eins der folgenden:
+; Eine Tabellenformat ist eins der folgenden:
 ; - eine einzelne Zelle -ODER-
 ; - ein Datensatz bestehend aus mehreren Zellen -ODER-
 ; - Folge aus beliebig vielen Datensätzen
@@ -79,6 +79,10 @@
                                    (integer-cell-format))
                 (record-field-info (relative-position 0 2)
                                    (integer-cell-format)))))
+
+(struct sequence-format
+  (relative-position ; von einem Eintrag zum nächsten
+   record-format))
 
 (struct profitability
   (segment ; segment-format
