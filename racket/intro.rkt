@@ -51,6 +51,9 @@
 ; totes Gürteltier, 8kg
 (define dillo2 (dillo 'dead 8))
 
+; Gürteltier überfahren
+; (define run-over-dillo
+
 ; Klapperschlange hat folgende Eigenschaften:
 ; - Länge -UND-
 ; - Dicke
