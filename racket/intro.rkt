@@ -29,6 +29,10 @@
      (beside image1 image2)
      (beside image2 image1))))
 
+(define image1 circle1)
+
+; statische / lexikalische Bindung
+
 (define (tile image1 image2) ; syntaktischer Zucker
   (above
    (beside image1 image2)
