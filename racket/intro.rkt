@@ -122,3 +122,5 @@
 ; Funktion: Tier rein, Tier rein
 ; - Gürteltier wird schwerer, wenn es noch lebt
 ; - Klapperschlange wird dicker
+(define (feed-animal a)
+  
