@@ -42,7 +42,7 @@
 ; benutzen Symbole 'alive, 'dead
 
 (struct dillo ; Konstruktor
-  (liveness
+  (liveness ; Feld, Selektor/Getter: dillo-liveness
    weight)
   #:transparent)
 
