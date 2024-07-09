@@ -143,3 +143,4 @@
    sort))
 
 (define rose1 (single-flower 'red 'round 'rose))
+(define tulip1 (single-flower 'yellow 'tapered 'tulip))
