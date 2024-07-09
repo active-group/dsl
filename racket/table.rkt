@@ -18,29 +18,25 @@
 
 ; Ein Zellenformat ist eins der folgenden:
 (struct enum-cell-format
-  (row
-   column
-   values)) ; Liste möglicher konstante Werte
+  (values)) ; Liste möglicher konstante Werte
 
 (define segment-format
-  (enum-cell-format 0 0 '("Government" "Midmarket")))
+  (enum-cell-format '("Government" "Midmarket")))
 
 #;(define segment-header-format
-  (enum-cell 0 0 '("Segment")))
+  (enum-cell '("Segment")))
 
 (define (header-format header-text)
-  (enum-cell-format 0 0 (cons header-text '())))
+  (enum-cell-format (cons header-text '())))
 
 (define segment-header-format
   (header-format "Segment"))
 
 (struct integer-cell-format
-  (row
-   column))
+  ())
 
 (struct string-cell-format
-  (row
-   column))
+  ())
 
 ; Datensatz
 ; pro Zelle:
@@ -74,15 +70,15 @@
 (define person-format
   (record person
           (list (record-field-info (relative-position 0 0)
-                                   string-cell-format)
+                                   (string-cell-format))
                 (record-field-info (relative-position 1 0)
-                                   string-cell-format)
+                                   (string-cell-format))
                 (record-field-info (relative-position 0 1)
-                                   string-cell-format)
+                                   (string-cell-format))
                 (record-field-info (relative-position 1 1)
-                                   integer-cell-format)
+                                   (integer-cell-format))
                 (record-field-info (relative-position 0 2)
-                                   integer-cell-format))))
+                                   (integer-cell-format)))))
 
 (struct profitability
   (segment ; segment-format
