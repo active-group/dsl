@@ -163,3 +163,7 @@
 ; Ein Blumenstrauß:
 ; - eine einzelne Blume -ODER-
 ; - eine Zweier-Kombi aus zwei Blumensträußen
+;                              ^^^^^^^^^^^^^^
+;                              Selbstbezug
+
+; (keine 2-Klassen-Gesellschaft)
