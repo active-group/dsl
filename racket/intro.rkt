@@ -184,4 +184,21 @@
       (only-roses-bouquet bouquet1) ; 1. Selbstbezug
       (only-roses-bouquet bouquet2) ; 2. Selbstbezug
      ))))
-   
+
+; allgemein:
+; Eine Liste ist eins der folgenden:
+; - die leere Liste -ODER-
+; - eine Cons-Liste aus erstem Element und Rest-Liste
+;                                               ^^^^^
+
+
+; In Racket:
+; - leere Liste: '()
+; - Cons-Liste: (cons f r)
+
+; 1elementige Liste: 4
+(define list1 (cons 4 '()))
+; 2elementige Liste: 3 4
+(define list2 (cons 3 (cons 4 '())))
+; 3elementige Liste: 8 3 4
+(define list3 (cons 8 list2))
