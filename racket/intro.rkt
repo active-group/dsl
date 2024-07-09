@@ -130,4 +130,16 @@
        ('dead a)))
     ((rattlesnake length thickness)
      (rattlesnake length (+ thickness 1)))))
-    
+
+; Blumen
+
+; Einzelne Blume hat folgende Eigenschaften:
+; - Farbe -UND-
+; - Form -UND-
+; - Sorte
+(struct single-flower
+  (color
+   form
+   sort))
+
+(define rose1 (single-flower 'red 'round 'rose))
