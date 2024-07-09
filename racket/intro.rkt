@@ -78,7 +78,8 @@
 ; - Dicke
 (struct rattlesnake
   (length
-   thickness))
+   thickness)
+  #:transparent)
 
 (define snake1 (rattlesnake 150 7))
 (define snake2 (rattlesnake 70 3))
