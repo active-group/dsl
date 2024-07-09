@@ -1,5 +1,5 @@
 #lang racket
-(require 2hdtp/image)
+(require 2htdp/image)
 
 (define x
   (+ 12
