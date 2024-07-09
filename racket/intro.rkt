@@ -32,6 +32,7 @@
 (define image1 circle1)
 
 ; statische / lexikalische Bindung
+; "von innen nach außen"
 
 (define (tile image1 image2) ; syntaktischer Zucker
   (above
