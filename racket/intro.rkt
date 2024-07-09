@@ -178,7 +178,7 @@
     ((single-flower color form sort)
      (match sort
        ('rose bouquet)
-       (_ ...)))
+       (_ the-empty-bouquet)))
     ((two bouquet1 bouquet2)
      (two
       (only-roses-bouqet bouqet1) ; 1. Selbstbezug
