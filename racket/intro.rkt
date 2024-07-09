@@ -202,3 +202,5 @@
 (define list2 (cons 3 (cons 4 '())))
 ; 3elementige Liste: 8 3 4
 (define list3 (cons 8 list2))
+; 4elementige Liste 5 8 3 4
+(define list4 (cons 5 list3))
