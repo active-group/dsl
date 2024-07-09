@@ -140,7 +140,8 @@
 (struct single-flower
   (color
    form
-   sort))
+   sort)
+  #:transparent)
 
 (define rose1 (single-flower 'red 'round 'rose))
 (define tulip1 (single-flower 'yellow 'tapered 'tulip))
@@ -148,7 +149,8 @@
 ; Wir wollen rose1 und tulip1 in einem Strauß kombinieren
 (struct two
   (flower1
-   flower2))
+   flower2)
+  #:transparet)
 
 ; Zwei Blumen
 (define bouquet1 (two rose1 tulip1))
