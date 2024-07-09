@@ -99,8 +99,16 @@
 
 ; Prädikat: dillo? rattlesnake?
 
-(define (run-over-animal a)
+#;(define (run-over-animal a)
   ; Verzweigung, 1 Zweig pro Fall
   (cond
     ((dillo? a) (run-over-dillo a)) ; (<Bedingung> <Ergebnis>)
     ((rattlesnake? a) (run-over-rattlesnake a))))
+
+; Pattern-Matching
+(define (run-over-animal a)
+  (match a ; Verzweigung
+    ((dillo l w)
+     (dillo 'dead w))
+    ((rattlesnake l t)
+     (rattlesnake l 0))))
