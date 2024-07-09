@@ -92,3 +92,10 @@
   (check-equal? (run-over-rattlesnake snake1)
                 (rattlesnake 150 0)))
 
+; Tier ist eins der folgenden:
+; - Gürteltier -ODER-
+; - Klapperschlange
+; Fallunterscheidung, hier: gemischte Daten
+
+(define (run-over-animal a)
+  ; Verzweigung
