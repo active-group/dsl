@@ -28,3 +28,18 @@
     (above
      (beside image1 image2)
      (beside image2 image1))))
+
+; Tiere auf dem texanischen Highway ...
+
+; Gürteltier hat folgende Eigenschaften:
+; - (lebendig -ODER- tot)            -UND-
+; - Gewicht
+; zusammengesetzte Daten
+
+; Lebendigkeit / "liveness"
+; lebendig -ODER- tot
+; allgemein: Fallunterscheidung, hier: Aufzählung
+; benutzen Symbole 'alive, 'dead
+
+(struct dillo
+  (liveness weight))
