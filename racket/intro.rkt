@@ -110,5 +110,5 @@
   (match a ; Verzweigung
     ((dillo l w)
      (dillo 'dead w))
-    ((rattlesnake l t)
+    ((rattlesnake l _) ; _ : "don't care"
      (rattlesnake l 0))))
