@@ -148,8 +148,8 @@
 
 ; Wir wollen rose1 und tulip1 in einem Strauß kombinieren
 (struct two
-  (flower1
-   flower2)
+  (bouqet1
+   bouqet2)
   #:transparent)
 
 ; Zwei Blumen
@@ -160,3 +160,6 @@
 ; Strauß mit drei Blumen
 (define bouquet2 (two bouquet1 violet1))
 
+; Ein Blumenstrauß:
+; - eine einzelne Blume -ODER-
+; - eine Zweier-Kombi aus zwei Blumensträußen
