@@ -160,10 +160,28 @@
 ; Strauß mit drei Blumen
 (define bouquet2 (two bouquet1 violet1))
 
-; Ein Blumenstrauß:
+(struct empty-bouquet () #:transparent)
+(define the-empty-bouquet (empty-bouquet))
+
+; Ein Blumenstrauß ist eins der folgenden:
+; - der leere Blumenstrauß
 ; - eine einzelne Blume -ODER-
 ; - eine Zweier-Kombi aus zwei Blumensträußen
 ;                              ^^^^^^^^^^^^^^
 ;                              Selbstbezug
 
 ; (keine 2-Klassen-Gesellschaft)
+
+; Strauß aus nur den Rosen
+(define (only-roses-bouqet bouquet)
+  (match bouquet
+    ((single-flower color form sort)
+     (match sort
+       ('rose bouquet)
+       (_ ...)))
+    ((two bouquet1 bouquet2)
+     (two
+      (only-roses-bouqet bouqet1) ; 1. Selbstbezug
+      (only-roses-bouqet bouqet2) ; 2. Selbstbezug
+     ))))
+   
