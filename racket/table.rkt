@@ -11,6 +11,11 @@
 
 ; fehlt: räumliche Anordnung
 
+; Eine Tabelle(nformat) ist eins der folgenden:
+; - eine einzelne Zelle -ODER-
+; - ein Datensatz bestehend aus mehreren Zellen -ODER-
+; - Folge aus beliebig vielen Datensätzen
+
 (struct profitability
   (segment
    country
