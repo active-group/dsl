@@ -112,3 +112,8 @@
      (dillo 'dead w))
     ((rattlesnake l _) ; _ : "don't care"
      (rattlesnake l 0))))
+
+; Tier füttern:
+; Funktion: Tier rein, Tier rein
+; - Gürteltier wird schwerer, wenn es noch lebt
+; - Klapperschlange wird dicker
