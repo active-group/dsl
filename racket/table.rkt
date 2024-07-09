@@ -90,6 +90,7 @@
    (relative-position 2 0)
    person-format))
 
+
 (struct profitability
   (segment ; segment-format
    country ; ...
