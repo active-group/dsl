@@ -63,6 +63,16 @@
   (dillo 'dead
    (dillo-weight d)))
 
+(module+ test
+  (require rackunit)
+
+  (check-equal? (run-over-dillo dillo1)
+                (dillo 'dead 10))
+  (check-equal? (run-over-dillo dillo2)
+                dillo2)
+  
+  )
+
 ; Klapperschlange hat folgende Eigenschaften:
 ; - Länge -UND-
 ; - Dicke
