@@ -42,15 +42,53 @@
   (row
    column))
 
-; Datensatz 
+; Datensatz
+; pro Zelle:
+; - relative Position -UND-
+; - Format
 
+(struct record-field-info
+  (relative-position ; zur linken oberen Ecke des Datensatzes
+   cell-format)
+  #:transparent)
 
+; Eine relative Position:
+(struct relative-position
+  (right
+   down)
+  #:transparent)
+
+(struct record
+  (constructor
+   record-field-infos) ; Liste von record-field-info
+  #:transparent)
+
+(struct person
+  (first-name
+   last-name
+   street
+   number
+   age)
+  #:transparent)
+
+(define person-format
+  (record person
+          (list (record-field-info (relative-position 0 0)
+                                   string-cell-format)
+                (record-field-info (relative-position 1 0)
+                                   string-cell-format)
+                (record-field-info (relative-position 0 1)
+                                   string-cell-format)
+                (record-field-info (relative-position 1 1)
+                                   integer-cell-format)
+                (record-field-info (relative-position 0 2)
+                                   integer-cell-format))))
 
 (struct profitability
-  (segment
-   country
-   units-sold
-   manuf-price
+  (segment ; segment-format
+   country ; ...
+   units-sold ; integer-format
+   manuf-price ; money-format
    sale-price
    sales
    profit)
