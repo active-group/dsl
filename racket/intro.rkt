@@ -97,6 +97,8 @@
 ; - Klapperschlange
 ; Fallunterscheidung, hier: gemischte Daten
 
-(define (run-over-animal a)
-  ; Verzweigung
-  'todo)
+#;(define (run-over-animal a)
+  ; Verzweigung, 1 Zweig pro Fall
+  (cond
+    (... ...) ; (<Bedingung> <Ergebnis>)
+    (... ...)))
