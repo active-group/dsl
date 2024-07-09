@@ -17,34 +17,34 @@
 ; - Folge aus beliebig vielen Datensätzen
 
 ; Ein Zellenformat ist eins der folgenden:
-(struct enum-cell
+(struct enum-cell-format
   (row
    column
    values)) ; Liste möglicher konstante Werte
 
 (define segment-format
-  (enum-cell 0 0 '("Government" "Midmarket")))
+  (enum-cell-format 0 0 '("Government" "Midmarket")))
 
 #;(define segment-header-format
   (enum-cell 0 0 '("Segment")))
 
 (define (header-format header-text)
-  (enum-cell 0 0 (cons header-text '())))
+  (enum-cell-format 0 0 (cons header-text '())))
 
 (define segment-header-format
   (header-format "Segment"))
 
-(struct integer-cell
+(struct integer-cell-format
   (row
    column))
 
-(struct string-cell
+(struct string-cell-format
   (row
    column))
 
+; Datensatz 
 
 
-; Header-Zelle
 
 (struct profitability
   (segment
