@@ -173,7 +173,7 @@
 ; (keine 2-Klassen-Gesellschaft)
 
 ; Strauß aus nur den Rosen
-(define (only-roses-bouqet bouquet)
+(define (only-roses-bouquet bouquet)
   (match bouquet
     ((single-flower color form sort)
      (match sort
@@ -181,7 +181,7 @@
        (_ the-empty-bouquet)))
     ((two bouquet1 bouquet2)
      (two
-      (only-roses-bouqet bouquet1) ; 1. Selbstbezug
-      (only-roses-bouqet bouquet2) ; 2. Selbstbezug
+      (only-roses-bouquet bouquet1) ; 1. Selbstbezug
+      (only-roses-bouquet bouquet2) ; 2. Selbstbezug
      ))))
    
