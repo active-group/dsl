@@ -7,7 +7,9 @@
 
 ; Header/Leerzeile (oder nicht)
 
-; Liste
+; Liste, da: Richtung
+
+; fehlt: räumliche Anordnung
 
 (struct profitability
   (segment
