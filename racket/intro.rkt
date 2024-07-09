@@ -23,11 +23,16 @@
  (beside circle1 square1))
 
 ; Abstraktion
-(define tile
+#;(define tile
   (lambda (image1 image2)
     (above
      (beside image1 image2)
      (beside image2 image1))))
+
+(define (tile image1 image2) ; syntaktischer Zucker
+  (above
+   (beside image1 image2)
+   (beside image2 image1)))
 
 ; Tiere auf dem texanischen Highway ...
 
@@ -45,6 +50,8 @@
   (liveness ; Feld, Selektor/Getter: dillo-liveness
    weight)
   #:transparent)
+; die Repräsentation
+; des Zustands des Gürteltiers zu einem bestimmten Zeitpunkt
 
 ; lebendiges Gürteltier, 10kg
 (define dillo1 (dillo 'alive 10))
@@ -52,7 +59,9 @@
 (define dillo2 (dillo 'dead 8))
 
 ; Gürteltier überfahren
-; (define run-over-dillo
+(define (run-over-dillo d)
+  (dillo 'dead
+   (dillo-weight d)))
 
 ; Klapperschlange hat folgende Eigenschaften:
 ; - Länge -UND-
