@@ -150,7 +150,7 @@
 (struct two
   (flower1
    flower2)
-  #:transparet)
+  #:transparent)
 
 ; Zwei Blumen
 (define bouquet1 (two rose1 tulip1))
