@@ -205,3 +205,12 @@
 ; 4elementige Liste 5 8 3 4
 (define list4 (cons 5 list3))
 
+; Elemente einer Liste aufsummieren
+(define (list-sum list)
+  (match list
+    ('() 0)
+    ((cons first rest)
+     (+ first
+        (list-sum rest)))))
+
+  
