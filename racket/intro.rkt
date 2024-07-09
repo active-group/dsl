@@ -97,6 +97,8 @@
 ; - Klapperschlange
 ; Fallunterscheidung, hier: gemischte Daten
 
+; Prädikat: dillo? rattlesnake?
+
 #;(define (run-over-animal a)
   ; Verzweigung, 1 Zweig pro Fall
   (cond
