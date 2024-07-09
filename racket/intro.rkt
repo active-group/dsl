@@ -181,7 +181,7 @@
        (_ the-empty-bouquet)))
     ((two bouquet1 bouquet2)
      (two
-      (only-roses-bouqet bouqet1) ; 1. Selbstbezug
-      (only-roses-bouqet bouqet2) ; 2. Selbstbezug
+      (only-roses-bouqet bouquet1) ; 1. Selbstbezug
+      (only-roses-bouqet bouquet2) ; 2. Selbstbezug
      ))))
    
