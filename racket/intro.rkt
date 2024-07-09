@@ -123,4 +123,11 @@
 ; - Gürteltier wird schwerer, wenn es noch lebt
 ; - Klapperschlange wird dicker
 (define (feed-animal a)
-  
+  (match a
+    ((dillo liveness weight)
+     (match liveness
+       ('alive (dillo 'alive (+ weight 1)))
+       ('dead a)))
+    ((rattlesnake length thickness)
+     (rattlesnake length (+ thickness 1)))))
+    
