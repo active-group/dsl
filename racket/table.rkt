@@ -20,17 +20,12 @@
 (struct enum-cell-format
   (values)) ; Liste möglicher konstante Werte
 
-(define segment-format
-  (enum-cell-format '("Government" "Midmarket")))
 
 #;(define segment-header-format
   (enum-cell '("Segment")))
 
 (define (header-format header-text)
   (enum-cell-format (cons header-text '())))
-
-(define segment-header-format
-  (header-format "Segment"))
 
 (struct integer-cell-format
   ())
@@ -59,6 +54,15 @@
    record-field-infos) ; Liste von record-field-info
   #:transparent)
 
+
+(struct sequence-format
+  (relative-position ; von einem Eintrag zum nächsten
+   record-format)
+  #:transparent)
+
+
+; DSL-Programm, Entwurf #0:
+
 (struct person
   (first-name
    last-name
@@ -80,23 +84,45 @@
                 (record-field-info (relative-position 0 2)
                                    (integer-cell-format)))))
 
-(struct sequence-format
-  (relative-position ; von einem Eintrag zum nächsten
-   record-format)
-  #:transparent)
-
 (define person-sequence-format
   (sequence-format
    (relative-position 2 0)
    person-format))
 
+; Nächstes Programm:
 
 (struct profitability
   (segment ; segment-format
    country ; ...
    units-sold ; integer-format
-   manuf-price ; money-format
+   manuf-price ; integer-format
    sale-price
    sales
    profit)
   #:transparent)
+
+(define segment-header-format
+  (header-format "Segment"))
+
+(define segment-format
+  (enum-cell-format '("Government" "Midmarket")))
+
+(define country-format
+  (enum-cell-format '("Germany" "Canada" "France" "Mexico")))
+
+(define profitability-format
+  (record profatibility
+          (list (record-field-info (relative-position 0 0)
+                                   segment-format)
+                (record-field-info (relative-position 1 0)
+                                   country-format)
+                (record-field-info (relative-position 2 0)
+                                   integer-format)
+                (record-field-info (relative-position 3 0)
+                                   integer-format)
+                (record-field-info (relative-position 4 0)
+                                   integer-format)
+                (record-field-info (relative-position 5 0)
+                                   integer-format)
+                (record-field-info (relative-position 6 0)
+                                   integer-format))))
