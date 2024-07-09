@@ -144,3 +144,17 @@
 
 (define rose1 (single-flower 'red 'round 'rose))
 (define tulip1 (single-flower 'yellow 'tapered 'tulip))
+
+; Wir wollen rose1 und tulip1 in einem Strauß kombinieren
+(struct two
+  (flower1
+   flower2))
+
+; Zwei Blumen
+(define bouquet1 (two rose1 tulip1))
+
+(define violet1 (single-flower 'violet 'square 'violet))
+
+; Strauß mit drei Blumen
+(define bouquet2 (two bouquet1 violet1))
+
