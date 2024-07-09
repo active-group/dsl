@@ -82,7 +82,13 @@
 
 (struct sequence-format
   (relative-position ; von einem Eintrag zum nächsten
-   record-format))
+   record-format)
+  #:transparent)
+
+(define person-sequence-format
+  (sequence-format
+   (relative-position 2 0)
+   person-format))
 
 (struct profitability
   (segment ; segment-format
