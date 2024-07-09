@@ -48,4 +48,6 @@
 
 ; lebendiges Gürteltier, 10kg
 (define dillo1 (dillo 'alive 10))
+; totes Gürteltier, 8kg
+(define dillo2 (dillo 'dead 8))
 
