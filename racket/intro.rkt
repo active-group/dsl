@@ -83,3 +83,7 @@
 
 (define snake1 (rattlesnake 150 7))
 (define snake2 (rattlesnake 70 3))
+
+(define (run-over-rattlesnake s)
+  (rattlesnake (rattlesnake-length s)
+               0))
