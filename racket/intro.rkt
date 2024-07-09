@@ -41,5 +41,10 @@
 ; allgemein: Fallunterscheidung, hier: Aufzählung
 ; benutzen Symbole 'alive, 'dead
 
-(struct dillo
-  (liveness weight))
+(struct dillo ; Konstruktor
+  (liveness weight)
+  #:transparent)
+
+; lebendiges Gürteltier, 10kg
+(define dillo1 (dillo 'alive 10))
+
