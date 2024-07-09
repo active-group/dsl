@@ -32,7 +32,7 @@
 ; Tiere auf dem texanischen Highway ...
 
 ; Gürteltier hat folgende Eigenschaften:
-; - (lebendig -ODER- tot)            -UND-
+; - Lebendigkeit            -UND-
 ; - Gewicht
 ; zusammengesetzte Daten
 
@@ -42,7 +42,8 @@
 ; benutzen Symbole 'alive, 'dead
 
 (struct dillo ; Konstruktor
-  (liveness weight)
+  (liveness
+   weight)
   #:transparent)
 
 ; lebendiges Gürteltier, 10kg
