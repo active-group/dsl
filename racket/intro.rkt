@@ -21,3 +21,9 @@
 (above
  (beside square1 circle1)
  (beside circle1 square1))
+
+; Abstraktion
+(lambda (image1 image2)
+  (above
+   (beside image1 image2)
+   (beside image2 image1)))
