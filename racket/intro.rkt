@@ -87,3 +87,8 @@
 (define (run-over-rattlesnake s)
   (rattlesnake (rattlesnake-length s)
                0))
+
+(module+ test
+  (check-equal? (run-over-rattlesnake snake1)
+                (rattlesnake 150 0)))
+
