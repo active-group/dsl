@@ -13,8 +13,8 @@
 
 ; Eine Tabellenformat ist eins der folgenden:
 ; - eine einzelne Zelle -ODER-
-; - ein Datensatz bestehend aus mehreren Zellen -ODER-
-; - Folge aus beliebig vielen Datensätzen
+; - ein Datensatz bestehend aus mehreren Tabellenformaten -ODER-
+; - Folge aus beliebig vielen Tabellenformaten
 
 ; Ein Zellenformat ist eins der folgenden:
 (struct enum-cell-format
@@ -40,7 +40,7 @@
 
 (struct record-field-info
   (relative-position ; zur linken oberen Ecke des Datensatzes
-   cell-format)
+   format)
   #:transparent)
 
 ; Eine relative Position:
@@ -57,9 +57,8 @@
 
 (struct sequence-format
   (relative-position ; von einem Eintrag zum nächsten
-   record-format)
+   format)
   #:transparent)
-
 
 ; DSL-Programm, Entwurf #0:
 
