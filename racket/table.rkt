@@ -70,6 +70,14 @@
   (lambda (x y)
     (list-ref (list-ref llist y) x)))
 
+(define (table-does-not-fail table)
+  (lambda (x y)
+    (with-handlers ; wie try
+        ((exn:fail?
+          (lambda (exn)
+            (coordinates-out-of-bounds table x y))))
+      (table x y))))
+
 #;(define (llist->table llist)
   (lambda (x y)
     (cond
