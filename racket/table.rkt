@@ -138,6 +138,15 @@
                                    (header-format "Segment"))
                 (record-field-info (relative-position 1 0)
                                    (header-format "Country"))
-                'todo)))
+                (record-field-info (relative-position 2 0)
+                                   (header-format "Units Sold"))
+                (record-field-info (relative-position 3 0)
+                                   (header-format "Manuf. Price"))
+                (record-field-info (relative-position 4 0)
+                                   (header-format "Sale Price"))
+                (record-field-info (relative-position 5 0)
+                                   (header-format "Sales"))
+                (record-field-info (relative-position 6 0)
+                                   (header-format "Profit")))))
 
 
