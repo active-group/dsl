@@ -191,7 +191,7 @@
 (define country-format
   (enum-cell-format '("Germany" "Canada" "France" "Mexico")))
 
-(define profitability-format
+#;(define profitability-format
   (record profitability
           (list (record-field-info (relative-position 0 0)
                                    segment-format)
@@ -207,6 +207,46 @@
                                    (integer-cell-format))
                 (record-field-info (relative-position 6 0)
                                    (integer-cell-format)))))
+
+
+
+(define (record* constructor direction . field-formats)
+  (record constructor
+          (generate-record-field-infos direction field-formats
+                                       (relative-position 0 0))))
+
+(define (generate-record-field-infos direction formats relative-position)
+  (match formats
+    ('() '())
+    ((cons format rest-formats)
+     (cons
+      (record-field-info relative-position format)
+      (generate-record-field-infos
+       direction rest-formats
+       (move-relative-position relative-position direction))))))
+
+(define (move-relative-position relative-position direction)
+  (match direction
+    ('right (relative-position (+ (relative-position-right relative-position)
+                                  1)
+                               (relative-position-down relative-position)))
+    ('down (relative-position (relative-position-right relative-position)
+                              (+ (relative-position-down relative-position)
+                                 1)))))
+
+(define profitability-format
+  (record* profitability
+           'right
+           segment-format
+           country-format
+           (integer-cell-format)
+           (integer-cell-format)
+           (integer-cell-format)
+           (integer-cell-format)
+           (integer-cell-format)))
+
+
+  
 
 (define profitabilities-format
   (sequence-format
