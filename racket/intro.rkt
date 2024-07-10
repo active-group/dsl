@@ -219,3 +219,6 @@
 
 #;(define (sum . list)
   (list-sum list))
+
+(define (list-sum* list)
+  (apply + list))
