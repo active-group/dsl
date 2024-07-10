@@ -312,7 +312,12 @@
 
                        (record-field-info
                         (relative-position 0 1)
-                        ...))))
+                        (sequence-format
+                         (relative-position 0 1)
+                         (record*
+                          struct-name
+                          'right
+                          column-format ...))))))
        
      ))))
 
