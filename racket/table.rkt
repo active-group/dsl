@@ -290,6 +290,16 @@
 #;(define (default-data-set format-name struct-name . columns)
   'todo)
 
+(define-syntax java-struct
+  (syntax-rules ()
+    ((java-struct struct-name (field-name ...))
+     (begin
+       (display "record ") (display struct-name) (display "(")
+       (for-each (lambda (f)
+                   (display f) (display " "))
+                 '(field-name ...))
+       (display ")")))))
+
 ; Makro
 (define-syntax default-data-set
   (syntax-rules (column) ; wenn im Pattern column, muß dort genau das Wort stehen
