@@ -213,4 +213,6 @@
      (+ first
         (list-sum rest)))))
 
-  
+
+(define (sum . list)
+  (list-sum list))
