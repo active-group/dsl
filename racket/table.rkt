@@ -172,7 +172,7 @@
 
 ; Nächstes Programm:
 
-(struct profitability
+#;(struct profitability
   (segment ; segment-format
    country ; ...
    units-sold ; integer-format
@@ -235,7 +235,7 @@
                                  1)))))
 
 ; kann man eigentlich nur zusammen mit dem struct verstehen
-(define profitability-format
+#;(define profitability-format
   (record* profitability
            'right
            segment-format
@@ -246,12 +246,12 @@
            (integer-cell-format)
            (integer-cell-format)))
 
-(define profitabilities-format
+#;(define profitabilities-format
   (sequence-format
    (relative-position 0 1)
    profitability-format))
 
-(define profitability-header-format
+#;(define profitability-header-format
   (record (lambda (segment country units-sold manuf-price sale-price sales profit)
             'validated)
           (list (record-field-info (relative-position 0 0)
@@ -269,7 +269,7 @@
                 (record-field-info (relative-position 6 0)
                                    (header-format "Profit")))))
 
-(define profitabilities-sheet-format
+#;(define profitabilities-sheet-format
   (record (lambda (header profitabilities)
             profitabilities)
           (list (record-field-info (relative-position 0 0)
@@ -286,3 +286,42 @@
      ("Midmarket"  "France" "2178" "3.00"  "15.00" "32670.00" "10890.00")
      ("Midmarket"  "Germany" "888"  "3.00" "15.00" "13320.00" "4440.00")
      ("Midmarket" "Mexico" "2470" "3.00" "15.00" "37050.00" "12350.00"))))
+
+#;(define (default-data-set format-name struct-name . columns)
+  'todo)
+
+; Makro
+(define-syntax default-data-set
+  (syntax-rules (column) ; wenn im Pattern column, muß dort genau das Wort stehen
+    ((default-data-set format-name struct-name
+       (column column-format field-name heading-name)
+       ...)
+     (begin
+       (struct struct-name
+         (field-name ...)
+         #:transparent)
+       (define format-name
+         (record (lambda (heading record-list)
+                   record-list)
+                 (list (record-field-info
+                        (relative-position 0 0)
+                        (record*
+                         (lambda headers 'ignored-header)
+                         'right
+                         (header-format heading-name) ...))
+
+                       (record-field-info
+                        (relative-position 0 1)
+                        ...))))
+       
+     ))))
+
+(default-data-set profitabilities-sheet-format
+  profitability
+  (column segment-format segment "Segment")
+  (column country-format country "Country")
+  (column (integer-cell-format) units-sold "Sold Units")
+  (column (integer-cell-format) manufacturing-price "Manuf. Price")
+  (column (integer-cell-format) sale-price "Sale Price")
+  (column (integer-cell-format) sales "Sales")
+  (column (integer-cell-format) profit "Profit"))
