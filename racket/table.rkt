@@ -133,7 +133,8 @@
    profitability-format))
 
 (define profitability-header-format
-  (record list
+  (record (lambda (segment country units-sold manuf-price sale-price sales profit)
+            'validated)
           (list (record-field-info (relative-position 0 0)
                                    (header-format "Segment"))
                 (record-field-info (relative-position 1 0)
