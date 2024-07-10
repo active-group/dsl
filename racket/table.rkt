@@ -325,7 +325,7 @@
   profitability
   (column segment-format segment "Segment")
   (column country-format country "Country")
-  (column (integer-cell-format) units-sold "Sold Units")
+  (column (integer-cell-format) units-sold "Units Sold")
   (column (integer-cell-format) manufacturing-price "Manuf. Price")
   (column (integer-cell-format) sale-price "Sale Price")
   (column (integer-cell-format) sales "Sales")
