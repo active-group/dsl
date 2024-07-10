@@ -225,13 +225,13 @@
        direction rest-formats
        (move-relative-position relative-position direction))))))
 
-(define (move-relative-position relative-position direction)
+(define (move-relative-position relpos direction)
   (match direction
-    ('right (relative-position (+ (relative-position-right relative-position)
+    ('right (relative-position (+ (relative-position-right relpos)
                                   1)
-                               (relative-position-down relative-position)))
-    ('down (relative-position (relative-position-right relative-position)
-                              (+ (relative-position-down relative-position)
+                               (relative-position-down relpos)))
+    ('down (relative-position (relative-position-right relpos)
+                              (+ (relative-position-down relpos)
                                  1)))))
 
 (define profitability-format
