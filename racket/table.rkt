@@ -102,7 +102,45 @@
 
 ; Rückgabewert: Daten der Tabelle
 (define (parse-table format table)
-  ...)
+  (match format
+    ((enum-cell-format values)
+     (define content (table 0 0))
+     (define rest (member content values))
+     (cond
+       (rest content)
+       (else (error "not in enum" content values))))
+    ((string-cell-format) (table 0 0))
+    ((integer-cell-format)
+     (define content (table 0 0))
+     (define parsed (string->number content))
+     (cond
+       ((integer? parsed) parsed)
+       (else (error "not an integer" content))))
+    ((record constructor record-field-infos)
+     (apply constructor
+            (map (lambda (record-field-info)
+                   (parse-record-field record-field-info table))
+                 record-field-infos)))
+    ((sequence-format relative-position format)
+     (parse-sequence-format relative-position format table))))
+
+(define (parse-sequence-format relative-position format table)
+  (with-handlers
+      ((exn:fail?
+        (lambda (exn)
+          '())))
+    (cons (parse-table format table)
+          (parse-sequence-format
+           relative-position format
+           (table-at table
+                     (relative-position-right relative-position)
+                     (relative-position-down relative-position))))))
+
+(define (parse-record-field rfi table)
+    (match rfi
+      ((record-field-info (relative-position right down) format)
+       (parse-table format (table-at table right down)))))
+    
 
 ; DSL-Programm, Entwurf #0:
 
