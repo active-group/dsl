@@ -234,6 +234,7 @@
                               (+ (relative-position-down relpos)
                                  1)))))
 
+; kann man eigentlich nur zusammen mit dem struct verstehen
 (define profitability-format
   (record* profitability
            'right
@@ -244,9 +245,6 @@
            (integer-cell-format)
            (integer-cell-format)
            (integer-cell-format)))
-
-
-  
 
 (define profitabilities-format
   (sequence-format
