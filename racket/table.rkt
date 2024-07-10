@@ -280,7 +280,7 @@
 
 (define profitabilities-table
   (llist->table
-   '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
+   '(("Segment" "Country" "Sold Units" "Manuf. Price" "Sale Price" "Sales" "Profit")
      ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
      ("Government" "Germany" "1321" "3.00" "20.00" "26420.00" "13210.00")
      ("Midmarket"  "France" "2178" "3.00"  "15.00" "32670.00" "10890.00")
@@ -294,7 +294,7 @@
 (define-syntax default-data-set
   (syntax-rules (column) ; wenn im Pattern column, muß dort genau das Wort stehen
     ((default-data-set format-name struct-name
-       (column column-format field-name heading-name)
+       (column column-format field-name heading-name0 heading-name1 ...)
        ...)
      (begin
        (struct struct-name
@@ -308,7 +308,8 @@
                         (record*
                          (lambda headers 'ignored-header)
                          'right
-                         (header-format heading-name) ...))
+                         (enum-cell-format '(heading-name0 heading-name1 ...))
+                         #;(header-format heading-name0) ...))
 
                        (record-field-info
                         (relative-position 0 1)
@@ -325,7 +326,7 @@
   profitability
   (column segment-format segment "Segment")
   (column country-format country "Country")
-  (column (integer-cell-format) units-sold "Units Sold")
+  (column (integer-cell-format) units-sold "Units Sold" "Sold Units")
   (column (integer-cell-format) manufacturing-price "Manuf. Price")
   (column (integer-cell-format) sale-price "Sale Price")
   (column (integer-cell-format) sales "Sales")
