@@ -93,17 +93,16 @@
       (else
        (coordinates-of-bounds llist x y)))))
 
-(define profitabilities-table
-  (llist->table
-   '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
-     ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
-     ("Government" "Germany" "1321" "3.00" "20.00" "26420.00" "13210.00")
-     ("Midmarket"  "France" "2178" "3.00"  "15.00" "32670.00" "10890.00")
-     ("Midmarket"  "Germany" "888"  "3.00" "15.00" "13320.00" "4440.00")
-     ("Midmarket" "Mexico" "2470" "3.00" "15.00" "37050.00" "12350.00"))))
+; Tabelle, bei der das, was bei table bei (x, y) liegt,
+; bei (0, 0) liegt
+(define (table-at table x0 y0)
+  (lambda (x y)
+    (table (+ x x0)
+           (+ y y0))))
 
-
-
+; Rückgabewert: Daten der Tabelle
+(define (parse-table format table)
+  ...)
 
 ; DSL-Programm, Entwurf #0:
 
@@ -203,4 +202,11 @@
                                    profitabilities-format))))
 
 
-
+(define profitabilities-table
+  (llist->table
+   '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
+     ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
+     ("Government" "Germany" "1321" "3.00" "20.00" "26420.00" "13210.00")
+     ("Midmarket"  "France" "2178" "3.00"  "15.00" "32670.00" "10890.00")
+     ("Midmarket"  "Germany" "888"  "3.00" "15.00" "13320.00" "4440.00")
+     ("Midmarket" "Mexico" "2470" "3.00" "15.00" "37050.00" "12350.00"))))
