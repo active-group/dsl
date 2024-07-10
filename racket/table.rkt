@@ -60,6 +60,13 @@
    format)
   #:transparent)
 
+; Tabelle: Funktion (x-coordinate y-coordinate -> string)
+
+(define (llist->table llist)
+  (lambda (x y)
+    (list-ref (list-ref llist y) x)))
+
+
 ; DSL-Programm, Entwurf #0:
 
 (struct person
@@ -156,5 +163,6 @@
                                    profitability-header-format)
                 (record-field-info (relative-position 0 1)
                                    profitabilities-format))))
+
 
 
