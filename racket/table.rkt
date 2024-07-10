@@ -150,4 +150,12 @@
                 (record-field-info (relative-position 6 0)
                                    (header-format "Profit")))))
 
+(define profitabilities-sheet-format
+  (record (lambda (header profitabilities)
+            profitabilities)
+          (list (record-field-info (relative-position 0 0)
+                                   profitability-header-format)
+                (record-field-info (relative-position 0 1)
+                                   profitabilities-format))))
+
 
