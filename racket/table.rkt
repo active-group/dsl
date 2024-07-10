@@ -62,11 +62,26 @@
 
 ; Tabelle: Funktion (x-coordinate y-coordinate -> string)
 
+(struct coordinates-out-of-bounds
+  (table x y)
+  #:transparent)
+
 (define (llist->table llist)
   (lambda (x y)
-    (list-ref (list-ref llist y) x)))
+    (cond
+      ((and (<= 0 y)
+            (< y (length lllist)))
+       (define row (list-ref llist y))
+       (cond
+         ((and (<= 0 x)
+               (< x (length row)))
+          (list-ref row x))
+         (else
+          (coordinates-of-bounds llist x y))))
+      (else
+       (coordinates-of-bounds llist x y)))))
 
-(define performance-table
+(define profitabilities-table
   (llist->table
    '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
      ("Government" "Canada" "1618"   "3.00"  "20.00" "32370.00" "16185.00")
