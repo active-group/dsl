@@ -68,6 +68,10 @@
 
 (define (llist->table llist)
   (lambda (x y)
+    (list-ref (list-ref llist y) x)))
+
+#;(define (llist->table llist)
+  (lambda (x y)
     (cond
       ((and (<= 0 y)
             (< y (length lllist)))
