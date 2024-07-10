@@ -213,6 +213,9 @@
      (+ first
         (list-sum rest)))))
 
+(define sum
+  (lambda list
+    (list-sum list)))
 
-(define (sum . list)
+#;(define (sum . list)
   (list-sum list))
