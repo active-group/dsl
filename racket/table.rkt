@@ -322,11 +322,13 @@
        
      ))))
 
+(define integer (integer-cell-format))
+
 (default-data-set profitabilities-sheet-format
   profitability
   (column segment-format segment "Segment")
   (column country-format country "Country")
-  (column (integer-cell-format) units-sold "Units Sold" "Sold Units")
+  (column integer units-sold "Units Sold" "Sold Units")
   (column (integer-cell-format) manufacturing-price "Manuf. Price")
   (column (integer-cell-format) sale-price "Sale Price")
   (column (integer-cell-format) sales "Sales")
