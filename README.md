@@ -24,3 +24,29 @@ https://www.eclipse.org/downloads/packages/
 Dort: "Eclipse IDE for Java and DSL Developers"
 
 Bei Fragen oder Problemen gern Mike Sperber kontaktieren!
+
+# Material aus der Schulung
+
+Context Mapping
+eigentlich: Subdomänen-Mapping
+Domain Storytelling https://domainstorytelling.org/
+
+Abstraktionen für Pipelines aus Operationen (Johannes):
+http://conal.net/papers/compiling-to-categories/compiling-to-categories.pdf
+https://www.haskell.org/arrows/
+
+Datalog:
+https://github.com/racket/datalog
+
+Buch "Algebra-Driven Design"
+https://leanpub.com/algebra-driven-design
+
+Langium (Xtext-Nachfolger):
+https://langium.org/
+
+Scoping in R:
+https://janvitek.org/pubs/dls21.pdf
+
+Blog-Post zu Monaden/Kontrollabstraktion:
+https://funktionale-programmierung.de/2014/04/10/probability-monad.html
+
