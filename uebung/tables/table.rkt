@@ -344,4 +344,5 @@
   (column (integer-cell-format) sales "Sales")
   (column (integer-cell-format) profit "Profit"))
 
-(provide default-data-set)
+(provide default-data-set
+         segment-format country-format integer)

@@ -1,4 +1,4 @@
-
+#lang tables
 default-data-set:
   format: profitabilities-sheet
   record: profitability

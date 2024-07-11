@@ -6,6 +6,9 @@
          "lex.rkt"
          "ast.rkt")
 
+(provide current-source-name
+         parse-program)
+
 (define current-source-name (make-parameter #f))
 
 (define (make-srcloc start-pos end-pos)
@@ -49,3 +52,6 @@
                  [file-path (object-name input-port)])
     (port-count-lines! input-port)
     (parser (lambda () (dlexer input-port)))))
+
+(define (parse-program input-port)
+  (parse program-parser input-port))
