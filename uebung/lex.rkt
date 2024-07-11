@@ -3,7 +3,8 @@
          (prefix-in : parser-tools/lex-sre))
 
 (define-tokens dtokens (KEY IDENTIFIER STRING))
-(define-empty-tokens dpunct (LPAREN COMMA RPAREN EOF))
+(define-empty-tokens dpunct (LPAREN COMMA RPAREN DATA
+                                    FORMAT RECORD COLUMN EOF))
 (define-lex-abbrev id-chars (char-complement (char-set "(,)=:.~?\"% \n")))
 (define-lex-abbrev identifier-re (:: id-chars (:* (:or upper-case id-chars))))
 (define-lex-abbrev string-chars (char-complement (char-set "\"")))
@@ -15,10 +16,12 @@
   (lexer-src-pos
    [whitespace
     (return-without-pos (dlexer input-port))]
+   ["default-data-set:" (token-DATA)]
+   ["format:" (token-FORMAT)]
+   ["record:" (token-RECORD)]
+   ["column:" (token-COLUMN)]
    [identifier-re
     (token-IDENTIFIER lexeme)]
-   [key-re
-    (token-KEY (substring lexeme 0 (- (string-length lexeme) 1)))]
    [string-re
     (token-STRING (substring lexeme 1 (- (string-length lexeme) 1)))]
    [#\( (token-LPAREN)]
