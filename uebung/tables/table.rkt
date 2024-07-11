@@ -343,3 +343,5 @@
   (column (integer-cell-format) sale-price "Sale Price")
   (column (integer-cell-format) sales "Sales")
   (column (integer-cell-format) profit "Profit"))
+
+(provide default-data-set)
