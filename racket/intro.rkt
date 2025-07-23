@@ -81,9 +81,33 @@ data Animal =
 
 (define run-over-animal
   (lambda (animal)
-    (match animal
-      ((dillo liveness weight)
+    (match animal ; 1 Zweig pro Fall
+      ((dillo _ weight)
        (dillo 'dead weight))
-      ((snake thickness length)
+      ((snake _ length)
        (snake 0 length)))))
-  
+
+(module+ test
+  (require rackunit)
+  (check-equal? (run-over-animal dillo1)
+                (dillo 'dead 10)))
+
+; Listen:
+; leere Liste '()
+; Cons-Liste: (cons <first> <rest>)
+
+(define list1 (cons 5 '()))
+(define list2 (cons 2 (cons 5 '())))
+(define list3 (cons 12 list2))
+(define list4 (list 3 5 (+ 1 2) 2))
+
+(define (list-sum l)
+  (match l
+    ('() 0)
+    ((cons first rest)
+     (+ first
+        (list-sum rest)))))
+
+(module+ test
+  (check-equal? (list-sum list4)
+                13))
