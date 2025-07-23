@@ -112,8 +112,16 @@ t
                                                                          (if (equal? direction 'vertical) (+ 1 y) y)
                                                                          )))
          ))
-     (apply constructor (recurse lot x y))
-   )
+     (apply constructor (recurse lot x y)))
+    ((Tabledef direction content)
+     (define (recurse x y)
+       (with-handlers
+           ((exn:fail? (lambda (exn) '())))
+         (cons (parse-tcontents content tcontents x y)
+               (recurse (if (equal? direction 'horizontal) (+ 1 x) x)
+                        (if (equal? direction 'vertical) (+ 1 y) y)))))
+     (recurse x y))
+       
     ))
 
 
@@ -122,6 +130,6 @@ t
 
 (parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
     
-;(parse-tcontents t units-tcontents 0 0)
+(parse-tcontents t units-tcontents 0 0)
   
 ; 
