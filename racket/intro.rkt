@@ -17,13 +17,18 @@
 (define p1
   (beside overlay1 square1))
 
-(above
+#;(above
  (beside star1 circle1)
  (beside circle1 star1))
 
-(above
+#;(above
  (beside square1 star1)
  (beside star1 square1))
+
+(define (tile image1 image2)
+  (above
+   (beside image1 image2)
+   (beside image2 image1))
 
 ; Tiere auf dem texanischen Highway
 
@@ -45,3 +50,11 @@
 (define (run-over-dillo dillo) ; Funktion mit dillo als Parameter
   (dillo 'dead (dillo-weight dillo)))
   
+; Gürteltier füttern
+(define (feed-dillo dillo amount)
+  (dillo
+   (dillo-liveness dillo)
+   (match (dillo-liveness dillo)
+     ; ein Zweig pro Fall (<Pattern> <Ergebnis>)
+     ('alive (+ (dillo-weight dillo) amount))
+     ('dead (dillo-weight dillo)))))
