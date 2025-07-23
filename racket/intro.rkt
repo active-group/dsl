@@ -28,7 +28,7 @@
 (define (tile image1 image2)
   (above
    (beside image1 image2)
-   (beside image2 image1))
+   (beside image2 image1)))
 
 ; Tiere auf dem texanischen Highway
 
@@ -51,10 +51,14 @@
   (dillo 'dead (dillo-weight dillo)))
   
 ; Gürteltier füttern
-(define (feed-dillo dillo amount)
+(define (feed-dillo* dillo amount)
   (dillo
    (dillo-liveness dillo)
    (match (dillo-liveness dillo)
      ; ein Zweig pro Fall (<Pattern> <Ergebnis>)
      ('alive (+ (dillo-weight dillo) amount))
      ('dead (dillo-weight dillo)))))
+
+  
+
+  
