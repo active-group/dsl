@@ -63,13 +63,31 @@ Table:
 
 (define rowdefinition (Rowdefinition 'horizontal (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency)) CellOutput))
 
-(define t
+#;(define t
   (Rowdefinition 'vertical
                  (list
                   headerrow
                   (Tabledef 'vertical rowdefinition))
                  (lambda (header list) list)))
 
+; pro "Spalte": Überschrift + Typ
+(struct header+type
+  (header type)
+  #:transparent)
+
+; außerdem Konstruktor für den "Zeilen"-Datensatz
+(define (table-with-header-row header+types)
+  (Rowdefinition 'vertical
+                 (list
+                  (Rowdefinition 'horizontal
+                                 (map Header (map header+type-header header+types)))
+                  (Tabledef 'vertical rowdefinition))
+                 (lambda (header list) list)))
+
+(define t (table-width-header-row
+           (list (header+type "Segment" 'string)
+                 (header+type "Country" 'string)
+                 ...)))
 t
 
 ; Tabelleninhalt: Funktion: x y -> Inhalt der Tabelle
