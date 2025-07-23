@@ -36,6 +36,8 @@ Table:
 
 (define header1 (Header "Segment"))
 
+(struct CellOutput (segment country unitsSold manufacturingPrice salePrice sales profit) #:transparent)
+
 
 (struct Tabledef
   (direction ; direction: 'horizontal | 'vertical
@@ -44,7 +46,7 @@ Table:
   #:transparent)
 
 (struct Rowdefinition
-  (direction list) ; direction: 'horizontal | 'vertical list: list of tables
+  (direction list constructor) ; direction: 'horizontal | 'vertical list: list of tables
   #:transparent )
 
 #| Segment,Country,Units Sold,Manuf. Price,Sale Price,Sales,Profit
@@ -57,15 +59,16 @@ Table:
                                               (Header "Sale Price")
                                               (Header "Sales")
                                               (Header "Profit")
-                                              )))
+                                              ) CellOutput))
 
-(define rowdefinition (Rowdefinition 'horizontal (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency))))
+(define rowdefinition (Rowdefinition 'horizontal (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency)) CellOutput))
 
 (define t
   (Rowdefinition 'vertical
                  (list
                   headerrow
-                  (Tabledef 'vertical rowdefinition))))
+                  (Tabledef 'vertical rowdefinition))
+                 (lambda (header list) list)))
 
 t
 
@@ -79,7 +82,7 @@ t
       "Tobias"))
 
 (define units-list
-  '(("Segment" "Country" "Units" "Sold,Manuf." "Price" "Sale" "Price" "Sales" "Profit")
+  '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price" "Sales" "Profit")
     ("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00")
     ("Government" "Germany" 1321 "$3,00" "$20,00" "$26.420,00" "$13.210,00")
     ("Midmarket" "France" 2178 "$3,00" "$15,00" "$32.670,00" "$10.890,00")
@@ -94,13 +97,13 @@ t
 
 (define (parse-tcontents table tcontents x y)
   (match table
-    ((Header title) (if (equal? title (tcontents x y)) #t (error "Header mismatch")))
+    ((Header title) (if (equal? title (tcontents x y)) title (error "Header mismatch")))
     ((Cell type) (match type
-                   ('string (if (string? (tcontents x y)) #t (error "Expected string")))
-                   ('int (if (integer? (tcontents x y)) #t (error "Expected integer")))
-                   ('currency (if (currency? (tcontents x y)) #t (error "Expected currency")))
+                   ('string (if (string? (tcontents x y)) (tcontents x y) (error "Expected string")))
+                   ('int (if (integer? (tcontents x y)) (tcontents x y) (error "Expected integer")))
+                   ('currency (if (currency? (tcontents x y)) (tcontents x y) (error "Expected currency")))
     ))
-    ((Rowdefinition direction lot)
+    ((Rowdefinition direction lot constructor)
      (define (recurse lot x y)
        (match lot
          ('() (list))
@@ -109,12 +112,16 @@ t
                                                                          (if (equal? direction 'vertical) (+ 1 y) y)
                                                                          )))
          ))
-     (recurse lot x y)
-   )))
+     (apply constructor (recurse lot x y))
+   )
+    ))
+
 
 
 (define currency? string?)
+
+(parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
     
-; (parse-tcontents t units-tcontents 0 0)
+;(parse-tcontents t units-tcontents 0 0)
   
 ; 
