@@ -31,6 +31,9 @@
    (beside image2 image1)))
 
 ; Tiere auf dem texanischen Highway
+; - Gürteltier -ODER-
+; - Klapperschlange
+; Fallunterscheidung / Summe
 
 ; Gürteltier hat folgende Eigenschaften:
 ; - lebendig oder tot    -UND-
@@ -58,9 +61,28 @@
      ; ein Zweig pro Fall (<Pattern> <Ergebnis>)
      ('alive (+ (dillo-weight d) amount))
      ('dead (dillo-weight d)))))
-
   
 (define (feed-dillo d amount)
   (match d
     ((dillo 'alive w) (dillo 'alive (+ w amount)))
     ((dillo 'dead w) d)))
+
+(struct snake
+  (thickness length))
+
+(define snake1 (snake 10 300)) ; 10cm dick, 300cm lang
+
+#| Haskell
+data Animal =
+   Dillo Liveness Weight
+ | Snake Length Length
+|#
+
+(define run-over-animal
+  (lambda (animal)
+    (match animal
+      ((dillo liveness weight)
+       (dillo 'dead weight))
+      ((snake thickness length)
+       (snake 0 length)))))
+  
