@@ -119,3 +119,37 @@ data Animal =
 
 ; - Datenmodell
 ; - Funktion, die feststellt, ob ein Punkt innerhalb einer Figur liegt oder außerhalb
+
+; Duschprodukte:
+; - Seife
+; - Shampoo
+; - Duschgel aus Seife und Shampoo
+(struct soap
+  (ph)
+  #:transparent)
+
+(define soap1 (soap 7))
+
+(struct shampoo
+  (hair-type)
+  #:transparent)
+
+(define shampoo1 (shampoo 'dandruff))
+
+(struct shower-gel
+  (soap shampoo)
+  #:transparent)
+
+(struct mixture
+  (product1 product2)
+  #:transparent)
+
+(define shower-gel1
+  (shower-gel soap1 shampoo1))
+
+#|
+data ShowerProduct =
+    Soap PH
+  | Shampoo HairType
+  | Mixture ShowerProduct ShowerProduct -- Selbstbezüge /  Kombinator
+|#
