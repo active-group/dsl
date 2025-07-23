@@ -92,4 +92,8 @@ t
 
 (define units-tcontents (list->tcontents units-list))
 
+(define (parse-tcontents table tcontents)
+  ...)
+
+
 ; 
