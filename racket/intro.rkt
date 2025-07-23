@@ -13,7 +13,7 @@
 
 ; overlay: 2 Bilder rein, 1 Bild raus
 (define overlay1
-  (overlay star1 circle1))
+  (overlay star1 circle1)) ; Kombinator
 (define p1
   (beside overlay1 square1))
 
@@ -111,3 +111,11 @@ data Animal =
 (module+ test
   (check-equal? (list-sum list4)
                 13))
+
+; Geometrische Figuren ("shape"):
+; - Kreis
+; - Quadrat
+; - Überlagerung zweier geometrischer Figuren
+
+; - Datenmodell
+; - Funktion, die feststellt, ob ein Punkt innerhalb einer Figur liegt oder außerhalb
