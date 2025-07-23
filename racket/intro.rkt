@@ -47,18 +47,20 @@
 (define dillo2 (dillo 'dead 8))
 
 ; Gürteltier überfahren
-(define (run-over-dillo dillo) ; Funktion mit dillo als Parameter
-  (dillo 'dead (dillo-weight dillo)))
+(define (run-over-dillo d) ; Funktion mit dillo als Parameter
+  (dillo 'dead (dillo-weight d))) ; lexikalische Bindung: von innen nach außen
   
 ; Gürteltier füttern
-(define (feed-dillo* dillo amount)
+(define (feed-dillo* d amount)
   (dillo
-   (dillo-liveness dillo)
-   (match (dillo-liveness dillo)
+   (dillo-liveness d)
+   (match (dillo-liveness d)
      ; ein Zweig pro Fall (<Pattern> <Ergebnis>)
-     ('alive (+ (dillo-weight dillo) amount))
-     ('dead (dillo-weight dillo)))))
+     ('alive (+ (dillo-weight d) amount))
+     ('dead (dillo-weight d)))))
 
   
-
-  
+(define (feed-dillo d amount)
+  (match d
+    ((dillo 'alive w) (dillo 'alive (+ w amount)))
+    ((dillo 'dead w) d)))
