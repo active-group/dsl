@@ -68,7 +68,8 @@
     ((dillo 'dead w) d)))
 
 (struct snake
-  (thickness length))
+  (thickness length)
+  #:transparent)
 
 (define snake1 (snake 10 300)) ; 10cm dick, 300cm lang
 
