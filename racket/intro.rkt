@@ -17,6 +17,14 @@
 (define p1
   (beside overlay1 square1))
 
+(above
+ (beside star1 circle1)
+ (beside circle1 star1))
+
+(above
+ (beside square1 star1)
+ (beside star1 square1))
+
 ; Tiere auf dem texanischen Highway
 
 ; Gürteltier hat folgende Eigenschaften:
@@ -32,3 +40,8 @@
 (define dillo1 (dillo 'alive 10))
 ; totes Gürteltier, 8kg
 (define dillo2 (dillo 'dead 8))
+
+; Gürteltier überfahren
+(define (run-over-dillo dillo) ; Funktion mit dillo als Parameter
+  (dillo 'dead (dillo-weight dillo)))
+  
