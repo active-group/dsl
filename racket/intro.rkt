@@ -25,7 +25,8 @@
 ; zusammengesetzte Daten / Produkt
 (struct dillo
   (liveness ; 'alive -ODER- 'dead
-   weight))
+   weight)
+  #:transparent) ; damit die Structs ausgedruckt werden
 
 ; lebendiges Gürteltier, 10kg
 (define dillo1 (dillo 'alive 10))
