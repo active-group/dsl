@@ -92,8 +92,29 @@ t
 
 (define units-tcontents (list->tcontents units-list))
 
-(define (parse-tcontents table tcontents)
-  ...)
+(define (parse-tcontents table tcontents x y)
+  (match table
+    ((Header title) (if (equal? title (tcontents x y)) #t (error "Header mismatch")))
+    ((Cell type) (match type
+                   ('string (if (string? (tcontents x y)) #t (error "Expected string")))
+                   ('int (if (integer? (tcontents x y)) #t (error "Expected integer")))
+                   ('currency (if (currency? (tcontents x y)) #t (error "Expected currency")))
+    ))
+    ((Rowdefinition direction lot)
+     (define (recurse lot x y)
+       (match lot
+         ('() (list))
+         ((cons t rest) (cons (parse-tcontents t tcontents x y) (recurse rest
+                                                                         (if (equal? direction 'horizontal) (+ 1 x) x)
+                                                                         (if (equal? direction 'vertical) (+ 1 y) y)
+                                                                         )))
+         ))
+     (recurse lot x y)
+   )))
 
 
+(define currency? string?)
+    
+; (parse-tcontents t units-tcontents 0 0)
+  
 ; 
