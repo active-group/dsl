@@ -15,7 +15,6 @@ Midmarket,France,2178,"$3,00","$15,00","$32.670,00","$10.890,00"
 Midmarket,Germany,888,"$3,00","$15,00","$13.320,00","$4.440,00"
 Midmarket,Mexico,2470,"$3,00","$15,00","$37.050,00","$12.350,00"
 
-
 Table:
   Cell
   | struct
@@ -39,13 +38,35 @@ Table:
 
 
 (struct Tabledef
-  (content ; table
-   ))
+  (direction ; direction: 'horizontal | 'vertical
+   content ; table
+   )
+  #:transparent)
 
 (struct Rowdefinition
-  (list)) ; list of tables 
+  (direction list) ; direction: 'horizontal | 'vertical list: list of tables
+  #:transparent )
+
+#| Segment,Country,Units Sold,Manuf. Price,Sale Price,Sales,Profit
+|#
+(define headerrow (Rowdefinition 'horizontal (list
+                                              (Header "Segment")
+                                              (Header "Country")
+                                              (Header "Units Sold")
+                                              (Header "Manuf. Price")
+                                              (Header "Sale Price")
+                                              (Header "Sales")
+                                              (Header "Profit")
+                                              )))
+
+(define rowdefinition (Rowdefinition 'horizontal (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency))))
+
+(define t
+  (Rowdefinition 'vertical
+                 (list
+                  headerrow
+                  (Tabledef 'vertical rowdefinition))))
+
+t
 
 
-(define rowdefinition (Rowdefinition (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency))))
-
-(define t (Tabledef rowdefinition)) 
