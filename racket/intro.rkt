@@ -16,3 +16,18 @@
   (overlay star1 circle1))
 (define p1
   (beside overlay1 square1))
+
+; Tiere auf dem texanischen Highway
+
+; Gürteltier hat folgende Eigenschaften:
+; - lebendig oder tot    -UND-
+; - Gewicht
+; zusammengesetzte Daten / Produkt
+(struct dillo
+  (liveness ; 'alive -ODER- 'dead
+   weight))
+
+; lebendiges Gürteltier, 10kg
+(define dillo1 (dillo 'alive 10))
+; totes Gürteltier, 8kg
+(define dillo2 (dillo 'dead 8))
