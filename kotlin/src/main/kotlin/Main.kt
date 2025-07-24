@@ -3,14 +3,22 @@ package de.activegroup
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, " + name + "!")
+    println("Running application...")
 
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
-    }
+    val exampleList = listOf(
+        listOf("Segment","Country","Units Sold","Manuf. Price","Sale Price","Sales","Profit"),
+        listOf("Government","Canada", 1618, "$3,00","$20,00","$32.370,00","$16.185,00"),
+        listOf("Government","Germany", 1321, "$3,00","$20,00","$26.420,00","$13.210,00"),
+        listOf("Midmarket","France", 2178, "$3,00","$15,00","$32.670,00","$10.890,00"),
+        listOf("Midmarket","Germany", 888, "$3,00","$15,00","$13.320,00","$4.440,00"),
+        listOf("Midmarket","Mexico", 2470, "$3,00","$15,00","$37.050,00","$12.350,00")
+    )
+
+    fun tcontents(x: Int, y: Int): Any = try {
+            exampleList[y][x]
+        } catch (e: Exception) {
+            throw CoordinatesOutOfBounds(x, y)
+        }
+
+    println(parseTContents(t, ::tcontents, 0, 0))
 }

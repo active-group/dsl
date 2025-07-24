@@ -15,7 +15,11 @@ object cellOutputConstructor: Constructor {
         varargs[5] as Currency,
         varargs[6] as Currency
     )
-} 
+}
+
+object NullConstructor: Constructor {
+    override fun apply(vararg args: Any): Any = listOf<Any>()
+}
 
 val headerrow =
     Rowdefinition(Direction.HORIZONTAL,
@@ -26,11 +30,13 @@ val headerrow =
             Header("Sale Price"),
             Header("Sales"),
             Header("Profit")),
-        cellOutputConstructor)
+        NullConstructor)
 
 val rowdefinition =
     Rowdefinition(Direction.HORIZONTAL,
-        listOf(Cell(Type.STRING), Cell(Type.STRING),
+        listOf(
+            Cell(Type.STRING),
+            Cell(Type.STRING),
             Cell(Type.INT),
             Cell(Type.CURRENCY),
             Cell(Type.CURRENCY),
@@ -42,4 +48,6 @@ val rowdefinition =
 val t = Rowdefinition(Direction.VERTICAL,
     listOf(headerrow,
         Tabledef(Direction.VERTICAL, rowdefinition)),
-    cellOutputConstructor)
+    object : Constructor {
+        override fun apply(vararg args: Any): Any = args[1]
+    })

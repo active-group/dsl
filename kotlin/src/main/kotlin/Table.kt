@@ -1,8 +1,7 @@
 package de.activegroup
 
 sealed interface Table {
-    fun width(): Int =
-        when (this) {
+    fun width(): Int = when (this) {
             is Cell -> 1
             is Header -> 1
             is Rowdefinition ->
@@ -17,22 +16,23 @@ sealed interface Table {
                 }
         }
 
-//    val height: Int =
-//        when (this) {
-//            is Cell -> 1
-//            is Header -> 1
-//            is Rowdefinition ->
-//                when (this.direction) {
-//                    Direction.HORIZONTAL -> this.list.sumOf { it.width() }
-//                    Direction.VERTICAL -> this.list.maxOf { it.width() }
-//                }
-//            is Tabledef ->
-//                when (this.direction) {
-//                    Direction.HORIZONTAL -> throw Exception("width of a horizontal Tabledef is not defined")
-//                    Direction.VERTICAL -> this.content.width()
-//                }
-//        }
+    fun height(): Int = when (this) {
+            is Cell -> 1
+            is Header -> 1
+            is Rowdefinition ->
+                when (this.direction) {
+                    Direction.VERTICAL -> this.list.sumOf { it.height() }
+                    Direction.HORIZONTAL -> this.list.maxOf { it.height() }
+                }
+            is Tabledef ->
+                when (this.direction) {
+                    Direction.VERTICAL -> throw Exception("height of a horizontal Tabledef is not defined")
+                    Direction.HORIZONTAL -> this.content.height()
+                }
+        }
 }
+
+class CoordinatesOutOfBounds(val x: Int, val y: Int): RuntimeException() {}
 
 enum class Type {
     STRING, INT, CURRENCY
@@ -49,7 +49,7 @@ enum class Direction {
 
 data class Tabledef(val direction: Direction, val content: Table): Table
 
-sealed interface Constructor {
+interface Constructor {
     fun apply(vararg varargs: Any): Any
 }
 
