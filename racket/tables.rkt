@@ -117,7 +117,9 @@ Table:
 
 (define currency? string?)
 
-
+(module+ test
+  (require rackunit)
+  
 (struct CellOutput
   (segment country
    unitsSold manufacturingPrice
@@ -166,10 +168,19 @@ Table:
            (header+type "Sales" 'currency)
            (header+type "Profit" 'currency)))
                  
-t
 
 
-(parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
+  (check-equal?
+   (parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
+   (CellOutput "Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))
     
-(parse-tcontents t units-tcontents 0 0)
+(check-equal? (parse-tcontents t units-tcontents 0 0)
+              (list
+               (CellOutput "Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00")
+               (CellOutput "Government" "Germany" 1321 "$3,00" "$20,00" "$26.420,00" "$13.210,00")
+               (CellOutput "Midmarket" "France" 2178 "$3,00" "$15,00" "$32.670,00" "$10.890,00")
+               (CellOutput "Midmarket" "Germany" 888 "$3,00" "$15,00" "$13.320,00" "$4.440,00")
+               (CellOutput "Midmarket" "Mexico" 2470 "$3,00" "$15,00" "$37.050,00" "$12.350,00")))
+
   
+)
