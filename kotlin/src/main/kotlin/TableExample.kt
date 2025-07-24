@@ -9,9 +9,19 @@ val headerrow =
     Rowdefinition(Direction.HORIZONTAL,
         listOf(Header("Segment"),
             Header("Country"),
-            Header("Un(ts Sold"),
+            Header("Units Sold"),
             Header("Manuf. Price"),
             Header("Sale Price"),
             Header("Sales"),
             Header("Profit")),
         null)
+
+val rowdefinition =
+    Rowdefinition(Direction.HORIZONTAL,
+        listOf(Cell(Type.STRING), Cell(TypeType.STRING),,
+            Cell(Type.INT),
+            Cell(Type.CURRENCY),
+            Cell(Type.CURRENCY),
+            Cell(Type.CURRENCY),
+            Cell(Type.CURRENCY)
+            ))
