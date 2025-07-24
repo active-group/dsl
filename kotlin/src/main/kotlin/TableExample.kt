@@ -5,6 +5,18 @@ data class CellOutput(val segment: String, val country: String,
                       val salePrice: Currency,
                       val sales: Currency, val profit: Currency)
 
+object cellOutputConstructor: Constructor {
+    override fun apply(vararg varargs: Any): Any = CellOutput(
+        varargs[0] as String,
+        varargs[1] as String,
+        varargs[2] as Int,
+        varargs[3] as Currency,
+        varargs[4] as Currency,
+        varargs[5] as Currency,
+        varargs[6] as Currency
+    )
+} 
+
 val headerrow =
     Rowdefinition(Direction.HORIZONTAL,
         listOf(Header("Segment"),
@@ -14,7 +26,7 @@ val headerrow =
             Header("Sale Price"),
             Header("Sales"),
             Header("Profit")),
-        null)
+        cellOutputConstructor)
 
 val rowdefinition =
     Rowdefinition(Direction.HORIZONTAL,
@@ -25,9 +37,9 @@ val rowdefinition =
             Cell(Type.CURRENCY),
             Cell(Type.CURRENCY)
             ),
-        null)
+        cellOutputConstructor)
 
 val t = Rowdefinition(Direction.VERTICAL,
     listOf(headerrow,
         Tabledef(Direction.VERTICAL, rowdefinition)),
-    null)
+    cellOutputConstructor)
