@@ -6,6 +6,8 @@ enum class Type {
     STRING, INT, CURRENCY
 }
 
+typealias Currency = String
+
 data class Cell(val type: Type): Table
 data class Header(val title: String): Table
 
