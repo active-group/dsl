@@ -28,5 +28,6 @@ val rowdefinition =
         null)
 
 val t = Rowdefinition(Direction.VERTICAL,
-    listOf(headerrow as Table, Tabledef(Direction.VERTICAL, rowdefinition)),
+    listOf(headerrow,
+        Tabledef(Direction.VERTICAL, rowdefinition)),
     null)

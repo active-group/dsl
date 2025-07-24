@@ -23,4 +23,4 @@ typealias Constructor = ConstructorP?
 
 data class Rowdefinition(val direction: Direction,
                          val list: List<Table>,
-                         val constructor: Constructor)
+                         val constructor: Constructor): Table
