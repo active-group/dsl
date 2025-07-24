@@ -48,7 +48,7 @@ Table:
   #:transparent)
 
 ; außerdem Konstruktor für den "Zeilen"-Datensatz
-(define (table-with-header-row header+types constructor)
+(define (table-with-header-row constructor . header+types)
   (Rowdefinition 'vertical
                  (list
                   (Rowdefinition 'horizontal
@@ -157,14 +157,14 @@ Table:
 
 
 (define t (table-with-header-row
-           (list (header+type "Segment" 'string)
-                 (header+type "Country" 'string)
-                 (header+type "Units Sold" 'int)
-                 (header+type "Manuf. Price" 'currency)
-                 (header+type "Sale Price" 'currency)
-                 (header+type "Sales" 'currency)
-                 (header+type "Profit" 'currency))
-           CellOutput))
+           CellOutput
+           (header+type "Segment" 'string)
+           (header+type "Country" 'string)
+           (header+type "Units Sold" 'int)
+           (header+type "Manuf. Price" 'currency)
+           (header+type "Sale Price" 'currency)
+           (header+type "Sales" 'currency)
+           (header+type "Profit" 'currency)))
                  
 t
 
