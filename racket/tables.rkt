@@ -56,8 +56,8 @@ Table:
                                  constructor)
                   (Tabledef 'vertical
                             (Rowdefinition 'horizontal
-                                           (map Cell (map header+type-type header+types)))
-                            constructor))
+                                           (map Cell (map header+type-type header+types))
+                                           constructor)))
                  (lambda (header list) list)))
 
 
