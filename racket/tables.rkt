@@ -101,7 +101,9 @@ Table:
                 (match rest
                   ('() (list)) ; Aufruf von table-height vermeiden, der bomben könnte
                   (_ (recurse rest
-                              (if (equal? direction 'horizontal) (+ 1 x) x)
+                              (if (equal? direction 'horizontal)
+                                  (+ (table-width t) x)
+                                  x)
                               (if (equal? direction 'vertical)
                                   (+ (table-height t) y)
                                   y)
@@ -112,7 +114,9 @@ Table:
        (with-handlers
            ((exn:fail? (lambda (exn) '())))
          (cons (parse-tcontents content tcontents x y)
-               (recurse (if (equal? direction 'horizontal) (+ 1 x) x)
+               (recurse (if (equal? direction 'horizontal)
+                            (+ (table-width content) x)
+                            x)
                         (if (equal? direction 'vertical)
                             (+ (table-height content) y)
                             y)))))
@@ -133,7 +137,21 @@ Table:
     ((Tabledef 'vertical content)
      (error 'table-height "height of a vertical Tabledef is not defined"))))
 
-
+(define (table-width t)
+  (match t
+    ((Cell type) 1)
+    ((Header title) 1)
+    ((Rowdefinition 'horizontal list constructor)
+     (apply + (map table-width list)))
+    ((Rowdefinition 'vertical list constructor)
+     (apply max (map table-width list)))
+    ((Tabledef 'horizontal content)
+     (error 'table-width "width of a horizontal Tabledef is not defined"))
+    ((Tabledef 'vertical content)
+     (table-width content))))
+    
+     
+  
 
 (define currency? string?)
 
