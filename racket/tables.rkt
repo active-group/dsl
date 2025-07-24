@@ -228,18 +228,30 @@ Table:
   (struct Sales (place sales) #:transparent)
   (define sales-table (Rowdefinition 'horizontal (list place-table (Cell 'int)) Sales))
 
-  (parse-tcontents sales-table
-                   (list->tcontents
-                    '(("Germany" 15)
-                      ("Europe" "")))
-                   0 0)
+  (check-equal?
+   (parse-tcontents sales-table
+                    (list->tcontents
+                     '(("Germany" 15)
+                       ("Europe" "")))
+                    0 0)
+   (Sales (Place "Germany" "Europe") 15))
 
-  (parse-tcontents (Tabledef 'vertical sales-table)
-                   (list->tcontents
-                    '(("Germany" 0)
-                      ("Europe"  "")
-                      ("Spain"   1)
-                      ("Europe"  "")))
-                   0 0)
-                   
-)
+  (check-equal?
+   (parse-tcontents (Tabledef 'vertical sales-table)
+                    (list->tcontents
+                     '(("Germany" 0)
+                       ("Europe"  "")
+                       ("Spain"   1)
+                       ("Europe"  "")))
+                    0 0)
+   (list (Sales (Place "Germany" "Europe") 0) (Sales (Place "Spain" "Europe") 1)))
+
+  
+  )
+
+#|
+Place      |         | Score
+|---------------------
+| Germany  |  Europe | 0
+----------------------
+|#
