@@ -52,9 +52,12 @@ Table:
   (Rowdefinition 'vertical
                  (list
                   (Rowdefinition 'horizontal
-                                 (map Header (map header+type-header header+types)))
+                                 (map Header (map header+type-header header+types))
+                                 constructor)
                   (Tabledef 'vertical
-                            (map Cell (map header+type-type header+types))))
+                            (Rowdefinition 'horizontal
+                                           (map Cell (map header+type-type header+types)))
+                            constructor))
                  (lambda (header list) list)))
 
 
@@ -145,7 +148,7 @@ Table:
                        (Cell 'currency))
                  CellOutput))
 
-#;(define t
+(define t0
   (Rowdefinition 'vertical
                  (list
                   headerrow
