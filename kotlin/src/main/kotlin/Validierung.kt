@@ -41,48 +41,92 @@ interface GemeindeKontext {
     // ...
 }
 
-interface ImGemeindeKontext<A> {
+sealed interface ImGemeindeKontext<A> {
     fun apply(gemeindeKontext: GemeindeKontext): A
     // "ein anderes Ding"
     // Funktor
-    fun <B> map(f: (A) -> B): ImGemeindeKontext<B> {
-        val zis = this
-        return object: ImGemeindeKontext<B> {
-            override fun apply(gemeindeKontext: GemeindeKontext): B =
-                f(zis.apply(gemeindeKontext))
-        }
-    }
+//    fun <B> map(f: (A) -> B): ImGemeindeKontext<B> {
+//        val zis = this
+//        return object: ImGemeindeKontext<B> {
+//            override fun apply(gemeindeKontext: GemeindeKontext): B =
+//                f(zis.apply(gemeindeKontext))
+//        }
+//    }
+    // Monade
+//    fun <B> flatMap(f: (A) -> ImGemeindeKontext<B>): ImGemeindeKontext<B> {
+//        val zis = this
+//        return object: ImGemeindeKontext<B> {
+//            override fun apply(gemeindeKontext: GemeindeKontext): B =
+//                f(zis.apply(gemeindeKontext)).apply(gemeindeKontext)
+//        }
+//    }
     companion object {
-        fun <A>heben(wert: A): ImGemeindeKontext<A> = object: ImGemeindeKontext<A> {
-            override fun apply(gemeindeKontext: GemeindeKontext): A = wert
-        }
+        fun <A>pure(wert: A): ImGemeindeKontext<A> = IGKPure(wert)
     }
 }
 
-fun findePerson(name: String): ImGemeindeKontext<Person> =
-    object: ImGemeindeKontext<Person> {
-        override fun apply(gemeindeKontext: GemeindeKontext): Person =
-            gemeindeKontext.findePerson(name)
-
-    }
-
-
-fun ImGemeindeKontext<Boolean>.nicht() = object: ImGemeindeKontext<Boolean> {
-    override fun apply(gemeindeKontext: GemeindeKontext): Boolean = !this.apply(gemeindeKontext)
+data class IGKPure<A>(val wert: A): ImGemeindeKontext<A> {
+    override fun apply(gemeindeKontext: GemeindeKontext): A = wert
 }
 
-fun ImGemeindeKontext<Boolean>.und(andereBerechnung: ImGemeindeKontext<Boolean>) =
-    object:ImGemeindeKontext<Boolean> {
-        override fun apply(gemeindeKontext: GemeindeKontext): Boolean =
-            this.apply(gemeindeKontext) && andereBerechnung.apply(gemeindeKontext)
-}
-fun ImGemeindeKontext<Boolean>.oder(andereBerechnung: ImGemeindeKontext<Boolean>) =
-    object:ImGemeindeKontext<Boolean> {
-        override fun apply(gemeindeKontext: GemeindeKontext): Boolean =
-            this.apply(gemeindeKontext) || andereBerechnung.apply(gemeindeKontext)
-    }
+fun <A, B> ImGemeindeKontext<A>.map(f: (A) -> B): ImGemeindeKontext<B> =
+    IGKMap(this, f)
 
-data class PersonKriterium(val p: (Person) -> ImGemeindeKontext<Boolean>): Kriterium
+data class IGKMap<A, B>(val igk: ImGemeindeKontext<A>, val f: (A) -> B): ImGemeindeKontext<B> {
+    override fun apply(gemeindeKontext: GemeindeKontext): B =
+        f(igk.apply(gemeindeKontext))
+}
+
+fun <A, B> ImGemeindeKontext<A>.flatMap(f: (A) -> ImGemeindeKontext<B>) =
+    IGKFlatMap(this, f)
+
+data class IGKFlatMap<A, B>(val igk: ImGemeindeKontext<A>, val f: (A) -> ImGemeindeKontext<B>): ImGemeindeKontext<B> {
+    override fun apply(gemeindeKontext: GemeindeKontext): B =
+        f(igk.apply(gemeindeKontext)).apply(gemeindeKontext)
+}
+
+class IGKFindePerson(val name: String): ImGemeindeKontext<Person> {
+    override fun apply(gemeindeKontext: GemeindeKontext): Person =
+        gemeindeKontext.findePerson(name)
+}
+
+fun findePerson(name: String): ImGemeindeKontext<Person> = IGKFindePerson(name)
+
+data class IGKNicht(val igk: ImGemeindeKontext<Boolean>): ImGemeindeKontext<Boolean> {
+    override fun apply(gemeindeKontext: GemeindeKontext): Boolean =
+        !igk.apply(gemeindeKontext)
+}
+
+fun ImGemeindeKontext<Boolean>.nicht() = IGKNicht(this)
+
+data class IGKUnd(val igk1: ImGemeindeKontext<Boolean>, val igk2: ImGemeindeKontext<Boolean>):
+        ImGemeindeKontext<Boolean> {
+    override fun apply(gemeindeKontext: GemeindeKontext): Boolean =
+        igk1.apply(gemeindeKontext) && igk2.apply(gemeindeKontext)
+}
+
+fun ImGemeindeKontext<Boolean>.und(andereBerechnung: ImGemeindeKontext<Boolean>):
+        ImGemeindeKontext<Boolean> =
+    IGKUnd(this, andereBerechnung)
+
+data class IGKOder(val igk1: ImGemeindeKontext<Boolean>, val igk2: ImGemeindeKontext<Boolean>):
+    ImGemeindeKontext<Boolean> {
+    override fun apply(gemeindeKontext: GemeindeKontext): Boolean =
+        igk1.apply(gemeindeKontext) && igk2.apply(gemeindeKontext)
+}
+
+fun ImGemeindeKontext<Boolean>.oder(andereBerechnung: ImGemeindeKontext<Boolean>):
+        ImGemeindeKontext<Boolean> =
+    IGKOder(this, andereBerechnung)
+
+interface ImGemeindeKontextOperations {
+    fun <A> pure(wert: A): ImGemeindeKontext<A> =
+        IGKPure(wert)
+}
+
+data class PersonKriterium(val p: suspend ImGemeindeKontextOperations.(Person) -> ImGemeindeKontext<Boolean>): Kriterium
+
+// p: Foo(...) -> ... : Die Funktion muß Foo implementieren
 
 /*
 data object Partnerbeziehung: Kriterium
@@ -95,13 +139,24 @@ data class Nicht(val kriterium: Kriterium): Kriterium
 data class Und(val kriterium1: Kriterium, val kriterium2: Kriterium): Kriterium
 
 val k401 = PersonKriterium { person ->
-    ImGemeindeKontext.heben(person.beziehungsStatus == BeziehungsStatus.EINGETRAGEN ||
+    pure(person.beziehungsStatus == BeziehungsStatus.EINGETRAGEN ||
         person.beziehungsStatus == BeziehungsStatus.VERHEIRATET).und(
-        ImGemeindeKontext.heben(person.partnerName != null).nicht())
+        ImGemeindeKontext.pure(person.partnerName != null).nicht())
 }
 
 val h402 = PersonKriterium { person ->
-    ImGemeindeKontext.heben(person.beziehungsStatus == BeziehungsStatus.VERHEIRATET)
+    ImGemeindeKontext.pure(person.beziehungsStatus == BeziehungsStatus.VERHEIRATET)
         .und(findePerson(person.partnerName!!).map { it.geschlecht != person.geschlecht }.oder(
     findePerson(person.partnerName!!).map { it.geschlecht == person.geschlecht }))
+}
+
+val h404 = PersonKriterium { person ->
+    //val foo: ImGemeindeKontext<Person> =
+        // brauchen was wie map, aber statt (A) -> B brauchen wir
+        // (A) -> ImGemeindeKontext<B>
+        // findePerson(person.partnerName!!).map { partner -> findePerson(partner.partnerName!!) }
+    findePerson(person.partnerName!!).flatMap { partner ->
+    findePerson(partner.partnerName!!) }.map { partnerPartner ->
+            partnerPartner != person
+    }
 }
