@@ -18,10 +18,15 @@ val headerrow =
 
 val rowdefinition =
     Rowdefinition(Direction.HORIZONTAL,
-        listOf(Cell(Type.STRING), Cell(TypeType.STRING),,
+        listOf(Cell(Type.STRING), Cell(Type.STRING),
             Cell(Type.INT),
             Cell(Type.CURRENCY),
             Cell(Type.CURRENCY),
             Cell(Type.CURRENCY),
             Cell(Type.CURRENCY)
-            ))
+            ),
+        null)
+
+val t = Rowdefinition(Direction.VERTICAL,
+    listOf(headerrow, Tabledef(Direction.VERTICAL, rowdefinition)),
+    null)
