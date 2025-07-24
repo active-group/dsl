@@ -96,11 +96,16 @@ Table:
      (define (recurse lot x y)
        (match lot
          ('() (list))
-         ((cons t rest) (cons (parse-tcontents t tcontents x y) (recurse rest
-                                                                         (if (equal? direction 'horizontal) (+ 1 x) x)
-                                                                         (if (equal? direction 'vertical) (+ 1 y) y)
-                                                                         )))
-         ))
+         ((cons t rest)
+          (cons (parse-tcontents t tcontents x y)
+                (match rest
+                  ('() (list)) ; Aufruf von table-height vermeiden, der bomben könnte
+                  (_ (recurse rest
+                              (if (equal? direction 'horizontal) (+ 1 x) x)
+                              (if (equal? direction 'vertical)
+                                  (+ (table-height t) y)
+                                  y)
+                              )))))))
      (apply constructor (recurse lot x y)))
     ((Tabledef direction content)
      (define (recurse x y)
@@ -108,10 +113,25 @@ Table:
            ((exn:fail? (lambda (exn) '())))
          (cons (parse-tcontents content tcontents x y)
                (recurse (if (equal? direction 'horizontal) (+ 1 x) x)
-                        (if (equal? direction 'vertical) (+ 1 y) y)))))
+                        (if (equal? direction 'vertical)
+                            (+ (table-height content) y)
+                            y)))))
      (recurse x y))
        
     ))
+
+(define (table-height t)
+  (match t
+    ((Cell type) 1)
+    ((Header title) 1)
+    ((Rowdefinition 'horizontal list constructor)
+     (apply max (map table-height list)))
+    ((Rowdefinition 'vertical list constructor)
+     (apply + (map table-height list)))
+    ((Tabledef 'horizontal content)
+     (table-height content))
+    ((Tabledef 'vertical content)
+     (error 'table-height "height of a vertical Tabledef is not defined"))))
 
 
 
@@ -183,4 +203,25 @@ Table:
                (CellOutput "Midmarket" "Mexico" 2470 "$3,00" "$15,00" "$37.050,00" "$12.350,00")))
 
   
+  (struct Place (country continent) #:transparent)
+  (define place-table (Rowdefinition 'vertical (list (Cell 'string) (Cell 'string))
+                                     Place))
+
+  (struct Sales (place sales) #:transparent)
+  (define sales-table (Rowdefinition 'horizontal (list place-table (Cell 'int)) Sales))
+
+  (parse-tcontents sales-table
+                   (list->tcontents
+                    '(("Germany" 15)
+                      ("Europe" "")))
+                   0 0)
+
+  (parse-tcontents (Tabledef 'vertical sales-table)
+                   (list->tcontents
+                    '(("Germany" 0)
+                      ("Europe"  "")
+                      ("Spain"   1)
+                      ("Europe"  "")))
+                   0 0)
+                   
 )
