@@ -17,7 +17,9 @@ enum class Direction {
 
 data class Tabledef(val direction: Direction, val content: Table): Table
 
-sealed interface Constructor
+sealed interface ConstructorP
+
+typealias Constructor = ConstructorP?
 
 data class Rowdefinition(val direction: Direction,
                          val list: List<Table>,

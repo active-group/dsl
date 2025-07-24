@@ -7,4 +7,11 @@ data class CellOutput(val segment: String, val country: String,
 
 val headerrow =
     Rowdefinition(Direction.HORIZONTAL,
-        listOf())
+        listOf(Header("Segment"),
+            Header("Country"),
+            Header("Un(ts Sold"),
+            Header("Manuf. Price"),
+            Header("Sale Price"),
+            Header("Sales"),
+            Header("Profit")),
+        null)
