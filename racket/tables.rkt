@@ -49,19 +49,7 @@ Table:
   (direction list constructor) ; direction: 'horizontal | 'vertical list: list of tables
   #:transparent )
 
-#| Segment,Country,Units Sold,Manuf. Price,Sale Price,Sales,Profit
-|#
-(define headerrow (Rowdefinition 'horizontal (list
-                                              (Header "Segment")
-                                              (Header "Country")
-                                              (Header "Units Sold")
-                                              (Header "Manuf. Price")
-                                              (Header "Sale Price")
-                                              (Header "Sales")
-                                              (Header "Profit")
-                                              ) CellOutput))
 
-(define rowdefinition (Rowdefinition 'horizontal (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency)) CellOutput))
 
 #;(define t
   (Rowdefinition 'vertical
@@ -84,11 +72,6 @@ Table:
                   (Tabledef 'vertical rowdefinition))
                  (lambda (header list) list)))
 
-(define t (table-width-header-row
-           (list (header+type "Segment" 'string)
-                 (header+type "Country" 'string)
-                 ...)))
-t
 
 ; Tabelleninhalt: Funktion: x y -> Inhalt der Tabelle
 (define (tcontents0 x y) ; Tablle, wo überall "Mike"
@@ -146,8 +129,41 @@ t
 
 (define currency? string?)
 
+
+(struct CellOutput
+  (segment country
+           unitsSold manufacturingPrice
+           salePrice
+           sales profit)
+  #:transparent)
+
+#| Segment,Country,Units Sold,Manuf. Price,Sale Price,Sales,Profit
+|#
+(define headerrow (Rowdefinition 'horizontal (list
+                                              (Header "Segment")
+                                              (Header "Country")
+                                              (Header "Units Sold")
+                                              (Header "Manuf. Price")
+                                              (Header "Sale Price")
+                                              (Header "Sales")
+                                              (Header "Profit")
+                                              )
+                                 CellOutput))
+
+(define rowdefinition
+  (Rowdefinition 'horizontal
+                 (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency))
+                 CellOutput))
+
+
+(define t (table-with-header-row
+           (list (header+type "Segment" 'string)
+                 (header+type "Country" 'string)
+                 ...)))
+t
+
+
 (parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
     
 (parse-tcontents t units-tcontents 0 0)
   
-; 
