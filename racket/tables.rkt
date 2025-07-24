@@ -27,17 +27,9 @@ Table:
   (type); primitive type ('string, 'int)
   )
 
-; Example
-(define cell1 (Cell 'string))
-
 (struct Header
   (title); title of the cell
   )
-
-(define header1 (Header "Segment"))
-
-(struct CellOutput (segment country unitsSold manufacturingPrice salePrice sales profit) #:transparent)
-
 
 (struct Tabledef
   (direction ; direction: 'horizontal | 'vertical
@@ -50,26 +42,19 @@ Table:
   #:transparent )
 
 
-
-#;(define t
-  (Rowdefinition 'vertical
-                 (list
-                  headerrow
-                  (Tabledef 'vertical rowdefinition))
-                 (lambda (header list) list)))
-
 ; pro "Spalte": Überschrift + Typ
 (struct header+type
   (header type)
   #:transparent)
 
 ; außerdem Konstruktor für den "Zeilen"-Datensatz
-(define (table-with-header-row header+types)
+(define (table-with-header-row header+types constructor)
   (Rowdefinition 'vertical
                  (list
                   (Rowdefinition 'horizontal
                                  (map Header (map header+type-header header+types)))
-                  (Tabledef 'vertical rowdefinition))
+                  (Tabledef 'vertical
+                            (map Cell (map header+type-type header+types))))
                  (lambda (header list) list)))
 
 
@@ -132,34 +117,52 @@ Table:
 
 (struct CellOutput
   (segment country
-           unitsSold manufacturingPrice
-           salePrice
-           sales profit)
+   unitsSold manufacturingPrice
+   salePrice
+   sales profit)
   #:transparent)
 
 #| Segment,Country,Units Sold,Manuf. Price,Sale Price,Sales,Profit
 |#
-(define headerrow (Rowdefinition 'horizontal (list
-                                              (Header "Segment")
-                                              (Header "Country")
-                                              (Header "Units Sold")
-                                              (Header "Manuf. Price")
-                                              (Header "Sale Price")
-                                              (Header "Sales")
-                                              (Header "Profit")
-                                              )
-                                 CellOutput))
+(define headerrow
+  (Rowdefinition 'horizontal (list
+                              (Header "Segment")
+                              (Header "Country")
+                              (Header "Units Sold")
+                              (Header "Manuf. Price")
+                              (Header "Sale Price")
+                              (Header "Sales")
+                              (Header "Profit")
+                              )
+                 CellOutput))
 
 (define rowdefinition
   (Rowdefinition 'horizontal
-                 (list (Cell 'string) (Cell 'string) (Cell 'int) (Cell 'currency) (Cell 'currency) (Cell 'currency) (Cell 'currency))
+                 (list (Cell 'string) (Cell 'string)
+                       (Cell 'int) (Cell 'currency)
+                       (Cell 'currency)
+                       (Cell 'currency)
+                       (Cell 'currency))
                  CellOutput))
+
+#;(define t
+  (Rowdefinition 'vertical
+                 (list
+                  headerrow
+                  (Tabledef 'vertical rowdefinition))
+                 (lambda (header list) list)))
 
 
 (define t (table-with-header-row
            (list (header+type "Segment" 'string)
                  (header+type "Country" 'string)
-                 ...)))
+                 (header+type "Units Sold" 'int)
+                 (header+type "Manuf. Price" 'currency)
+                 (header+type "Sale Price" 'currency)
+                 (header+type "Sales" 'currency)
+                 (header+type "Profit" 'currency))
+           CellOutput))
+                 
 t
 
 
