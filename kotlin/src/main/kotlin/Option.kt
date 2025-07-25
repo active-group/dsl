@@ -39,7 +39,9 @@ data class Some<A>(val value: A): Option<A> {
 
 fun addOptions(oi1: Option<Int>, oi2: Option<Int>): Option<Int> =
     Option.optionally {
-        
+        val i1 = oi1.susp()
+        val i2 = oi2.susp()
+        pure(i1+i2)
     }
     /*
     oi1.flatMap { i1 ->
