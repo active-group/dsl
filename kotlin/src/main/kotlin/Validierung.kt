@@ -27,6 +27,9 @@ sealed interface BeziehungsStatus
 data object LEDIG: BeziehungsStatus
 data class VERHEIRATET(val partnerName: String): BeziehungsStatus
 ...
+
+"Make illegal states unrepresentable."
+Yaron Minsky
  */
 
 data class Person(val name: String,
