@@ -37,6 +37,7 @@
    (grammar
     (table-definition ((DEFINE TABLE IDENTIFIER WITH IDENTIFIER LPAREN field-definitions RPAREN)  (table-definition $3 $5 $7)))
     (field-definitions (() '())
+                       ((field-definition) (list $1))
                        ((field-definition COMMA field-definitions) (cons $1 $3)))
     (field-definition ((type IDENTIFIER STRING) (field-definition $1 $2 $3)))
     (type ((STR) 'STR)
