@@ -24,3 +24,10 @@ https://www.eclipse.org/downloads/packages/
 Dort: "Eclipse IDE for Java and DSL Developers"
 
 Bei Fragen oder Problemen gern Mike Sperber kontaktieren!
+
+# Material
+
+- [The Next 700 Programming Languages](https://dl.acm.org/doi/pdf/10.1145/363744.363749)
+- [Selective Applicative Functors](https://dl.acm.org/doi/10.1145/3341694)
+- [Vavr](https://vavr.io/), [Vavr Kotlin](https://github.com/vavr-io/vavr-kotlin)
+- [Monaden in Kotlin](https://github.com/active-group/kotlin-free-monad), [Artikel dazu](https://www.sigs.de/artikel/funktionale-programmierung-fuer-bessere-architektur/)
