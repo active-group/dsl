@@ -38,9 +38,13 @@ data class Some<A>(val value: A): Option<A> {
 // besser noch wäre: applikativer Funktor -> FUNAR
 
 fun addOptions(oi1: Option<Int>, oi2: Option<Int>): Option<Int> =
+    Option.optionally {
+        
+    }
+    /*
     oi1.flatMap { i1 ->
         oi2.flatMap { i2 ->
             Some(i1 + i2)
         }
     }
-
+*/
