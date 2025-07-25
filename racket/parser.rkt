@@ -4,7 +4,7 @@
          racket/list
          racket/contract
          "lexer.rkt"
-         (prefix-in ast: "ast.rkt"))
+         "ast.rkt")
 
 (define current-source-name (make-parameter #f))
 
