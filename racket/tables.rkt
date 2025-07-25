@@ -205,9 +205,14 @@ Table:
            (header+type "Sale Price" 'currency)
            (header+type "Sales" 'currency)
            (header+type "Profit" 'currency)))
-                 
 
+  ; Aufgabe: Makro-Layer auf table-with-header-row, soll struct generieren, ohne header+type
 
+  ; aus zwei Definitionen eine machen
+(begin
+  (define mike 23)
+  (define sperber 42))
+  
   (check-equal?
    (parse-tcontents rowdefinition (list->tcontents '(("Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))) 0 0)
    (CellOutput "Government" "Canada" 1618 "$3,00" "$20,00" "$32.370,00" "$16.185,00"))
