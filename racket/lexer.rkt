@@ -48,3 +48,17 @@
    
 
 ; https://github.com/racket/datalog/blob/master/private/lex.rkt
+
+(define (get-tokens input-port)
+  (let ((with-position (lambda () (dlexer input-port))))
+    (let loop ((tokens '()))
+      (let ((token (position-token-token (with-position))))
+        (if (eq? (token-name token) 'EOF)
+            (reverse tokens)
+            (loop (cons token tokens)))))))
+
+(define (get-tokens-from-file filename)
+  (call-with-input-file filename get-tokens))
+
+(define (get-tokens-from-string string)
+  (get-tokens (open-input-string string)))
