@@ -22,6 +22,10 @@ sealed interface Option<out A> {
     }
 }
 
+object OptionDSL {
+    suspend fun  <A> pure(result: A): A = MonadDSL.pure(result) { Some(it) }
+}
+
 data object None: Option<Nothing> {
     override fun getUnsafe(): Nothing =
         throw Exception("wanted Some, got None")
