@@ -1,4 +1,5 @@
 #lang racket/base
+(provide tokens-with-payload plain-tokens dlexer)
 (require parser-tools/lex
          (prefix-in : parser-tools/lex-sre))
 
