@@ -3,6 +3,7 @@ package de.activegroup
 // in der Realität: Vavr
 sealed interface Option<out A> {
     fun getUnsafe(): A
+    suspend fun susp(): A = MonadDSL.susp<Option<A>, A>(this::flatMap)
 
     fun <B> map(f: (A) -> B): Option<B> =
         when (this) {
