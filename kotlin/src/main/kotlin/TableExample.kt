@@ -51,3 +51,53 @@ val t = Rowdefinition(Direction.VERTICAL,
     object : Constructor {
         override fun apply(vararg args: Any): Any = args[1]
     })
+
+fun defineTable(ctor: Constructor, vararg columns: HeaderWithType): Table {
+    val headerrow = Rowdefinition(Direction.HORIZONTAL, columns.map { Header(it.title) },NullConstructor)
+    val rowdefinition = Rowdefinition(Direction.HORIZONTAL, columns.map { Cell(it.type)}, ctor)
+    return Rowdefinition(Direction.VERTICAL,
+        listOf(headerrow,
+            Tabledef(Direction.VERTICAL, rowdefinition)),
+        object : Constructor {
+            override fun apply(vararg args: Any): Any = args[1]
+        })
+}
+
+val t2 = defineTable(
+    cellOutputConstructor,
+    HeaderWithType("Segment", Type.STRING),
+    HeaderWithType("Country", Type.STRING),
+    HeaderWithType("Units Sold", Type.INT),
+    HeaderWithType("Manuf. Price", Type.CURRENCY),
+    HeaderWithType("Sale Price", Type.CURRENCY),
+    HeaderWithType("Sales", Type.CURRENCY),
+    HeaderWithType("Profit", Type.CURRENCY),
+)
+
+interface T3 {
+    fun headerWithType(title: String, type: Type)
+}
+
+fun table(ctor: Constructor, block: T3.() -> Unit): Table {
+    val columns = mutableListOf<HeaderWithType>()
+    val helper = object : T3 {
+        override fun headerWithType(title: String, type: Type) {
+            columns.add(HeaderWithType(title, type))
+        }
+    }
+    block(helper)
+    return defineTable(
+        ctor,
+        *columns.toTypedArray()
+    )
+}
+
+val t3 = table(cellOutputConstructor) {
+    headerWithType("Segment", Type.STRING)
+    headerWithType("Country", Type.STRING)
+    headerWithType("Units Sold", Type.INT)
+    headerWithType("Manuf. Price", Type.CURRENCY)
+    headerWithType("Sale Price", Type.CURRENCY)
+    headerWithType("Sales", Type.CURRENCY)
+    headerWithType("Profit", Type.CURRENCY)
+}

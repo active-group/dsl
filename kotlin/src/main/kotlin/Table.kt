@@ -56,3 +56,5 @@ interface Constructor {
 data class Rowdefinition(val direction: Direction,
                          val list: List<Table>,
                          val constructor: Constructor): Table
+
+data class HeaderWithType(val title: String, val type: Type)
