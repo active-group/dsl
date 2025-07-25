@@ -5,6 +5,7 @@
          racket/contract
          "lexer.rkt"
          "ast.rkt")
+(provide parse parse-from-string parse-from-file)
 
 (define current-source-name (make-parameter #f))
 
