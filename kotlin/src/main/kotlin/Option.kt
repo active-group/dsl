@@ -16,6 +16,9 @@ sealed interface Option<out A> {
             is None -> None
             is Some ->f(this.value)
         }
+    companion object {
+        
+    }
 }
 
 data object None: Option<Nothing> {
