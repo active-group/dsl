@@ -21,4 +21,6 @@ fun main() {
         }
 
     println(parseTContents(t, ::tcontents, 0, 0))
+    println(parseTContents(t2, ::tcontents, 0, 0))
+    println(parseTContents(t3, ::tcontents, 0, 0))
 }
