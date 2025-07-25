@@ -35,7 +35,7 @@ Yaron Minsky
 data class Person(val name: String,
                   val geschlecht: Geschlecht,
                   val beziehungsStatus: BeziehungsStatus,
-                  val partnerName: String?)
+                  val partnerName: Option<String>)
 
 sealed interface Kriterium
 
