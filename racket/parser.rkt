@@ -42,4 +42,16 @@
     (type ((STR) 'STR)
           ((INT) 'INT)
           ((CURRENCY) 'CURRENCY)))))
-                                                                                                   
+
+
+(define (parse input-port)
+  (parameterize ([current-source-name (object-name input-port)]
+                 [file-path (object-name input-port)])
+    (port-count-lines! input-port)
+    (table-definition-parser (lambda () (dlexer input-port)))))
+
+(define (parse-from-string string)
+  (parse (open-input-string string)))
+
+(define (parse-from-file filename)
+  (call-with-input-file filename parse))
