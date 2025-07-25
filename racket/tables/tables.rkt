@@ -1,5 +1,5 @@
 #lang racket
-
+(provide define-table)
 #|
 Tabelle als Kombinatormodell:
     - P: EINE Zelle mit "primitivem" Typ  -ODER-
@@ -151,6 +151,20 @@ Table:
      (table-width content))))
     
      
+  (define-syntax define-table
+    (syntax-rules ()
+      ((define-table table-name struct-name (field-name field-title field-type) ...)
+       (begin
+         (struct struct-name
+            (field-name ...) #:transparent)
+         (define table-name (table-with-header-row
+           struct-name
+           (header+type field-title 'field-type) ...
+           )))
+       )
+      )
+    )
+
   
 
 (define currency? string?)
@@ -240,20 +254,6 @@ Table:
 
 |#
 
-  (define-syntax define-table
-    (syntax-rules ()
-      ((define-table table-name struct-name (field-name field-title field-type) ...)
-       (begin
-         (struct struct-name
-            (field-name ...) #:transparent)
-         (define table-name (table-with-header-row
-           struct-name
-           (header+type field-title 'field-type) ...
-           )))
-       )
-      )
-    )
-
 (define-table t2 CellOutput2
   (segment "Segment" string)
   (units-sold "Units Sold" currency))
@@ -314,3 +314,4 @@ Place      |         | Score
 | Germany  |  Europe | 0
 ----------------------
 |#
+

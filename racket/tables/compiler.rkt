@@ -4,6 +4,7 @@
          syntax/strip-context
          "ast.rkt"
          "parser.rkt")
+(provide compile-program compile-table-definition)
 
 (define t3 (parse-from-string "DEFINE TABLE t3 WITH StructName (STR segment \"Segment\", STR country \"Country\")"))
 
@@ -32,4 +33,9 @@
                         #`(#,(string->symbol canon-name) #,title #,type)))))
                  field-definitions)))))
          
-
+(define (compile-program table-definition)
+  (list (strip-context (compile-table-definition table-definition))
+        (strip-context
+         #`(provide #,(string->symbol (table-definition-name table-definition))))
+        (strip-context
+         #`(provide (struct-out #,(string->symbol (table-definition-struct-name table-definition)))))))
