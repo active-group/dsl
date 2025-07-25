@@ -31,3 +31,4 @@ Bei Fragen oder Problemen gern Mike Sperber kontaktieren!
 - [Selective Applicative Functors](https://dl.acm.org/doi/10.1145/3341694)
 - [Vavr](https://vavr.io/), [Vavr Kotlin](https://github.com/vavr-io/vavr-kotlin)
 - [Monaden in Kotlin](https://github.com/active-group/kotlin-free-monad), [Artikel dazu](https://www.sigs.de/artikel/funktionale-programmierung-fuer-bessere-architektur/)
+- [Phil Wadler: QDSL](https://homepages.inf.ed.ac.uk/wadler/topics/qdsl.html)
