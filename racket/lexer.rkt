@@ -27,14 +27,14 @@
 
 #|
   DEFINE TABLE t3 WITH StructName (STR segment "Segment", STR country "Country")
+
+  (get-tokens-from-string "DEFINE TABLE t3 WITH StructName (STR segment \"Segment\", STR country \"Country\")")
   |#
 
 (define dlexer
   (lexer-src-pos
    [whitespace
     (return-without-pos (dlexer input-port))]
-   [identifier-re
-    (token-IDENTIFIER lexeme)]
    [#\" (token-STRING (get-string input-port))]
    [#\( (token-LPAREN)]
    [#\, (token-COMMA)]
@@ -45,6 +45,8 @@
    ["STR" (token-STR)]
    ["INT" (token-INT)]
    ["CURRENCY" (token-CURRENCY)]
+   [identifier-re
+    (token-IDENTIFIER lexeme)]
    [(eof) (token-EOF)]))
    
 
