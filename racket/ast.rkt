@@ -1,5 +1,6 @@
 #lang racket
-
+(provide (struct-out table-definition)
+         (struct-out field-definition))
 #|
   DEFINE TABLE t3 WITH StructName (STR segment "Segment", STR country "Country")
   |#
