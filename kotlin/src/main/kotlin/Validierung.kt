@@ -149,8 +149,8 @@ val k401 = PersonKriterium { person ->
 
 val h402 = PersonKriterium { person ->
     ImGemeindeKontext.pure(person.beziehungsStatus == BeziehungsStatus.VERHEIRATET)
-        .und(findePerson(person.partnerName!!).map { it.geschlecht != person.geschlecht }.oder(
-    findePerson(person.partnerName!!).map { it.geschlecht == person.geschlecht }))
+        .und(findePerson(person.partnerName.getUnsafe()).map { it.geschlecht != person.geschlecht }.oder(
+    findePerson(person.partnerName.getUnsafe()).map { it.geschlecht == person.geschlecht }))
 }
 
 val h404 = PersonKriterium { person ->
@@ -158,8 +158,8 @@ val h404 = PersonKriterium { person ->
         // brauchen was wie map, aber statt (A) -> B brauchen wir
         // (A) -> ImGemeindeKontext<B>
         // findePerson(person.partnerName!!).map { partner -> findePerson(partner.partnerName!!) }
-    findePerson(person.partnerName!!).flatMap { partner ->
-    findePerson(partner.partnerName!!) }.map { partnerPartner ->
+    findePerson(person.partnerName.getUnsafe()).flatMap { partner ->
+    findePerson(partner.partnerName.getUnsafe()) }.map { partnerPartner ->
             partnerPartner != person
     }
 }
