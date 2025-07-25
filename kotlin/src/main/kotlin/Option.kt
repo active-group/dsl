@@ -17,7 +17,8 @@ sealed interface Option<out A> {
             is Some ->f(this.value)
         }
     companion object {
-        
+        fun <A> optionally(block: suspend OptionDSL.() -> A): Option<A> =
+            MonadDSL.effect(OptionDSL, block)
     }
 }
 
