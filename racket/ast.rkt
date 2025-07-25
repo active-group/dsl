@@ -8,11 +8,13 @@
 (struct table-definition (name
                           struct-name
                           field-definitions
-                          ))
+                          )
+  #:transparent)
 
 (struct field-definition (type
                           canon-name
-                          title))
+                          title)
+  #:transparent)
 
 (define t3 (table-definition "t3" "StructName"
                             (list
