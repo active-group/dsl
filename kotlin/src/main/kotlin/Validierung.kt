@@ -37,12 +37,28 @@ data class Person(val name: String,
                   val beziehungsStatus: BeziehungsStatus,
                   val partnerName: Option<String>)
 
-sealed interface Kriterium
+sealed interface Kriterium {
+}
 
 interface GemeindeKontext {
     fun findePerson(name: String): Person
     // ...
 }
+
+data object DSLGemeindeKontext: GemeindeKontext {
+    override fun findePerson(name: String): Person =
+        when (name) {
+            "Mike" -> Person("Mike", Geschlecht.MAENNLICH, BeziehungsStatus.VERHEIRATET, Some("Sabine"))
+            else -> TODO()
+    }
+}
+
+/*
+data class DBGemeindeKontext(db: DBConnection) {
+
+}
+*/
+ */
 
 sealed interface ImGemeindeKontext<A> {
     fun apply(gemeindeKontext: GemeindeKontext): A
@@ -127,7 +143,12 @@ interface ImGemeindeKontextOperations {
         IGKPure(wert)
 }
 
-data class PersonKriterium(val p: suspend ImGemeindeKontextOperations.(Person) -> ImGemeindeKontext<Boolean>): Kriterium
+data object ImGemeindeDSL: ImGemeindeKontextOperations
+
+data class PersonKriterium(val p: ImGemeindeKontextOperations.(Person) -> ImGemeindeKontext<Boolean>): Kriterium {
+    fun anwenden(person: Person, gemeindeKontext: GemeindeKontext): Boolean =
+        p(ImGemeindeDSL, person).apply(gemeindeKontext)
+}
 
 // p: Foo(...) -> ... : Die Funktion muß Foo implementieren
 

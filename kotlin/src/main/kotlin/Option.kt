@@ -1,8 +1,20 @@
 package de.activegroup
 
 // in der Realität: Vavr
-sealed interface Option<A> {
+sealed interface Option<out A> {
     fun getUnsafe(): A
+
+    fun <B> map(f: (A) -> B): Option<B> =
+        when (this) {
+            is None -> None
+            is Some -> Some(f(this.value))
+        }
+
+    fun <B> flatMap(f: (A) -> Option<B>): Option<B> =
+        when (this) {
+            is None -> None
+            is Some ->f(this.value)
+        }
 }
 
 data object None: Option<Nothing> {
@@ -14,5 +26,12 @@ data class Some<A>(val value: A): Option<A> {
     override fun getUnsafe(): A = value
 }
 
+// besser noch wäre: applikativer Funktor -> FUNAR
 
+fun addOptions(oi1: Option<Int>, oi2: Option<Int>): Option<Int> =
+    oi1.flatMap { i1 ->
+        oi2.flatMap { i2 ->
+            Some(i1 + i2)
+        }
+    }
 
