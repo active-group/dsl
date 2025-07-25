@@ -73,13 +73,53 @@ z
 ;(if* (> 2 1) dann "zwo" sonst "uno")
 
 #|
-let triangles =
+triangles =
       [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 
-let rightTriangles =
+rightTriangles =
       [ (a,b,c) |
         c <- [1..10],
         b <- [1..c],
         a <- [1..b],
         a^2 + b^2 == c^2 ]
 |#
+
+(define (from-to m n)
+  (if (> m n)
+      '()
+      (cons m (from-to (+ m 1) n))))
+
+(define (concat-map f l)
+  (apply append (map f l)))
+
+(define-syntax ||
+  (syntax-rules (<- let) ; Literale
+    ((|| e #t) (list e))
+    ((|| e q) (|| e q #t))
+    ((|| e (p <- l) Q ...)
+     (let ((ok (lambda (p)
+                 (|| e Q ...))))
+       (concat-map ok l)))
+    ((|| e (let decls) Q ...)
+     (let decls
+       (|| e Q ...)))
+    ((|| e b Q ...)
+     (if b
+         (|| e Q ...)
+         '()))))
+                 
+
+(define triangles
+  (|| (list a b c)
+      (c <- (from-to 1 10))
+      (b <- (from-to 1 10))
+      (a <- (from-to 1 10))))
+
+(define (sqr x) (* x x))
+
+(define right-triangles
+  (|| (list a b c)
+      (c <- (from-to 1 10))
+      (b <- (from-to 1 c))
+      (a <- (from-to 1 b))
+      (= (+ (sqr a) (sqr b)) (sqr c))))
