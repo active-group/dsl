@@ -206,8 +206,62 @@ Table:
            (header+type "Sales" 'currency)
            (header+type "Profit" 'currency)))
 
+  
+
   ; Aufgabe: Makro-Layer auf table-with-header-row, soll struct generieren, ohne header+type
 
+  #|
+
+(define-table t2 CellOutput2
+   (segment "segment-string" string)
+
+(define-table t2 CellOutput2
+  (segment "Segment" string)
+  (units-sold "Units Sold" currency))
+
+(define-syntax my-min
+  (syntax-rules ()
+    ; ein Zweig pro Fall (<Pattern> <Ergebnis>)
+    ((my-min x) x)
+    ((my-min x y)
+     (let ((x* x)
+           (y* y))
+       (if (< x* y*)
+           x*
+           y*)))
+    ((my-min x y ...) ; y ... beliebig viele ys
+     (my-min x (my-min y ...)))
+    #;((my-min x y z)
+     (my-min x (my-min y z)))))
+
+(begin
+  (define mike 23)
+  (define sperber 42))
+
+|#
+
+  (define-syntax define-table
+    (syntax-rules ()
+      ((define-table table-name struct-name (field-name field-title field-type) ...)
+       (begin
+         (struct struct-name
+            (field-name ...) #:transparent)
+         (define table-name (table-with-header-row
+           struct-name
+           (header+type field-title 'field-type) ...
+           )))
+       )
+      )
+    )
+
+(define-table t2 CellOutput2
+  (segment "Segment" string)
+  (units-sold "Units Sold" currency))
+
+  t2
+  (CellOutput2 "test" "test")
+  
+  
   ; aus zwei Definitionen eine machen
 (begin
   (define mike 23)
