@@ -2,8 +2,11 @@
 (require parser-tools/lex
          (prefix-in : parser-tools/lex-sre))
 
-(define-tokens tokens-with-payload ( #| ... |# ))
-(define-empty-tokens plain-tokens ( #| ... |# EOF))
+(define-tokens tokens-with-payload (IDENTIFIER STRING))
+(define-empty-tokens plain-tokens (LPAREN RPAREN COMMA DEFINE TABLE WITH STR INT CURRENCY EOF))
+(define-lex-abbrev id-chars (char-complement (char-set "(,)=:.~?\"% \n")))
+(define-lex-abbrev identifier-re (:: id-chars (:* (:or upper-case id-chars))))
+
 
 (define-lex-abbrev line-break #\newline)
 
@@ -20,5 +23,28 @@
 
 (define (get-string input-port)
   (list->string (string-lexer input-port)))
+
+#|
+  DEFINE TABLE t3 WITH StructName (STR segment "Segment", STR country "Country")
+  |#
+
+(define dlexer
+  (lexer-src-pos
+   [whitespace
+    (return-without-pos (dlexer input-port))]
+   [identifier-re
+    (token-IDENTIFIER lexeme)]
+   [#\" (token-STRING (get-string input-port))]
+   [#\( (token-LPAREN)]
+   [#\, (token-COMMA)]
+   [#\) (token-RPAREN)]
+   ["DEFINE" (token-DEFINE)]
+   ["TABLE" (token-TABLE)]
+   ["WITH" (token-WITH)]
+   ["STR" (token-STR)]
+   ["INT" (token-INT)]
+   ["CURRENCY" (token-CURRENCY)]
+   [(eof) (token-EOF)]))
+   
 
 ; https://github.com/racket/datalog/blob/master/private/lex.rkt
