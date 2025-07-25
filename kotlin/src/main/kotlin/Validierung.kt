@@ -58,7 +58,6 @@ data class DBGemeindeKontext(db: DBConnection) {
 
 }
 */
- */
 
 sealed interface ImGemeindeKontext<A> {
     fun apply(gemeindeKontext: GemeindeKontext): A
