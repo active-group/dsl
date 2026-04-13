@@ -15,7 +15,7 @@
     body))
 
 (define-syntax-rule (destructure list-expression (name1 name2 name3 name4) body) ; Syntax-Pattern
-  (let ((v list-expression)) ; Hygiene
+  (let ((v list-expression)) ; Hygiene: sorgt für lexikalische Bindung
     (let ((name1 (first v))
           (name2 (second v))
           (name3 (third v))
