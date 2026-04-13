@@ -171,3 +171,14 @@
 (define gel1 (mixture soap1 shampoo1))
 (define gel2 (mixture gel1 shampoo2))
 
+; Seifenanteil berechnen
+(define (soap-proportion product)
+  (match product
+    ((soap pH) 1)
+    ((shampoo hairtype) 0)
+    ((mixture product1 product2)
+     (/ (+ (soap-proportion product1)
+           (soap-proportion product2))
+        2))))
+
+
