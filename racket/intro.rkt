@@ -126,4 +126,21 @@
     ((dillo liveness weight) (dillo 'dead weight))
     ((snake thickness length) (snake 0 length))))
 
+; Seife hat folgende Eigenschaften:
+; - pH-Wert
+(struct soap
+  (pH)
+  #:transparent)
+
+(define soap1 (soap 7))
+
+; Shampoo hat folgende Eigenschaften:
+; - Haartyp
+(struct shampoo
+  (hairtype)
+  #:transparent)
+
+(define shampoo1 (shampoo 'dandruff))
+
+
   
