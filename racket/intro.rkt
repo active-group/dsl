@@ -41,7 +41,10 @@
    (beside image1 image2)
    (beside image2 image1)))
 
-; Tiere auf dem texanischen Highway
+; Tier auf dem texanischen Highway ist eins der folgenden:
+; - Gürteltier  -ODER-
+; - Klapperschlange
+; Fallunterscheidung / Summe
 
 ; Konstruktionsanleitungen (https://www.deinprogramm.de/)
 
@@ -102,3 +105,4 @@
   (check-equal?
    (feed-dillo dillo1 5)
    (dillo 'alive 15)))
+
