@@ -76,4 +76,8 @@
                 (list 2 4))
   (check-equal? (set-elements set???*)
                 (list 2 4)))
-                                      
+
+
+; Tradeoffs:
+; + einfach zu bauen
+; - Optimierung schier unmöglich
