@@ -54,7 +54,7 @@
      (and (first x)
           (fulfills-all? rest x)))))
 
-(module test+
+(module+ test
   (require rackunit)
   (check-equal? (set-elements evens10)
                 (list 2 4 6 8 10))
