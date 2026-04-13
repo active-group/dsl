@@ -17,12 +17,12 @@
 (define overlay1 (overlay star1 circle1))
 
 #;(above
- (beside circle1 star1)
- (beside star1 circle1))
+   (beside circle1 star1)
+   (beside star1 circle1))
 
 #;(above
- (beside square1 circle1)
- (beside circle1 square1))
+   (beside square1 circle1)
+   (beside circle1 square1))
 
 ; Abstraktion
 ; - >=2 ähnliche Codestellen
@@ -30,10 +30,10 @@
 ; - Unterschiede durch (abstrakte) Namen ersetzen
 ; - Namen mit lambda-Ausdruck binden
 #;(define tile
-  (lambda (image1 image2)
-    (above
-     (beside image1 image2)
-     (beside image2 image1))))
+    (lambda (image1 image2)
+      (above
+       (beside image1 image2)
+       (beside image2 image1))))
 
 ; syntaktischer Zucker:
 (define (tile image1 image2)
@@ -67,11 +67,38 @@
 
 ; Gürteltier überfahren
 ; "dillo rein, dillo raus"
-(define (run-over-dillo d)
+(define (run-over-dillo* d)
   (dillo 'dead (dillo-weight d)))
+
+(define (run-over-dillo d)
+  (match d
+    ((dillo l w) (dillo 'dead w))))
 
 (module+ test
   (require rackunit)
   (check-equal? (run-over-dillo dillo1)
                 (dillo 'dead 10)))
-    
+
+(module+ test
+  (check-equal? (run-over-dillo dillo2)
+                dillo2))
+
+; Gürteltier füttern
+; "dillo, dillo raus"
+(define (feed-dillo* d amount)
+  (dillo
+   (dillo-liveness d)
+   (match (dillo-liveness d)
+     ; 2 Fälle, 'alive / 'dead
+     ('alive (+ (dillo-weight d) amount))
+     ('dead (dillo-weight d)))))
+
+(define (feed-dillo d amount)
+  (match d
+    ((dillo 'alive weight) (dillo 'alive (+ weight amount)))
+    ((dillo 'dead weight) d)))
+
+(module+ test
+  (check-equal?
+   (feed-dillo dillo1 5)
+   (dillo 'alive 15)))
