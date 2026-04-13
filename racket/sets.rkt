@@ -1,4 +1,7 @@
 #lang racket
+; Eingebettete (interne) DSL
+; vs. Stand-Alone- (externe) DSL
+
 ; Eine Menge ist eins der folgenden:
 ; X = { x \in A | x <= 5 }
 
