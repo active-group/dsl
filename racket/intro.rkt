@@ -118,3 +118,12 @@
 ; Schlange, 10cm dick, 300cm lang
 (define snake1 (snake 10 300))
 
+; Tier überfahren
+(define (run-over-animal a)
+  ; Summe, 2 Fälle
+  (match a
+    ; 2 Zweige
+    ((dillo liveness weight) (dillo 'dead weight))
+    ((snake thickness length) (snake 0 length))))
+
+  
