@@ -106,3 +106,15 @@
    (feed-dillo dillo1 5)
    (dillo 'alive 15)))
 
+
+; Klapperschlange hat folgende Eigenschaften:
+; - Dicke   -UND-
+; - Länge
+(struct snake
+  (thickness
+   length)
+  #:transparent)
+
+; Schlange, 10cm dick, 300cm lang
+(define snake1 (snake 10 300))
+
