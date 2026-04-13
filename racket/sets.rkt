@@ -44,8 +44,22 @@
     ((list-set elements) elements)
     ((restricted-set restrictions inner-set)
      (filter (lambda (element)
-               ... restrictions ...)
+              (fulfills-all? restrictions element))
              (set-elements inner-set)))))
 
 (define (fulfills-all? predicates x)
-  
+  (match predicates
+    ('() #t)
+    ((cons first rest)
+     (and (first x)
+          (fulfills-all? rest x)))))
+
+(module test+
+  (require rackunit)
+  (check-equal? (set-elements evens10)
+                (list 2 4 6 8 10))
+  (check-equal? (set-elements set<5)
+                (list 1 2 3 4))
+  (check-equal? (set-elements set???)
+                (list 2 4)))
+                                      
