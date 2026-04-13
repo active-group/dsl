@@ -89,6 +89,16 @@
 ; Gürteltier füttern
 ; "dillo, dillo raus"
 (define (feed-dillo* d amount)
+  (let ((liveness (dillo-liveness d))
+        (weight (dillo-weight d)))
+    (dillo
+     liveness
+     (match liveness
+       ; 2 Fälle, 'alive / 'dead
+       ('alive (+ weight amount))
+       ('dead weight)))))
+
+#;(define (feed-dillo* d amount)
   (dillo
    (dillo-liveness d)
    (match (dillo-liveness d)
@@ -206,7 +216,7 @@
 ; Elemente einer Liste aufsummieren
 (define (list-sum l)
   (match l
-    ('() 0)
+    ('() )
     ((cons first rest)
      (+ first (list-sum rest)))))
       
