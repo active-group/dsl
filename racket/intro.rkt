@@ -188,3 +188,28 @@
 
 ; 1. Datenmodell dafür
 ; 2. Funktion, die feststellt, ob ein Punkt innerhalb oder außerhalb eines Einflußbereichs ist
+
+; Liste ist eins der folgenden:
+; - die leere Liste  '()   -ODER-
+; - eine Cons-Liste aus erstem Element und Rest-Liste  cons
+;                                               ^^^^^ Selbstbezug
+
+; 1elementige Liste: 5
+(define list1 (cons 5 '()))
+; 2elementige Liste: 2 5
+(define list2 (cons 2 (cons 5 '())))
+; 3elementige Liste: 7 2 5
+(define list3 (cons 7 list2))
+; 4elementige Liste 3 5 3 2
+(define list4 (list 3 5 (+ 1 2) 2))
+
+; Elemente einer Liste aufsummieren
+(define (list-sum l)
+  (match l
+    ('() 0)
+    ((cons first rest)
+     (+ first (list-sum rest)))))
+      
+(module+ test
+  (check-equal? (list-sum list3)
+                14))
