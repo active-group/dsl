@@ -33,6 +33,10 @@
   (restricted-set (list (lambda (x) (< x 5)) even?)
                   set10))
 
+(define set???*
+  (restricted-set (list (lambda (x) (< x 5)))
+                  evens10))
+
 ; Kompositionalität:
 ; Die Bedeutung eines Gegenstands hängt nur von der Bedeutung
 ; seiner Bestandteile ab.
@@ -61,5 +65,7 @@
   (check-equal? (set-elements set<5)
                 (list 1 2 3 4))
   (check-equal? (set-elements set???)
+                (list 2 4))
+  (check-equal? (set-elements set???*)
                 (list 2 4)))
                                       
