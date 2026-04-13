@@ -3,7 +3,12 @@
 ; vs. Stand-Alone- (externe) DSL
 
 ; Eine Menge ist eins der folgenden:
-; X = { x \in A | x <= 5 }
+; X = { x \in A | x <= 5, even?(x), x < 4 }
+
+; (in x A (<= x 5) (even? x) (< x 4))
+; = (restricted-set A (list (lambda (x) (<= x 5)) (lambda (x) (even? x)) (lambda (x) (< x 4))))
+
+; neues Bindungskonstrukt
 
 ; - eine Einschränkung einer Menge  -ODER-
 ; - eine Liste aller Elemente (Reihenfolge spielt keine Rolle)
