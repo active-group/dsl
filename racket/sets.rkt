@@ -40,6 +40,11 @@
   (restricted-set (list (lambda (x) (< x 5)))
                   evens10))
 
+(define set17
+  (restricted-set (list (lambda (x) (< x 4)))
+                  set<5))
+
+
 ; Kompositionalität:
 ; Die Bedeutung eines Gegenstands hängt nur von der Bedeutung
 ; seiner Bestandteile ab.
