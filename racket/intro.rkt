@@ -181,4 +181,10 @@
            (soap-proportion product2))
         2))))
 
+; Der Einflußbereich eines Schiffs ("shape", "area") ist eins der folgenden:
+; - Kreis
+; - Quadrat
+; - eine Überlagerung zweier Einflußbereiche
 
+; 1. Datenmodell dafür
+; 2. Funktion, die feststellt, ob ein Punkt innerhalb oder außerhalb eines Einflußbereichs ist
