@@ -126,6 +126,13 @@
     ((dillo liveness weight) (dillo 'dead weight))
     ((snake thickness length) (snake 0 length))))
 
+; Ein Duschprodukt ist eins der folgenden:
+; - Seife ODER
+; - Shampoo ODER
+; - Mixtur bestehend aus zwei Duschprodukten
+
+; - --Duschgel--
+
 ; Seife hat folgende Eigenschaften:
 ; - pH-Wert
 (struct soap
@@ -141,6 +148,26 @@
   #:transparent)
 
 (define shampoo1 (shampoo 'dandruff))
+(define shampoo2 (shampoo 'oily))
 
+; Duschgel besteht aus:
+; - Seife -UND-
+; - Shampoo
+(struct showergel
+  (soap
+   shampoo)
+  #:transparent)
 
-  
+#;(define gel1 (showergel soap1 shampoo1))
+
+; Mixtur besteht aus:
+; - Duschprodukt UND
+; - nochm Duschprodukt
+(struct mixture
+  (product1 ; Selbstbezug
+   product2)
+  #:transparent)
+
+(define gel1 (mixture soap1 shampoo1))
+(define gel2 (mixture gel1 shampoo2))
+
