@@ -29,11 +29,17 @@
 ; - kopieren (letztes Mal)
 ; - Unterschiede durch (abstrakte) Namen ersetzen
 ; - Namen mit lambda-Ausdruck binden
-(define tile
+#;(define tile
   (lambda (image1 image2)
     (above
      (beside image1 image2)
      (beside image2 image1))))
+
+; syntaktischer Zucker:
+(define (tile image1 image2)
+  (above
+   (beside image1 image2)
+   (beside image2 image1)))
 
 ; Tiere auf dem texanischen Highway
 
@@ -50,9 +56,22 @@
    weight) ; Zahl
   #:transparent)
 
+; liefert:
+; - Konstruktor dillo
+; - Selektoren/"Getter" dillo-liveness, dillo-weight
+
 ; lebendiges Gürteltier, 10kg
 (define dillo1 (dillo 'alive 10))
 ; totes Gürteltier, 8kg
 (define dillo2 (dillo 'dead 8))
 
 ; Gürteltier überfahren
+; "dillo rein, dillo raus"
+(define (run-over-dillo d)
+  (dillo 'dead (dillo-weight d)))
+
+(module+ test
+  (require rackunit)
+  (check-equal? (run-over-dillo dillo1)
+                (dillo 'dead 10)))
+    
