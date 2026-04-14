@@ -3,3 +3,5 @@
 
 (define set10
   (list-set (list 1 2 3 4 5 6 7 8 9 10)))
+
+(set-elements (in x set10 (even? x)))
