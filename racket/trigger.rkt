@@ -42,11 +42,13 @@
        (quotient (- counter-now counter-before) ; ganzzahlige Division
                  interval)))
     ((after event-name counter-list)
-     (let ((counter-now (event-counter (find-event snapshot-now event-name))))
+     (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+           (counter-now (event-counter (find-event snapshot-now event-name))))
        (length
         (filter
          (lambda (counter)
-           (>= counter-now counter))
+           (and (>= counter-before counter)
+                (>= counter-now counter)))
          counter-list))))))
 
 (module+ test
