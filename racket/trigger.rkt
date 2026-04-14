@@ -23,6 +23,11 @@
    trigger2)
   #:transparent)
 
+(struct und
+  (trigger1
+   trigger2)
+  #:transparent)
+
 ; Event besteht aus:
 ; - Name
 ; - Zähler
@@ -57,6 +62,9 @@
          counter-list))))
     ((oder trigger1 trigger2)
      (+ (how-often trigger1 snapshot-before snapshot-now)
+        (how-often trigger2 snapshot-before snapshot-now)))
+    ((und trigger1 trigger2)
+     (* (how-often trigger1 snapshot-before snapshot-now)
         (how-often trigger2 snapshot-before snapshot-now)))))
 
 ; Assoziativität
@@ -64,6 +72,9 @@
 
 ; Kommutativität
 ; (oder t1 t2) == (oder t2 t1)
+
+; Distributivität
+; (and a (or b c)) = (or (and a b) (and a c))
 
 (module+ test
   (require (only-in rackunit check-equal?)) ; after ist in rackunit definiert
