@@ -43,6 +43,7 @@
                    name))
          snapshot))
 
+; Semantik
 ; Wie oft feuert der Trigger?
 (define (how-often trigger snapshot-before snapshot-now)
   (match trigger
