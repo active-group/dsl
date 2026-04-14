@@ -1,6 +1,7 @@
 #lang racket
 (provide in
-         set-elements)
+         set-elements
+         list-set)
 
 ; Eingebettete (interne) DSL
 ; vs. Stand-Alone- (externe) DSL
