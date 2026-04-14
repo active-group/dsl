@@ -1,0 +1,77 @@
+#lang racket
+
+;(| e True)
+
+;(list-comprehension x with #t)
+;(list-comprehension x with #t, #f)
+;(list-comprehension x with x from [1..10])
+;(list-comprehension x+1 with x from [1..10])
+;(list-comprehension (a,b,c) with c from [1..10] b from [1..10], a from [1..10])
+;(list-comprehension (a,b,c) with c from [1..10] b from [1..c] a from [1..b], a^2 + b^2 == c^2)
+
+(define-syntax list-comprehension
+  (syntax-rules (with from)
+    ((list-comprehension e with #t) (list e))
+    ((list-comprehension e with #f) '())
+    ;((list-comprehension e with cond) (if (cond e) (list e) '()))
+    ;((list-comprehension e with cond cond2) (if (and (cond e) (cond2 e)) (list e) '()))
+    ;((list-comprehension e with p from l) l)
+    ((list-comprehension e with p from l quals ...)
+     (let ((ok (lambda (p) (list-comprehension e with quals ... #t))))
+       (concatmap ok l)))
+    ((list-comprehension e with q) (list-comprehension e with q #t))
+    ((list-comprehension e with b Q ...) (if b (list-comprehension e with Q ...) '()))))
+
+(define (concatmap predicate list)
+  (apply append (map predicate list)))
+
+(module+ test
+  (require rackunit)
+  (check-equal? (list-comprehension 'a with #t)
+                '(a))
+  (check-equal? (list-comprehension 'a with #f)
+                '())
+  (define always-false #f)
+  (define always-true #t)
+  (check-equal? (list-comprehension 'a with always-false)
+                '())
+  (check-equal? (list-comprehension 'a with always-true)
+                '(a))
+  (check-equal? (list-comprehension 'a with always-false always-false)
+                '())
+  (check-equal? (list-comprehension 'a with always-false always-true)
+                '())
+  (check-equal? (list-comprehension 'a with always-true always-false)
+                '())
+  (check-equal? (list-comprehension 'a with always-true always-true)
+                '(a))
+  (check-equal? (list-comprehension 'a with always-true always-true always-true)
+                '(a))
+  (check-equal? (list-comprehension 'a with always-true always-true always-false)
+                '())
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4))
+                '(1 2 3 4))
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4) always-true)
+                '(1 2 3 4))
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4) always-true always-true)
+                '(1 2 3 4))
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4) always-false)
+                '())
+
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4) always-false always-true)
+                '())
+
+  (check-equal? (list-comprehension a with a from '() (always-true))
+                '())
+
+  (check-equal? (list-comprehension a with a from (list 1 2 3 4))
+                '(1 2 3 4))
+
+  (check-equal? (list-comprehension a with a from (list))
+                '())
+
+  (check-equal? (list-comprehension (+ a 2) with a from (list 1 2 3 4) always-true always-true)
+                '(3 4 5 6))
+
+  (check-equal? (list-comprehension (+ a 2) with a from (list 1 2 3 4) (<= a 3) (even? a))
+                '(4)))
