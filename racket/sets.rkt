@@ -6,7 +6,11 @@
 ; X = { x \in A | x <= 5, even?(x), x < 4 }
 
 ; (in x A (<= x 5) (even? x) (< x 4))
-; = (restricted-set A (list (lambda (x) (<= x 5)) (lambda (x) (even? x)) (lambda (x) (< x 4))))
+; = (restricted-set (list (lambda (x) (<= x 5)) (lambda (x) (even? x)) (lambda (x) (< x 4))) A)
+
+(define-syntax-rule (in v set predicate-expression ...)
+  (restricted-set (list (lambda (v) predicate-expression) ...)
+                  set))
 
 ; neues Bindungskonstrukt
 
@@ -40,6 +44,9 @@
 (define set???
   (restricted-set (list (lambda (x) (< x 5)) even?)
                   set10))
+
+(define set???$
+  (in x set10 (< x 5) (even? x)))
 
 (define set???*
   (restricted-set (list (lambda (x) (< x 5)))
