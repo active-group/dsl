@@ -88,3 +88,19 @@
                   (+ a b c d v)))
    27))
 
+; (if <Bedingung> <Konsequente/"then"> <Alternative/"else">)
+
+(define-syntax if*
+  (syntax-rules ()
+    ((if* condition then consequent else alternative)
+     (if condition consequent alternative))))
+
+
+(module+ test
+  (check-equal?
+   (if* #t then 1 else 2)
+   1)
+  (check-equal?
+   (if* #f then 1 else 2)
+   2))
+
