@@ -18,6 +18,11 @@
    counter-list)
   #:transparent)
 
+(struct oder
+  (trigger1
+   trigger2)
+  #:transparent)
+
 ; Event besteht aus:
 ; - Name
 ; - Zähler
@@ -47,22 +52,51 @@
        (length
         (filter
          (lambda (counter)
-           (and (>= counter-before counter)
+           (and (> counter counter-before)
                 (>= counter-now counter)))
-         counter-list))))))
+         counter-list))))
+    ((oder trigger1 trigger2)
+     (+ (how-often trigger1 snapshot-before snapshot-now)
+        (how-often trigger2 snapshot-before snapshot-now)))))
+
+; Assoziativität
+; (oder t1 (oder t2 t3)) == (oder (oder t1 t2) t3)
+
+; Kommutativität
+; (oder t1 t2) == (oder t2 t1)
 
 (module+ test
   (require (only-in rackunit check-equal?)) ; after ist in rackunit definiert
   (define snapshot0
-    (list (event 'current-order 17)))
+    (list (event 'current-order 17) (event 'visual-inspection 3)))
   (define snapshot1
-    (list (event 'current-order 7814)))
+    (list (event 'current-order 500) (event 'visual-inspection 17)))
+  (define snapshot2
+    (list (event 'current-order 7814) (event 'visual-inspection 87)))
   (check-equal?
-   (how-often (every 'current-order 1000) snapshot0 snapshot1)
+   (how-often (every 'current-order 1000) snapshot0 snapshot2)
    7)
 
   (check-equal?
+   (how-often (after 'current-order '(500 1500 5000 10000)) snapshot0 snapshot2)
+   3)
+  
+  ; (+ (how-often trigger snapshot-a snapshot-b)
+  ;    (how-often trigger snapshot-b snapshot-c)) ==
+  ; (how-often trigger snapshot-a snapshot-c)
+
+  (check-equal?
    (how-often (after 'current-order '(500 1500 5000 10000)) snapshot0 snapshot1)
-   3))
+   1)
+  (check-equal?
+   (how-often (after 'current-order '(500 1500 5000 10000)) snapshot1 snapshot2)
+   2)
+
+  (check-equal?
+   (how-often (oder (every 'current-order 1000) (every 'visual-inspection 10))
+              snapshot0 snapshot2)
+   15))
+              
+                    
               
               
