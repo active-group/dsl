@@ -91,7 +91,7 @@
 ; (if <Bedingung> <Konsequente/"then"> <Alternative/"else">)
 
 (define-syntax if*
-  (syntax-rules ()
+  (syntax-rules (then else) ; Literale
     ((if* condition then consequent else alternative)
      (if condition consequent alternative))))
 
