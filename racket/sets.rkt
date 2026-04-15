@@ -13,8 +13,8 @@
 ; = (restricted-set (list (lambda (x) (<= x 5)) (lambda (x) (even? x)) (lambda (x) (< x 4))) A)
 
 (define-syntax-rule (in v set predicate-expression ...)
-  (restricted-set (list (lambda (v) predicate-expression) ...)
-                  set))
+  (make-restricted-set (list (lambda (v) predicate-expression) ...)
+                       set))
 
 ; neues Bindungskonstrukt
 
@@ -26,9 +26,19 @@
   #:transparent)
 
 (struct restricted-set
-  (restrictions ; Liste von Einschränkungen
+  (restriction ; eine Einschränkung
    set)
+  #:constructor-name really-make-restricted-set
   #:transparent)
+
+; smart constructor
+(define (make-restricted-set restrictions set)
+  (really-make-restricted-set (restrictions->restriction restrictions)
+                              set))
+
+(define (restrictions->restriction list)
+  (lambda (x)
+    (fulfills-all? list x)))
 
 ; Eine Einschränkung ist ein Prädikat,
 ; das sagt, ob ein Element drin ist oder nicht.
@@ -38,27 +48,27 @@
   (list-set (list 1 2 3 4 5 6 7 8 9 10)))
 
 (define evens10
-  (restricted-set (list even?)
-                  set10))
+  (make-restricted-set (list even?)
+                       set10))
 
 (define set<5
-  (restricted-set (list (lambda (x) (< x 5)))
-                  set10))
+  (make-restricted-set (list (lambda (x) (< x 5)))
+                       set10))
 
 (define set???
-  (restricted-set (list (lambda (x) (< x 5)) even?)
-                  set10))
+  (make-restricted-set (list (lambda (x) (< x 5)) even?)
+                       set10))
 
 (define set???$
   (in x set10 (< x 5) (even? x)))
 
 (define set???*
-  (restricted-set (list  (lambda (x) (< x 5)))
-                  evens10))
+  (make-restricted-set (list  (lambda (x) (< x 5)))
+                       evens10))
 
 (define set17
-  (restricted-set (list (lambda (x) (< x 4)))
-                  set<5))
+  (make-restricted-set (list (lambda (x) (< x 4)))
+                       set<5))
 
 
 ; Kompositionalität:
@@ -70,8 +80,10 @@
 (define (set-elements set)
   (match set
     ((list-set elements) elements)
-    ((restricted-set restrictions inner-set)
-     (filter (lambda (element)
+    ((restricted-set restriction inner-set)
+     (filter restriction
+             (set-elements inner-set))
+     #;(filter (lambda (element)
               (fulfills-all? restrictions element))
              (set-elements inner-set)))))
 
