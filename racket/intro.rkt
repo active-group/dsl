@@ -216,7 +216,7 @@
 ; Elemente einer Liste aufsummieren
 (define (list-sum l)
   (match l
-    ('() )
+    ('() 0)
     ((cons first rest)
      (+ first (list-sum rest)))))
       
