@@ -36,13 +36,13 @@
   #:transparent)
 
 #;(struct nicht
-  (trigger)
-  #:transparent)
+    (trigger)
+    #:transparent)
 
 #;(struct reset-group
-  (conditional-trigger
-   trigger)
-  #:transparent)
+    (conditional-trigger
+     trigger)
+    #:transparent)
 
 
 ; (reset-group manual1 (after 't '(100 500 1000 5000))
@@ -51,9 +51,9 @@
 ; manual1 löst aus bei 999
 
 #;(struct implication
-  (conditional-trigger
-   trigger)
-  #:transparent)
+    (conditional-trigger
+     trigger)
+    #:transparent)
 
 ; (implication (nicht manual1) (after 't '(100 500 1000 5000)))
 ; 
@@ -82,51 +82,102 @@
 ; Semantik
 ; Wie oft feuert der Trigger?
 ; manuals: Liste von manual
+; Interpreter
+#;(define (how-often trigger snapshot-before snapshot-now manuals)
+    (match trigger
+      ((every event-name interval)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (quotient (- counter-now counter-before) ; ganzzahlige Division
+                   interval)))
+      ((after event-name counter-list)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (length
+          (filter
+           (lambda (counter)
+             (and (> counter counter-before)
+                  (>= counter-now counter)))
+           counter-list))))
+      ((after-except event-name counter-list max-delta)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (length
+          (filter
+           (lambda (counter)
+             (and (not (findf (lambda (manual)
+                                (and (equal? (manual-event-name manual) event-name)
+                                     (<= (abs (- (manual-counter manual) counter))
+                                         max-delta)))
+                              manuals))
+                  (> counter counter-before)
+                  (>= counter-now counter)))
+           counter-list))))
+      ((oder trigger1 trigger2)
+       (+ (how-often trigger1 snapshot-before snapshot-now manuals)
+          (how-often trigger2 snapshot-before snapshot-now manuals)))
+      ((und trigger1 trigger2)
+       (* (how-often trigger1 snapshot-before snapshot-now manuals)
+          (how-often trigger2 snapshot-before snapshot-now manuals)))
+      #;((nicht trigger)
+         (write (list 'nicht trigger snapshot-before snapshot-now (how-often trigger snapshot-before snapshot-now))) (newline)
+         (if (zero? (how-often trigger snapshot-before snapshot-now))
+             1 ; ???
+             0))
+      #;((implication condition-trigger trigger)
+         (if (not (zero? (how-often condition-trigger snapshot-before snapshot-now)))
+             (how-often trigger snapshot-before snapshot-now)
+             0))))
+
 (define (how-often trigger snapshot-before snapshot-now manuals)
+  ((how-often* trigger) snapshot-before snapshot-now manuals))
+
+; Compiler
+(define (how-often* trigger)
   (match trigger
     ((every event-name interval)
-     (let ((counter-before (event-counter (find-event snapshot-before event-name)))
-           (counter-now (event-counter (find-event snapshot-now event-name))))
-       (quotient (- counter-now counter-before) ; ganzzahlige Division
-                 interval)))
+     (lambda (snapshot-before snapshot-now manuals)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (quotient (- counter-now counter-before) ; ganzzahlige Division
+                   interval))))
     ((after event-name counter-list)
-     (let ((counter-before (event-counter (find-event snapshot-before event-name)))
-           (counter-now (event-counter (find-event snapshot-now event-name))))
-       (length
-        (filter
-         (lambda (counter)
-           (and (> counter counter-before)
-                (>= counter-now counter)))
-         counter-list))))
+     (lambda (snapshot-before snapshot-now manuals)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (length
+          (filter
+           (lambda (counter)
+             (and (> counter counter-before)
+                  (>= counter-now counter)))
+           counter-list)))))
     ((after-except event-name counter-list max-delta)
-     (let ((counter-before (event-counter (find-event snapshot-before event-name)))
-           (counter-now (event-counter (find-event snapshot-now event-name))))
-       (length
-        (filter
-         (lambda (counter)
-           (and (not (findf (lambda (manual)
-                              (and (equal? (manual-event-name manual) event-name)
-                                   (<= (abs (- (manual-counter manual) counter))
-                                       max-delta)))
-                            manuals))
-                (> counter counter-before)
-                (>= counter-now counter)))
-         counter-list))))
+     (lambda (snapshot-before snapshot-now manuals)
+       (let ((counter-before (event-counter (find-event snapshot-before event-name)))
+             (counter-now (event-counter (find-event snapshot-now event-name))))
+         (length
+          (filter
+           (lambda (counter)
+             (and (not (findf (lambda (manual)
+                                (and (equal? (manual-event-name manual) event-name)
+                                     (<= (abs (- (manual-counter manual) counter))
+                                         max-delta)))
+                              manuals))
+                  (> counter counter-before)
+                  (>= counter-now counter)))
+           counter-list)))))
     ((oder trigger1 trigger2)
-     (+ (how-often trigger1 snapshot-before snapshot-now manuals)
-        (how-often trigger2 snapshot-before snapshot-now manuals)))
+     (let ((how-often-trigger1 (how-often* trigger1))
+           (how-often-trigger2 (how-often* trigger2)))
+       (lambda (snapshot-before snapshot-now manuals)
+         (+ (how-often-trigger1 snapshot-before snapshot-now manuals)
+            (how-often-trigger2 snapshot-before snapshot-now manuals)))))
     ((und trigger1 trigger2)
-     (* (how-often trigger1 snapshot-before snapshot-now manuals)
-        (how-often trigger2 snapshot-before snapshot-now manuals)))
-    #;((nicht trigger)
-     (write (list 'nicht trigger snapshot-before snapshot-now (how-often trigger snapshot-before snapshot-now))) (newline)
-     (if (zero? (how-often trigger snapshot-before snapshot-now))
-         1 ; ???
-         0))
-    #;((implication condition-trigger trigger)
-     (if (not (zero? (how-often condition-trigger snapshot-before snapshot-now)))
-         (how-often trigger snapshot-before snapshot-now)
-         0))))
+     (let ((how-often-trigger1 (how-often* trigger1))
+           (how-often-trigger2 (how-often* trigger2)))
+       (lambda (snapshot-before snapshot-now manuals)
+         (* (how-often-trigger1 snapshot-before snapshot-now manuals)
+            (how-often-trigger2 snapshot-before snapshot-now manuals)))))))
 
 ; Assoziativität
 ; (oder t1 (oder t2 t3)) == (oder (oder t1 t2) t3)
@@ -176,12 +227,11 @@
 
   #;(define manual1 (after 'manual '(1)))
   #;(check-equal?
-   (how-often (implication (nicht manual1)
-                           (every 'current-order 1000))
-              snapshot0
-              snapshot2)
-   0))
+     (how-often (implication (nicht manual1)
+                             (every 'current-order 1000))
+                snapshot0
+                snapshot2)
+     0))
               
                     
-              
               
