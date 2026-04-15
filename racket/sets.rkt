@@ -53,7 +53,7 @@
   (in x set10 (< x 5) (even? x)))
 
 (define set???*
-  (restricted-set (list (lambda (x) (< x 5)))
+  (restricted-set (list  (lambda (x) (< x 5)))
                   evens10))
 
 (define set17
