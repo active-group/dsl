@@ -44,6 +44,9 @@
    ["!=" (token-NEQUAL)]
    [(eof) (token-EOF)]))
 
+(define (get-token input-string)
+  (dlexer (open-input-string input-string)))
+
 (provide dtokens dpunct
          line-break id-chars variable-re identifier-re comment-re
          dlexer)
