@@ -1,4 +1,4 @@
-# Domänenspezifische Sprachen 2026-04-13
+# Domänenspezifische Sprachen 2026-07-13
 
 Wir werden während der Schulung konkretes DSL-Design anhand von
 praxisnahen Beispielen üben.  Ich bitte deshalb darum, einen Laptop
