@@ -30,8 +30,20 @@
 ; 2. Unterschiede ersetzen durch (abstrakte) Namen
 ; 3. neue Namen in lambda aufnehmen
 
-(define tile
+#;(define tile
   (lambda (image1 image2)
     (above
      (beside image1 image2)
      (beside image2 image1))))
+
+
+(define (tile image1 image2) ; syntaktischer Zucker
+  (above
+   (beside image1 image2)
+   (beside image2 image1)))
+
+; Tiere auf dem texanischen Highway
+
+; Gürteltier hat folgende Eigenschaften:
+; - lebendig oder tot    -UND-
+; - Gewicht
