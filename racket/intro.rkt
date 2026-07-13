@@ -62,6 +62,21 @@
 
 ; Gürteltier überfahren
 ; Gürteltier rein, Gürteltier raus
-(define (run-over-dillo d)
+(define (run-over-dillo* d)
   (dillo 'dead (dillo-weight d)))
-  
+
+(define (run-over-dillo d)
+  (match d
+    ((dillo liveness weight) (dillo 'dead weight))
+    ))
+
+(module+ test
+  (require rackunit)
+  (check-equal? (run-over-dillo dillo1)
+                (dillo 'dead 10))
+  (check-equal? (run-over-dillo dillo2)
+                dillo2))
+
+; Gürteltier füttern:
+; - Futtermenge Parameter
+; - tote Gürteltiere nehmen nicht zu
