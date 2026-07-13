@@ -80,3 +80,31 @@
 ; Gürteltier füttern:
 ; - Futtermenge Parameter
 ; - tote Gürteltiere nehmen nicht zu‘
+#;(define (feed-dillo d amount)
+  (match d
+    ((dillo liveness weight)
+     (match liveness
+       ('alive (dillo 'alive (+ weight amount)))
+       ('dead d)))))
+
+#;(define (feed-dillo d amount)
+  (define liveness (dillo-liveness d))
+  (define weight (dillo-weight d))
+  (match liveness
+    ('alive (dillo 'alive (+ weight amount)))
+    ('dead d)))
+
+(define (feed-dillo d amount)
+  (define liveness (dillo-liveness d))
+  (define weight (dillo-weight d))
+  (if (equal? liveness 'alive)
+      ; Konsequente, "then"
+      (dillo 'alive (+ weight amount))
+      ; Alternative, "else"
+      d))
+
+(module+ test
+  (check-equal? (feed-dillo dillo1 5)
+                (dillo 'alive 15))
+  (check-equal? (feed-dillo dillo2 5)
+                dillo2))
