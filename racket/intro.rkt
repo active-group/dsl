@@ -223,3 +223,9 @@
     ((cons first rest)
      (+ first
         (list-sum rest)))))
+
+(define (list-sum2 l)
+  (apply + l))
+
+(define (list* . l)
+  l)
