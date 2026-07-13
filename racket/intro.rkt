@@ -140,6 +140,7 @@
 ; - Seife  ODER
 ; - Shampoo ODER
 ; - Mixtur bestehend aus Duschprodukt und noch nem Duschprodukt
+;                        ^^^^^^^^^^^^ Selbstreferenz
 
 ; - Seife
 (struct soap
@@ -165,6 +166,7 @@
 
 (define gel1 (showergel soap1 shampoo1))
 
+; Kombinator
 (struct mixture
   (product1
    product2)
@@ -172,3 +174,29 @@
 
 (define mixture1 (mixture soap1 shampoo1))
 (define mixture2 (mixture mixture1 shampoo2))
+
+; Seifenanteil
+(define (soap-proportion product)
+  (match product
+    ((soap pH) 1)
+    ((shampoo hairtype) 0)
+    ((mixture product1 product2)
+     (/ (+
+         (soap-proportion product1)
+         (soap-proportion product2))
+        2))))
+
+(module+ test
+  (check-equal? (soap-proportion mixture1)
+                1/2)
+  (check-equal? (soap-proportion mixture2)
+                1/4))
+
+
+; Eine geometrische Figur ("Shape") ist eins der folgenden:
+; - Kreis
+; - Quadrat
+; - eine Überlagerung zweier geometrischer Figuren
+
+; 1. Datenmodellierung dafür
+; 2. Funktion, die herausbekommt, ob ein Punkt innerhalb oder außerhalb einer Figur liegt
