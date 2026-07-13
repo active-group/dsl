@@ -42,7 +42,10 @@
    (beside image1 image2)
    (beside image2 image1)))
 
-; Tiere auf dem texanischen Highway
+; Tier (auf dem texanischen Highway) ist eins der folgenden:
+; - Gürteltier    -ODER-
+; - Schlange
+; ^^^^ Summe / gemischte Daten / sealed interface
 
 ; Gürteltier hat folgende Eigenschaften:
 ; - lebendig oder tot    -UND-
@@ -108,3 +111,26 @@
                 (dillo 'alive 15))
   (check-equal? (feed-dillo dillo2 5)
                 dillo2))
+
+
+; Schlangen:
+; - Dicke  -UND-
+; - Länge
+(struct snake
+  (thickness
+   length)
+  #:transparent)
+
+; Schlange  10cm dick, 3m lang
+(define snake1 (snake 10 300))
+; Schlange 5cm dick, 1m lang
+(define snake2 (snake 5 100))
+
+; Tier überfahren
+(define (run-over-animal a)
+  (match a
+    ; 1 Zweig pro Fall / Summand
+    ((dillo liveness weight)
+     (dillo 'dead weight))
+    ((snake thickness length)
+     (snake 0 length))))
