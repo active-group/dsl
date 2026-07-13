@@ -79,4 +79,4 @@
 
 ; Gürteltier füttern:
 ; - Futtermenge Parameter
-; - tote Gürteltiere nehmen nicht zu
+; - tote Gürteltiere nehmen nicht zu‘
