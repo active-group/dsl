@@ -217,3 +217,9 @@
 ; 5elementige Liste: 3 8 7 2 5
 (define list5 (list 3 8 7 2 5))
 
+(define (list-sum l)
+  (match l
+    ('() 0)
+    ((cons first rest)
+     (+ first
+        (list-sum rest)))))
