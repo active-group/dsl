@@ -200,3 +200,20 @@
 
 ; 1. Datenmodellierung dafür
 ; 2. Funktion, die herausbekommt, ob ein Punkt innerhalb oder außerhalb einer Figur liegt
+
+; Liste ist eins der folgenden:
+; - die leere Liste   -ODER-                                                   '()
+; - eine Cons-Liste, bestehend aus erstem Element und Rest-Liste               cons
+;                                                          ^^^^^ Selbstbezug
+
+; 1elementige Liste: 5
+(define list1 (cons 5 '()))
+; 2elementige Liste: 2 5
+(define list2 (cons 2 (cons 5 '())))
+; 3elementige Liste: 7 2 5
+(define list3 (cons 7 list2))
+; 4elementige Liste: 8 7 2 5
+(define list4 '(8 7 2 5))
+; 5elementige Liste: 3 8 7 2 5
+(define list5 (list 3 8 7 2 5))
+
