@@ -48,10 +48,12 @@
 ; - lebendig oder tot    -UND-
 ; - Gewicht
 ; ^^^ Produkt / zusammengesetzte Daten / Komposition
-(struct dillo
+(struct dillo ; Konstruktor
   (liveness ; 'alive   oder   'dead
    weight)
   #:transparent)
+
+; dillo-liveness, dillo-weight: Selektoren
 
 ; lebendiges Gürteltier 10kg
 (define dillo1 (dillo 'alive 10))
