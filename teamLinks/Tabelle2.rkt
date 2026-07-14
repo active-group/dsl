@@ -161,7 +161,27 @@ format1
     ((list-format elemtn-format direction) 'todo)))
 
 
+(define (format-height format)
+  (match format
+    ((cell-format type) 1)
+    ((header-cell-format name) 1)
+    ((record-format formats direction constructor)
+     (match direction
+       ('right 1)
+       ('down (length formats))
+       )))
+  )
 
+(define (format-width format)
+  (match format
+    ((cell-format type) 1)
+    ((header-cell-format name) 1)
+    ((record-format formats direction constructor)
+     (match direction
+       ('right (length formats))
+       ('down 1)
+       )))
+  )
 
 (define table1
   '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price")
