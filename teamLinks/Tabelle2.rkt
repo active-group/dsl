@@ -94,9 +94,65 @@ format1
 
 
 
+
+
+(define header2
+  (record-format (list (header-cell-format "Segment")
+                (header-cell-format "Country")
+                (header-cell-format "Units Sold")
+                (header-cell-format "Manuf. price")
+                (header-cell-format "Sale price"))
+          'right
+          list))
+
+(struct entry2  ; beschreibt ein row, mit fixen anzahl von komponenten
+  (segment country units-sold manufacturing-price sales-proce)
+  #:transparent)
+
+
+(define format2
+  (record-format (list (cell-format 'string)
+                       (cell-format 'string)
+                       (cell-format 'number)
+                       (cell-format 'number)
+                       (cell-format 'number))
+          'right
+          entry2))
+
+
+
+(define table-format2
+  (record-format (list header2
+                       format2)
+          'down
+          (lambda (header-content payload)
+            payload)))
+
+
 (define (table-read format table row column)
   (match format
     ((header-cell-format name) 'todo )
-    ((cell-format type) 'todo)
+    ((cell-format type)
+     (define cell-content (table-ref table row column))
+     (match type 
+       ('string
+        (if (string? cell-content)
+            cell-content
+            (error 'table-ref "cell content is not a string: ~a" cell-content)))
+       ('number
+        (if (number? cell-content)
+            cell-content
+            (error 'table-ref "cell content is not a number: ~a" cell-content)))
+                     
+       ))
     ((record-format formats direction constructor) 'todo)
     ((list-format elemtn-format direction) 'todo)))
+
+
+(define table1
+  '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price")
+    ("Government" "Canada" 1618 3 20)
+    ))
+
+table1
+ 
