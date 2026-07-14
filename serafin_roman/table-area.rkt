@@ -57,6 +57,13 @@
 
 (define format1 (record-type (list headers1 entries1) 'vertical))
 
+(define headers2 (record-type ( list (header "Segment") (header "Country") (header "Units Sold") (header "Manuf. Price") (header "Sale Price")) 'vertical))
+(define record-type2 (record-type ( list (cell 'string)(cell 'string)(cell 'number)(cell 'number)(cell 'number)) 'vertical))
+(define entries2 (list-type record-type2 'horizontal))
+
+
+(define format2 (record-type (list headers2 entries2) 'horizontal))
+
 (define (match-datatype datatype table-data row col)
   (define val (table-ref table-data row col))
   (match datatype
@@ -109,9 +116,9 @@
 
 (define (match-label label table-data row col)
   (define val (table-ref table-data row col))
-   (if (equal? val label)
-                 val
-                 (error 'validate "Wrong label ~a" val))
+  (if (equal? val label)
+      val
+      (error 'validate "Wrong label ~a" val))
   )
 
 
@@ -129,6 +136,47 @@
 (module+ test
   (require rackunit)
   (check-equal? (validate format1 table1 0 0)
-                  '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price")
-  (("Government" "Canada" 1618 3 20))))
+                '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price")
+                  (("Government" "Canada" 1618 3 20))))
+  )
+
+(define-syntax define-format
+  (syntax-rules (number string)
+    ((define-format (l t) ...)
+     (record-type (list (record-type ( list (header l) ...) 'horizontal)
+                        (list-type (record-type ( list (cell 't)...) 'horizontal)
+                                   'vertical))
+                  'vertical
+    ))
+        ((define-format (l t) ... inverted)
+     (record-type (list (record-type ( list (header l) ...) 'vertical)
+                        (list-type (record-type ( list (cell 't)...) 'vertical)
+                                   'horizontal))
+                  'horizontal
+    ))
+    ))
+
+
+
+(define format-new (define-format
+                     ("Segment" string)
+                     ("Country" string)
+                     ("Units Sold" number)
+                     ("Manuf. Price" number)
+                     ("Sale Price" number)
+                     )
+  )
+
+(define format-new-inverted (define-format
+                     ("Segment" string)
+                     ("Country" string)
+                     ("Units Sold" number)
+                     ("Manuf. Price" number)
+                     ("Sale Price" number)
+                     inverted)
+  )
+
+(module+ test
+  (check-equal? format-new format1)
+  (check-equal? format-new-inverted format2)
   )
