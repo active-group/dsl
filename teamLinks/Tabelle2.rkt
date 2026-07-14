@@ -34,9 +34,9 @@
 
 
 #;(struct entryList ; beschreibt ein row mit beliebig vielen komponenten
-    (entries ; list von entries
-     );#transparent
-    )
+  (entries ; list von entries
+   );#transparent
+   )
 
 (struct prices
   (manufacturing sale)
@@ -44,20 +44,20 @@
 
 (define price-format
   (record-format (list (cell-format 'number)
-                       (cell-format 'number))
-                 'down
-                 prices))
+                (cell-format 'number))
+          'down
+          prices))
 
 
 
 
 (define header
   (record-format (list (header-cell-format "Segment")
-                       (header-cell-format "Country")
-                       (header-cell-format "Units Sold")
-                       (header-cell-format "Prices"))
-                 'right
-                 list))
+                (header-cell-format "Country")
+                (header-cell-format "Units Sold")
+                (header-cell-format "Prices"))
+          'right
+          list))
 
 
 
@@ -71,8 +71,8 @@
                        (cell-format 'string)
                        (cell-format 'number)
                        price-format)
-                 'right
-                 entry))
+          'right
+          entry))
 
 
 
@@ -81,10 +81,10 @@ format1
 
 (define table-format
   (record-format (list header
-                       (list-format format1 'down))
-                 'down
-                 (lambda (header-content payload)
-                   payload)))
+                (list-format format1 'down))
+          'down
+          (lambda (header-content payload)
+            payload)))
 
 
 
@@ -98,12 +98,12 @@ format1
 
 (define header2
   (record-format (list (header-cell-format "Segment")
-                       (header-cell-format "Country")
-                       (header-cell-format "Units Sold")
-                       (header-cell-format "Manuf. Price")
-                       (header-cell-format "Sale Price"))
-                 'right
-                 list))
+                (header-cell-format "Country")
+                (header-cell-format "Units Sold")
+                (header-cell-format "Manuf. price")
+                (header-cell-format "Sale price"))
+          'right
+          list))
 
 (struct entry2  ; beschreibt ein row, mit fixen anzahl von komponenten
   (segment country units-sold manufacturing-price sales-proce)
@@ -116,17 +116,18 @@ format1
                        (cell-format 'number)
                        (cell-format 'number)
                        (cell-format 'number))
-                 'right
-                 entry2))
+          'right
+          entry2))
 
 
 
 (define table-format2
   (record-format (list header2
-                       format2)
-                 'down
-                 (lambda (header-content payload)
-                   payload)))
+                       (list-format format2 'down))
+          'down
+          (lambda (header-content payload)
+            payload)))
+
 
 
 (define (table-read format table row column)
@@ -154,13 +155,30 @@ format1
      (define (loop formats row column)
        (match formats
          ('() '())
+         ((cons format '())
+          (cons (table-read format table row column) '()))
          ((cons format rest-formats)
           (cons (table-read format table row column)
                 (match direction
-                  ('right (loop rest-formats row (+ (format-width format)column)))
-                  ('down (loop rest-formats (+ (format-height format)row) column))))))) ; TODO row und column stimmen nicht
-     (apply constructor (loop formats row column )))
-    ((list-format elemtn-format direction) 'todo)))
+                  ('down (loop rest-formats  (+ row (format-height format)) 
+                                column))
+                  ('right (loop rest-formats row 
+                                (+ column (format-width format))))
+                )))))
+     (apply constructor (loop formats row column)))
+
+
+    ((list-format element-format direction)
+     (define (loop row column)
+       (with-handlers ((exn? (lambda (_) '())))
+         (cons (table-read element-format table row column)
+               (match direction
+                 ('right (loop row (+ column (format-width element-format))))
+                 ('down (loop (+ row (format-height element-format)) column))))))
+     (loop row column)
+     )))
+
+
 
 
 (define (format-height format)
@@ -169,10 +187,13 @@ format1
     ((header-cell-format name) 1)
     ((record-format formats direction constructor)
      (match direction
-       ('right (max (apply map format-height)))
-       ('down (+ (apply map format-height)))
-       )))
-  )
+       ('right (apply max (map format-height formats)))
+       ('down (apply + (map format-height formats)))
+       ))
+    ((list-format element-format direction)
+     (match direction
+       ('right (format-height element-format))
+       ('down (error 'format-height "invalid format ~a" format))))))
 
 (define (format-width format)
   (match format
@@ -180,13 +201,16 @@ format1
     ((header-cell-format name) 1)
     ((record-format formats direction constructor)
      (match direction
-       ('right (+ (apply map format-width formats)))
-       ('down (max (apply map format-width format)))
-       )))
-  )
+       ('right (apply + (map format-width formats)))
+       ('down  (apply max (map format-width formats)))
+       ))
+    ((list-format element-format direction)
+     (match direction
+       ('right (error 'format-width "invalid format ~a" format))
+       ('down (format-width element-format))))))
 
 (define table1
-  '(("Segment" "Country" "Units Sold" "Manuf. Price" "Sale Price")
+  '(("Segment" "Country" "Units Sold" "Manuf. price" "Sale price")
     ("Government" "Canada" 1618 3 20)
     ))
 
@@ -195,3 +219,14 @@ table1
 (table-read (header-cell-format "Country") '(("Country")) 0 0)
 (table-read header2 table1 0 0)
 
+
+
+(define table3
+  '(("Segment" "Country" "Units Sold" "Manuf. price" "Sale price")
+    ("Government" "Canada" 1618 3 20)
+    ("Government" "Germany" 1321 3 20)
+    ("Midmarket" "France" 2178 3 15)
+    ("Midmarket" "Germany" 888 3 15)
+    ("Midmarket" "Mexico" 2470 	3 15)))
+
+(table-read table-format2 table3 0 0)
