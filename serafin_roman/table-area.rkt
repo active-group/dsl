@@ -147,13 +147,13 @@
                         (list-type (record-type ( list (cell 't)...) 'horizontal)
                                    'vertical))
                   'vertical
-    ))
-        ((define-format (l t) ... inverted)
+                  ))
+    ((define-format (l t) ... inverted)
      (record-type (list (record-type ( list (header l) ...) 'vertical)
                         (list-type (record-type ( list (cell 't)...) 'vertical)
                                    'horizontal))
                   'horizontal
-    ))
+                  ))
     ))
 
 
@@ -168,12 +168,12 @@
   )
 
 (define format-new-inverted (define-format
-                     ("Segment" string)
-                     ("Country" string)
-                     ("Units Sold" number)
-                     ("Manuf. Price" number)
-                     ("Sale Price" number)
-                     inverted)
+                              ("Segment" string)
+                              ("Country" string)
+                              ("Units Sold" number)
+                              ("Manuf. Price" number)
+                              ("Sale Price" number)
+                              inverted)
   )
 
 (module+ test
