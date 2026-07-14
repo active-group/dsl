@@ -38,9 +38,6 @@
    );#transparent
    )
 
-(struct prices
-  (manufacturing sale)
-  #:transparent)
 
 (define price-format
   (record-format (list (cell-format 'number)
@@ -48,7 +45,9 @@
           'down
           prices))
 
-
+(struct prices
+  (manufacturing sale)
+  #:transparent)
 
 
 (define header
@@ -60,12 +59,6 @@
           list))
 
 
-
-(struct entry  ; beschreibt ein row, mit fixen anzahl von komponenten
-  (segment country units-sold prices)
-  #:transparent)
-
-
 (define format1
   (record-format (list (cell-format 'string)
                        (cell-format 'string)
@@ -74,7 +67,9 @@
           'right
           entry))
 
-
+(struct entry  ; beschreibt ein row, mit fixen anzahl von komponenten
+  (segment country units-sold prices)
+  #:transparent)
 
 format1
 
@@ -96,7 +91,4 @@ format1
 
 (define (table-read format table row column)
   (match format
-    ((header-cell-format name) 'todo )
-    ((cell-format type) 'todo)
-    ((record-format formats direction constructor) 'todo)
-    ((list-format elemtn-format direction) 'todo)))
+    ((
