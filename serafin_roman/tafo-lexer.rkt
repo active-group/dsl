@@ -128,5 +128,5 @@
   (test-token "\"Segment\"" 'LABEL "Segment")
   
 
-  (get-tokens-from-file "/home/serafin/Documents/Code/dsl/serafin_roman/format.tafo")
+  (get-tokens-from-file "./format.tafo")
   )
