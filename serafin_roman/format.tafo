@@ -1,0 +1,7 @@
+& Input from table format definer person
+Record
+    ("Segment" String)
+    ("Country" String)
+    ("Units Sold" Number)
+    ("Manuf. Price" Number)
+    ("Sale Price" Number)
