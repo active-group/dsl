@@ -30,17 +30,19 @@
     (lambda (tok-ok? tok-name tok-value start-pos end-pos)
       (raise-syntax-error 'datalog
                           (if tok-ok?
-                              (format "Unexpected token ~S" tok-name)
+                              (format "Unexpected token ~S (~S)" tok-name tok-value)
                               (format "Invalid token ~S" tok-name))
                           (datum->syntax #f tok-value (make-srcloc start-pos end-pos)))))
    (grammar
-    (table [(TABLE IDENTIFIER headers types fields) (table (make-srcloc $1-start-pos (node-srcloc (last $5))) $5 $2 $3 $4 $5)])
+    (table [(TABLE COLON IDENTIFIER headers types fields) (table (make-srcloc $1-start-pos (node-srcloc (last $6))) $3 $4 $5 $6)])
     (headers ((HEADER COLON values) $3))
     (types ((TYPES COLON values) $3))
     (fields ((FIELDS COLON values) $3))
     (values [() '()]
-            [(value values) (cons $1 $2 )])
+            [(value) (cons $1 '())]
+            [(value COMMA values) (cons $1 $3 )])
     (value [(NAME) (item (make-srcloc $1-start-pos $1-end-pos) $1)]
+           [(IDENTIFIER) (item (make-srcloc $1-start-pos $1-end-pos) $1)]
            )
     )))
 
@@ -62,6 +64,10 @@
   (define (test-table-parse str res)
     (check equal? (parse-table (open-input-string str)) res))
 
-  (test-clause-parse ""
+  (test-table-parse "Table: TableName
+ header : Segment, Country, Units Sold
+ types: string, string, number
+ fields: segment, country, units-sold"
                      #f)
   
+)
