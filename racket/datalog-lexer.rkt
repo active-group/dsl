@@ -45,3 +45,40 @@
 (provide dtokens dpunct
          line-break id-chars variable-re identifier-re comment-re
          dlexer)
+
+(module+ test
+  (require rackunit)
+
+  (define (test-token input-string name [value #f])
+    (let* ((with-position (dlexer (open-input-string input-string)))
+           (token (position-token-token with-position)))
+      (test-equal? (format "lexer: ~a: <~a,~a>" input-string name value)
+                   (cons (token-name token) (token-value token))
+                   (cons name value))))
+
+  (define (get-tokens input-port)
+    (let ((with-position (lambda () (dlexer input-port))))
+      (let loop ((tokens '()))
+        (let ((token (position-token-token (with-position))))
+          (if (eq? (token-name token) 'EOF)
+              (reverse tokens)
+              (loop (cons token tokens)))))))
+
+  (define (get-tokens-from-file filename)
+    (call-with-input-file filename get-tokens))
+
+  (define (get-tokens-from-string string)
+    (get-tokens (open-input-string string)))
+  
+  (test-token "=" 'EQUAL)
+  (test-token "(" 'LPAREN)
+  (test-token ")" 'RPAREN)
+  (test-token "," 'COMMA)
+  (test-token "." 'DOT)
+  (test-token "~" 'TILDE)
+  (test-token "?" 'QMARK)
+  (test-token "!=" 'NEQUAL)
+  (test-token "Foo" 'VARIABLE "Foo")
+  (test-token "foo" 'IDENTIFIER "foo")
+
+  )
