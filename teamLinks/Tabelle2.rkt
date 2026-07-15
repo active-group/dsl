@@ -230,3 +230,89 @@ table1
     ("Midmarket" "Mexico" 2470 	3 15)))
 
 (table-read table-format2 table3 0 0)
+
+
+
+
+#;(define header2
+  (record-format (list (header-cell-format "Segment")
+                (header-cell-format "Country")
+                (header-cell-format "Units Sold")
+                (header-cell-format "Manuf. price")
+                (header-cell-format "Sale price"))
+          'right
+          list))
+
+#;(define format2
+  (record-format (list (cell-format 'string)
+                       (cell-format 'string)
+                       (cell-format 'number)
+                       (cell-format 'number)
+                       (cell-format 'number))
+          'right
+          entry2))
+
+#;(define table-format2
+  (record-format (list header2
+                       (list-format format2 'down))
+          'down
+          (lambda (header-content payload)
+            payload)))
+
+(define (header-cells cells)
+  (map header-cell-format cells))
+
+(define (cell-formats formats)
+  (map cell-format formats))
+
+#;(define header5
+  (record-format
+   #;(list (header-cell-format "Segment")
+                (header-cell-format "Country")
+                (header-cell-format "Units Sold"))
+   (header-cells h)
+          'right
+          list))
+  
+#;(define format5
+  (record-format
+   #;(list (cell-format 'string)
+                       (cell-format 'string)
+                       (cell-format 'number))
+   (cell-formats t)
+                 'right
+                 entry2))
+
+#;(define table-format5
+  (record-format (list header5
+                       (list-format format5 'down))
+          'down
+          (lambda (header-content payload)
+            payload)))
+
+(define-syntax table-with-header
+  (syntax-rules (header: types: fields:)
+  ((table-with-header name header: (h ...) types: (t ...) fields: (f ...))
+   (begin
+     (struct name
+       (f ...)
+       #:transparent)
+     (record-format
+      (list (cell-format t)
+            ...)
+      'right
+      name
+      )))))
+
+
+#;(table-with-header
+ header: "Segment", "Country", "Units Sold"
+ types: string, string, number
+ )
+  
+(table-with-header entry3
+ header: ("Segment" "Country" "Units Sold")
+ types: ('string 'string 'number)
+ fields: (segment country units-sold)
+ )
+(cell-formats (list 'string 'string 'number))
