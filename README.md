@@ -37,6 +37,7 @@ Bei Fragen oder Problemen gern Mike Sperber kontaktieren!
 - [Haskore](https://www.cambridge.org/core/journals/journal-of-functional-programming/article/haskore-music-notation-an-algebra-of-music/89A16D59034EF5C649F7846635989E2B)
 - Datalog (Queries) ([Doku](https://docs.racket-lang.org/datalog/), [Source](https://github.com/racket/datalog))
 - [Scribble](https://docs.racket-lang.org/scribble/) (Dokumentation)
+- [Lucy (State Machines)](https://matthewphillips.info/programming/posts/announcing-lucy/)
 
 ### Schlechte DSLs
 
